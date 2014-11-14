@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="Scelle")
+@Table(name="scelle")
 public class Scelle implements java.io.Serializable {
 	// Numéro
 	private long numeroScelle;

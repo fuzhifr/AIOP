@@ -25,7 +25,7 @@ public class BackendController {
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@RequestParam("idTypeMission") long idTypeMission,
 			@RequestParam("libTypeMission") String libTypeMission) {
-		TypeMission t = new TypeMission(idTypeMission, libTypeMission);
+		
 		//t.save(idTypeObjet);
 	}
 
@@ -52,9 +52,9 @@ public class BackendController {
 			@PathVariable("idTypeObjet") long idTypeObjet) {
 
 		// Il faudra load toutes les typeMissions d'un typeObjet depuis la bdd
-		TypeObjet t = new TypeObjet(idTypeObjet);
+		
 		//t.load();
-		return t.getTypeMissions();
+		return null;
 	}
 
 	/**
@@ -69,9 +69,7 @@ public class BackendController {
 			@PathVariable("idTypeMission") long idTypeMission) {
 
 		// Il faudra load un typeMissions d'un typeObjet depuis la bdd
-		TypeObjet t = new TypeObjet(idTypeObjet);
-		//t.load();
-		return t.getTypeMission(idTypeMission);
+		return null;
 	}
 
 	/* ---------------------------------------------------- METHODE PUT ---------------------------------------------------------------*/
@@ -87,11 +85,6 @@ public class BackendController {
 			@PathVariable("idTypeMission") long idTypeMission,
 			@RequestParam("libTypeMission") String libTypeMission) {
 
-		TypeObjet to = new TypeObjet(idTypeObjet);
-		//to.load();
-		TypeMission tm=to.getTypeMission(idTypeMission);
-		tm.setLibTypeMission(libTypeMission);
-		//tm.save(idTypeObjet);
 	}
 
 	/* ---------------------------------------------------- METHODE DELET ---------------------------------------------------------------*/
@@ -105,9 +98,7 @@ public class BackendController {
 	public void deleteTypeMission(
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission) {
-		TypeObjet to = new TypeObjet(idTypeObjet);
-		//to.load();
-		to.deleteTypeMission(idTypeMission);
+
 	}
 
 	/* ---------------------------------------------------- METHODE ORM ---------------------------------------------------------------*/

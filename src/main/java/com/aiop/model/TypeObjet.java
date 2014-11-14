@@ -1,5 +1,6 @@
 package com.aiop.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,24 +26,7 @@ public class TypeObjet implements java.io.Serializable {
 	 * Constructeur
 	 */
 	public TypeObjet() {
-
-	}
-
-	public TypeObjet(long idTypeObjet) {
-		// TODO Auto-generated constructor stub
-		this.setIdTypeObjet(idTypeObjet);
-	}
-
-	/*
-	 * Methode
-	 */
-	public void deleteTypeMission(long idTypeMission) {
-
-	}
-
-	public TypeMission getTypeMission(long idTypeMission) {
-		// TODO Auto-generated method stub
-		return null;
+		typeMissions=new ArrayList<TypeMission>();
 	}
 
 	@Id
@@ -55,7 +39,7 @@ public class TypeObjet implements java.io.Serializable {
 		this.idTypeObjet = idTypeObjet;
 	}
 
-	@Column(name = "libTypeObjet", length = 30)
+	@Column(name = "libTypeObjet", length = 50)
 	public String getLibTypeObjet() {
 		return libTypeObjet;
 	}
@@ -64,8 +48,8 @@ public class TypeObjet implements java.io.Serializable {
 		this.libTypeObjet = libTypeObjet;
 	}
 
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	@JoinTable(name = "tb_typeobjet_typeMission", joinColumns =@JoinColumn(name = "typeObjet_id"), inverseJoinColumns =@JoinColumn(name = "typeMission_id"))
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@JoinTable(name = "Tarif", joinColumns =@JoinColumn(name = "idTypeObjet"), inverseJoinColumns =@JoinColumn(name = "idTypeMission"))
 	public List<TypeMission> getTypeMissions() {
 		return typeMissions;
 	}

@@ -33,6 +33,7 @@ public class AffaireDaoImpl implements AffaireDaoI {
 	public void update(Affaire a) {
 		// TODO Auto-generated method stub
 		Affaire affaire=load(a.getIdAffaire());
+		//fait ajouter l'autre paramtre
 		affaire.setScelles(a.getScelles());
 		getSession().update(affaire);
 	}
@@ -41,9 +42,6 @@ public class AffaireDaoImpl implements AffaireDaoI {
 	public Affaire load(long id) {
 		// TODO Auto-generated method stub
 		Affaire a=(Affaire)getSession().get(Affaire.class, id) ;
-		if(a.getScelles()==null){
-			a.setScelles(new ArrayList<Scelle>());
-		}
 		return a;
 	}
 

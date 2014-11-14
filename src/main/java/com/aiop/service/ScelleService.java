@@ -21,4 +21,14 @@ public class ScelleService
     	scelleDao.save(s);  
     }  
   
+    public Scelle getScelle(long idScelle){
+    	return scelleDao.load(idScelle);
+    }
+    
+    public void updateScelle(Scelle s){
+    	Scelle scelleUpdate=getScelle(s.getNumeroScelle());
+    	scelleUpdate.setNumeroPV(s.getNumeroPV());
+    	scelleUpdate.setCommentaire(s.getCommentaire());
+    	scelleDao.update(scelleUpdate);
+    }
 }  

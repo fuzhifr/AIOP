@@ -1,9 +1,11 @@
 package com.aiop.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,6 +54,9 @@ public class Affaire implements java.io.Serializable {
 
 	private List<Scelle> scelles;
 
+	public Affaire(){
+		this.scelles=new ArrayList<Scelle>();
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idAffaire", nullable = false, length = 20)
@@ -280,7 +285,7 @@ public class Affaire implements java.io.Serializable {
 		Etat = etat;
 	}
 
-	@OneToMany(targetEntity = Scelle.class, mappedBy = "idAffaire")
+	@OneToMany(targetEntity = Scelle.class,fetch = FetchType.EAGER, mappedBy = "idAffaire")
 	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.DELETE })
 	public List<Scelle> getScelles() {

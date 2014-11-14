@@ -21,7 +21,10 @@ public class AffaireService
     //typeObjetdao  
     @Autowired  
     private AffaireDaoI affaireDao;  
-      
+     
+    @Autowired  
+    private ScelleDaoI scelleDao; 
+    
     public void addAffaire(Affaire a)  
     {  
     	affaireDao.save(a);  
@@ -35,4 +38,36 @@ public class AffaireService
     	affaireDao.update(a);
     }
   
+    public Scelle getScelle(long idAffaire,long numeroScelle){
+    	Affaire a=affaireDao.load(idAffaire);
+    	List<Scelle> scelles=a.getScelles();
+    	Scelle sRetour=new Scelle();
+    	for(Scelle s:scelles){
+    		if(s.getNumeroScelle()==numeroScelle){
+    			sRetour=s;
+    		}
+    	}
+		return sRetour;
+    }
+
+	public List<Scelle> getScelles(long idAffaire) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		return a.getScelles();
+	}
+
+	public void deleteScelle(long idAffaire, long numeroScelle) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		List<Scelle> scelles=a.getScelles();
+    	for(int i=0;i<scelles.size();i++){
+    		if(scelles.get(i).getNumeroScelle()==numeroScelle){
+    			scelles.remove(i);
+    		}
+    	}
+    	
+    	a.setScelles(scelles);
+    	affaireDao.update(a);
+    	scelleDao.delete(numeroScelle);
+	}
 }  

@@ -24,4 +24,23 @@ public class ScelleDaoImpl implements ScelleDaoI {
 		return getSession().save(s);
 	}
 
+	@Override
+	public Scelle load(long idScelle) {
+		// TODO Auto-generated method stub
+		return (Scelle) getSession().load(Scelle.class, idScelle);
+	}
+
+	@Override
+	public void update(Scelle s) {
+		// TODO Auto-generated method stub
+		getSession().update(s);
+	}
+
+	@Override
+	public void delete(long numeroScelle) {
+		// TODO Auto-generated method stub
+		Scelle s=(Scelle) getSession().load(Scelle.class, numeroScelle);
+		getSession().delete(s);
+	}
+
 }

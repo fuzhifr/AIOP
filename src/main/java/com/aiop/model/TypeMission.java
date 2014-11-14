@@ -26,15 +26,6 @@ public class TypeMission implements java.io.Serializable{
 
 	}
 
-	public TypeMission(long idTypeMission) {
-		this.setIdTypeMission(idTypeMission);
-	}
-
-	public TypeMission(long idTypeMission, String libTypeMission) {
-		this.setIdTypeMission(idTypeMission);
-		this.setLibTypeMission(libTypeMission);
-	}
-
 	@Id
 	@Column(name="idTypeMission", nullable = false, length = 20)
 	public long getIdTypeMission() {
@@ -54,8 +45,8 @@ public class TypeMission implements java.io.Serializable{
 		this.libTypeMission = libTypeMission;
 	}
 
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	@JoinTable(name = "tb_typeobjet_typeMission", joinColumns =@JoinColumn(name = "typeMission_id"), inverseJoinColumns =@JoinColumn(name = "typeObjet_id"))
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@JoinTable(name = "Tarif", joinColumns =@JoinColumn(name = "idTypeMission"), inverseJoinColumns =@JoinColumn(name = "idTypeObjet"))
 	public List<TypeObjet> getTypeObjets() {
 		return typeObjets;
 	}
