@@ -100,7 +100,11 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>4.2.0.Final</version>
 		</dependency>
-
+	<dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      <version>1.0</version>
+    </dependency>
 	</dependencies>
 	<build>
 		<!-- Maven插件 -->

@@ -2,8 +2,8 @@ package com.aiop.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.aiop.model.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,16 +12,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aiop.model.Scelle;
+import com.aiop.service.AffaireService;
+
 @RestController
 public class AffaireController {
 
-/* ---------------------------------------------------- METHODE POST ---------------------------------------------------------------*/
+// ---------------------------------------------------- METHODE POST ---------------------------------------------------------------
 
 	/**
 	 * Méthode de création d'une affaire
 	 * @param nomAffaire nom de l'affaire créée
 	 * @return l'affaire créée
-	 */
+	 *//*
 	@RequestMapping(value = "/affaires", method = RequestMethod.POST)
 	public Affaire createAffaire(
 			@RequestParam(value = "nomAffaire", required = true) String nomAffaire) {
@@ -30,13 +33,13 @@ public class AffaireController {
 		return x;
 	}
 
-	/**
+	*//**
 	 * Méthode de création d'un frais pour une affaire
 	 * @param idAffaire identifiant de l'affaire concernée
 	 * @param libFrais libellé du nouveau Frais
 	 * @param prixFrais prix du nouveau Frais
 	 * @return le Frais créé
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.POST)
 	public Frais createFraisAffaire(@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("libFrais") String libFrais,
@@ -45,7 +48,7 @@ public class AffaireController {
 		x.save(idAffaire);
 		return x;
 	}
-
+*/
 	/**
 	 * Méthode de création d'un scellé pour une affaire
 	 * @param idAffaire identifiant de l'affaire concernée
@@ -54,22 +57,25 @@ public class AffaireController {
 	 * @param commentaire commentaire concernant le scellé
 	 * @return le scellé créé
 	 */
+	@Autowired
+	private AffaireService affaireService;
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.POST)
-	public Scelle createScelleAffaire(@PathVariable("idAffaire") long idAffaire,
-			@RequestParam("numeroScelle") long numeroScelle,
+	public @ResponseBody Scelle createScelleAffaire(
+			@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("numeroPV") long numeroPV,
 			@RequestParam("commentaire") String commentaire) {
-		Scelle newScelle = new Scelle(numeroScelle, numeroPV, commentaire);
-		newScelle.save(idAffaire);
+		Scelle newScelle = new Scelle(numeroPV, commentaire);
+		newScelle.setIdAffaire(idAffaire);
+		affaireService.addScelle(idAffaire, newScelle);
 		return newScelle;
 	}
-	
-	//nana
+
+	/* //nana
 	/**
 	 * Méthode de création d'un objet pour une affaire
 	 * @param idAffaire identifiant de l'affaire concernée
 	 * @param numeroScelle numéro du scellé concerné
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.POST)
 	public Objet createObjetScelleAffaire(@PathVariable("idAffaire") long idAffaire, @PathVariable("numeroScelle") long numeroScelle,
 			@RequestParam("idObjet") long idObjet,
@@ -80,13 +86,13 @@ public class AffaireController {
 		return newObjet;
 	}
 
-	/**
+	*//**
 	 * Méthode de liaison d'une type mission à un type d'objet pour un scellé d'une affaire
 	 * @param idAffaire identifiant de l'affaire concernée
 	 * @param idScelle identifiant du scellé concerné
 	 * @param idTypeObjet identifiant du type d'objet à lier
 	 * @param idTypeMission identifiant du type de mission à lier
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/scelle/{numeroScelle}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
 	public void createTypeMissionForTypeObjetInScelleInAffaire(@PathVariable("idAffaire") long idAffaire, @PathVariable("numeroScelle") long numeroScelle,
 			@PathVariable("idTypeObjet") long idTypeObjet,
@@ -96,13 +102,13 @@ public class AffaireController {
 		x.createMissionForTypeObjetInScelle(numeroScelle,idTypeObjet,idTypeMission);
 	}
 	
-/* ---------------------------------------------------- METHODE GET ---------------------------------------------------------------*/
+ ---------------------------------------------------- METHODE GET ---------------------------------------------------------------
 
-	/**
+	*//**
 	 * Méthode de récupération d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @return l'affaire recherchée
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.GET)
 	public Affaire getAffaire(@PathVariable("idAffaire") long idAffaire) {
 
@@ -113,10 +119,10 @@ public class AffaireController {
 		return x;
 	}
 
-	/**
+	*//**
 	 * Méthode de récupération de toutes les affaires
 	 * @return liste des affaire
-	 */
+	 *//*
 	@RequestMapping(value = "/affaires", method = RequestMethod.GET)
 	public List<Affaire> getAffaires() {
 
@@ -132,11 +138,11 @@ public class AffaireController {
 		return x;
 	}
 
-	/**
+	*//**
 	 * Méthode de récupération des Frais d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @return liste des Frais de l'affaire
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.GET)
 	public List<Frais> getFraisAffaire(@PathVariable("idAffaire") long idAffaire) {
 
@@ -147,11 +153,11 @@ public class AffaireController {
 		return x.getFrais();
 	}
 
-	/**
+	*//**
 	 * Méthode de récupération de l'état d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @return l'état d'une affaire
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/etat", method = RequestMethod.GET)
 	public String getEtatAffaire(@PathVariable("idAffaire") long idAffaire) {
 
@@ -163,12 +169,12 @@ public class AffaireController {
 	}
 	
 //nana
-	/**
+	*//**
 	 * Méthode de récupération des types objets d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @return liste des types objets de l'affaire
 	 * @author narjisse Zaki
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/typesObjets", method = RequestMethod.GET)
 	public List<TypeObjet> getAllTypesObjetsAffaire(
 			@PathVariable("idAffaire") long idAffaire) {
@@ -179,13 +185,13 @@ public class AffaireController {
 		return a.getTypesObjets();
 	}
 //nana
-	/**
+	*//**
 	 * Méthode de récupération des objets d' un type objet d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param idTypeObjet identifiant d'un type objet d'une affaire
 	 * @return liste des objets d'un type objet d'une affaire
 	 * @author narjisse Zaki
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/objets", method = RequestMethod.GET)
 	public List<Objet> getAllObjetsTypeObjetAffaire(
 			@PathVariable("idAffaire") long idAffaire,
@@ -195,12 +201,12 @@ public class AffaireController {
 		return a.getObjetsFindByIdTypeObjet(idTypeObjet);
 	}
 	
-	/**
+	*//**
 	 * Méthode de récupération d'un scellé d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param numeroScelle numéro du scellé a récupérer
 	 * @return le scellé souhaité
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.GET)
 	public Scelle getScelleAffaire(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle) {
@@ -212,11 +218,11 @@ public class AffaireController {
 		return x.getScelle(numeroScelle);
 	}
 
-	/**
+	*//**
 	 * Méthode de récupération des scellés d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @return liste des scellés de l'affaire
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.GET)
 	public List<Scelle> getScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire) {
@@ -229,13 +235,13 @@ public class AffaireController {
 	}
 	
 	//nana
-	/**
+	*//**
 	 * Méthode de récupération des objets d'un scelle d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param numeroScelle numéro du scelle
 	 * @return liste des objets d'un scelle d'une affaire
 	 * @author narjisse Zaki
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.GET)
 	public List<Objet> getAllObjetsScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
@@ -245,14 +251,14 @@ public class AffaireController {
 		return sc.getObjets();
 	}
 	//nana
-	/**
+	*//**
 	 * Méthode de récupération d'un objet d'un scelle d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param numeroScelle numéro du scelle qui contient l'objet 
 	 * @param idObjet l'identifiant de l'objet à recuperer
 	 * @return l'objet souhaité
 	 * @author narjisse Zaki
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objet/{idObjet}", method = RequestMethod.GET)
 	public Objet getObjetScelleAffaire(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle,
@@ -277,9 +283,9 @@ public class AffaireController {
 		x.nbObjet(idTypeObjet,idTypeMission);
 	}
 	
-	/* ---------------------------------------------------- METHODE PUT ---------------------------------------------------------------*/
+	 ---------------------------------------------------- METHODE PUT ---------------------------------------------------------------
 	
-	/**
+	*//**
 	 * Méthode de modification d'une affaire
 	 * @param idAffaire identifiant de l'affaire à modifier
 	 * @param nom nom de l'affaire à modifier
@@ -300,7 +306,7 @@ public class AffaireController {
 	 * @param delais10j
 	 * @param dateRemise
 	 * @param instruction
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.PUT)
 	public void PutAffaire(@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("nomAffaire") String nom,
@@ -344,11 +350,11 @@ public class AffaireController {
 		x.save();
 	}
 
-	/**
+	*//**
 	 * Méthode de modification de l'état d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param etat nouvel état de l'affaire
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/etat", method = RequestMethod.PUT)
 	public void putEtat(@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("etat") String etat) {
@@ -361,13 +367,13 @@ public class AffaireController {
 		x.save();
 	}
 
-	/**
+	*//**
 	 * Méthode de modification d'un frais d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param idFrais identifiant du frais à modifier
 	 * @param libFrais nouveau libellé
 	 * @param prixFrais nouveau prix
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/frais/{idFrais}", method = RequestMethod.PUT)
 	public void putFrais(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idFrais") long idFrais,
@@ -380,13 +386,13 @@ public class AffaireController {
 		x.save(idAffaire);
 	}
 
-	/**
+	*//**
 	 * Méthode de modification d'un scellé d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param numeroScelle numéro du scellé à modifier
 	 * @param numeroPV nouveau numéro du PV
 	 * @param commentaire nouveau commentaire
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.PUT)
 	public void putScelle(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle,
@@ -401,7 +407,7 @@ public class AffaireController {
 	}
 	
 	//nana
-	/**
+	*//**
 	 * Méthode de modification d'un objet dans un scelle dans une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param numeroScelle numéro du scellé qui contient l'objet
@@ -410,7 +416,7 @@ public class AffaireController {
 	 * @param idTypeObjet nouveau type de l'objet
 	 * @param numeroScelle nouveau numéro du scellé qui contient l'objet
 	 * @author narjisse Zaki
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets/{idObjet}", method = RequestMethod.PUT)
 	public void putObjet(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelleOld,
@@ -427,7 +433,7 @@ public class AffaireController {
 	}
 	
 
-	/**
+	*//**
 	 * Méthode de modification d'une type mission pour un type d'objet d'un scellé d'une affaire
 	 * @param idAffaire identifiant de l'affaire concernée
 	 * @param numeroScelle identifiant du scellé concerné
@@ -435,7 +441,7 @@ public class AffaireController {
 	 * @param idTypeMission identifiant du type de mission à modifier
 	 * @param libTypeMission nouveau libellé
 	 * @param prixMission nouveau prix
-	 */
+	 *//*
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}", method = RequestMethod.PUT)
 	public void putTypeMissionForTypeObjetInScelle(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle,
@@ -449,13 +455,13 @@ public class AffaireController {
 		x.load();
 		x.updateTypeMissionForTypeObjetInScelle(idTypeObjet,idTypeMission,libTypeMission,prixMission);
 	}
-	/* -------------------------------------------------- METHODE DELETE -------------------------------------------------------------*/
+	 -------------------------------------------------- METHODE DELETE -------------------------------------------------------------
 	
-	/**
+	*//**
 	 * Méthode de suppression d'un frais d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param idFrais identifiant du frais à supprimer
-	 */
+	 *//*
 	@RequestMapping(value = "/affaires/{idAffaire}/frais/{idFrais}", method = RequestMethod.DELETE)
 	public void getAffaire2(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idFrais") long idFrais) {
@@ -463,11 +469,11 @@ public class AffaireController {
 		x.delete();
 	}
 
-	/**
+	*//**
 	 * Méthode de suppression d'un scellé d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param numeroScelle identifiant du scellé à supprimer
-	 */
+	 *//*
 	@RequestMapping(value = "/affaires/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.DELETE)
 	public void deleteScelle(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle) {
@@ -477,13 +483,13 @@ public class AffaireController {
 	}
 	
 	//nana
-	/**
+	*//**
 	 * Méthode de suppression d'un objet d'un scelle d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @param numeroScelle identifiant du scellé contenant l'objet
 	 * @param idObjet identifiant de l'objet à supprimer
 	 * @author narjisse Zaki
-	 */
+	 *//*
 	@RequestMapping(value = "/affaires/{idAffaire}/scelles/{numeroScelle}/objet/{idObjet}", method = RequestMethod.DELETE)
 	public void deleteObjetInScelle(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle,
@@ -492,5 +498,5 @@ public class AffaireController {
 		sc.load(numeroScelle);
 		sc.deleteObjectById(idObjet);
 	}
-
+*/
 }

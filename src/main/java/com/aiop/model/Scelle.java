@@ -1,15 +1,29 @@
 package com.aiop.model;
 
-import java.util.List;
 
-public class Scelle {
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+
+
+@SuppressWarnings("serial")
+@Entity
+@Table(name="Scelle")
+public class Scelle implements java.io.Serializable {
 	// Numéro
 	private long numeroScelle;
 	private long numeroPV;
 	private String commentaire;
-	
+	//manytoOne relation
+	private long idAffaire;
 	//objets dans le scelle
-	private List<Objet> objets;
 
 	/**
 	 * Constructeur par defaut
@@ -28,8 +42,7 @@ public class Scelle {
 	 * @param numeroPV
 	 * @param commentaire
 	 */
-	public Scelle(long numeroScelle, long numeroPV, String commentaire) {
-		this.setNumeroScelle(numeroScelle);
+	public Scelle(long numeroPV, String commentaire) {
 		this.setNumeroPV(numeroPV);
 		this.setCommentaire(commentaire);
 	}
@@ -37,14 +50,7 @@ public class Scelle {
 	/*
 	 * Méthodes 
 	 */
-	public Objet getObjetfindById(long idObjet) {
-		for(int i=0;i<this.objets.size();i++){
-			if(this.objets.get(i).getIdObjet()==idObjet){
-				return this.objets.get(i);
-			}		
-		}
-		return null;
-	}
+
 	
 
 	@Override
@@ -57,34 +63,11 @@ public class Scelle {
 	 */
 
 	/**
-	 * Sauvegarde un scelle dans une affaire
-	 * 
-	 * @param idAffaire
-	 */
-	public void save(long idAffaire) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
 	 * Charge un Scelle
 	 * 
 	 * @param numeroScelle
 	 * @return
 	 */
-	public Scelle load() {
-		return null;
-	}
-	
-	public void load(long numeroScelle2) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void deleteObjectById(long idObjet) {
-		
-	}
-	
 	public void updateTypeMissionForTypeObjetInScelle(long idTypeObjet,
 			long idTypeMission, long libTypeMission, String prixMission) {
 		// TODO Auto-generated method stub
@@ -94,7 +77,9 @@ public class Scelle {
 	/*
 	 * Setters and Getters
 	 */
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "numeroScelle",nullable=false)
 	public long getNumeroScelle() {
 		return numeroScelle;
 	}
@@ -102,7 +87,8 @@ public class Scelle {
 	public void setNumeroScelle(long numeroScelle) {
 		this.numeroScelle = numeroScelle;
 	}
-
+	
+	@Column(name = "numeroPV", length = 20)
 	public long getNumeroPV() {
 		return numeroPV;
 	}
@@ -110,7 +96,8 @@ public class Scelle {
 	public void setNumeroPV(long numeroPV) {
 		this.numeroPV = numeroPV;
 	}
-
+	
+	@Column(name = "commentaire", length = 50)
 	public String getCommentaire() {
 		return commentaire;
 	}
@@ -119,12 +106,14 @@ public class Scelle {
 		this.commentaire = commentaire;
 	}
 	
-	public List<Objet> getObjets() {
-		return objets;
+
+	@Column(name="idAffaire",length=20)
+	public long getIdAffaire() {
+		return idAffaire;
 	}
 
-	public void setObjets(List<Objet> objets) {
-		this.objets = objets;
+	public void setIdAffaire(long idAffaire) {
+		this.idAffaire = idAffaire;
 	}
 
 	

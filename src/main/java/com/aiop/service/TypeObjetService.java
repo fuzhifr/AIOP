@@ -24,6 +24,7 @@ public class TypeObjetService
     public TypeObjet getTypeObjet(Long id){
     	return typeObjetDao.load(id);
     }
+    
     public List<TypeObjet> getTypeObjets(){
 		return typeObjetDao.getTypeObjets();
     	
