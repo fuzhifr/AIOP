@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;  
 import org.springframework.transaction.annotation.Transactional;  
 
+import com.aiop.dao.TypeMissionDaoI;
 import com.aiop.dao.TypeObjetDaoI;
+import com.aiop.model.TypeMission;
 import com.aiop.model.TypeObjet;
 @Service("typeObjetService")  
 @Transactional  
@@ -15,6 +17,9 @@ public class TypeObjetService
     //typeObjetdao  
     @Autowired  
     private TypeObjetDaoI<TypeObjet> typeObjetDao;  
+    
+    @Autowired  
+    private TypeMissionDaoI<TypeMission> typeMissionDao;  
       
     public void addTypeObjet(TypeObjet to)  
     {  
@@ -29,4 +34,23 @@ public class TypeObjetService
 		return typeObjetDao.getTypeObjets();
     	
     }
+
+	public void addTypeMission(long idTypeObjet, long idTypeMission) {
+		// TODO Auto-generated method stub
+		TypeObjet to=typeObjetDao.load(idTypeObjet);
+		List<TypeMission> typeMissions=to.getTypeMissions();
+		TypeMission tm=typeMissionDao.load(idTypeMission);
+		typeMissions.add(tm);
+		to.setTypeMissions(typeMissions);
+		typeObjetDao.update(to);
+	}
+	
+	public void deleteTypeMission(long idTypeObjet,long idTypeMission){
+		TypeObjet to=typeObjetDao.load(idTypeObjet);
+		List<TypeMission> typeMissions=to.getTypeMissions();
+		TypeMission tm=typeMissionDao.load(idTypeMission);
+		typeMissions.remove(tm);
+		to.setTypeMissions(typeMissions);
+		typeObjetDao.update(to);
+	}
 }  

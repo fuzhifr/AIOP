@@ -7,5 +7,7 @@ import com.aiop.model.TypeMission;
   
 public interface TypeMissionDaoI<T>  
 {  
-    public Serializable save(T t); 
+    public Serializable save(T t);
+
+	public TypeMission load(long idTypeMission); 
 }  

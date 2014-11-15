@@ -1,17 +1,23 @@
 package com.aiop.controller;
 
 import java.util.List;
-import com.aiop.model.*;
 
+import com.aiop.model.*;
+import com.aiop.service.TypeObjetService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class BackendController {
-
+	
+	@Autowired
+	private TypeObjetService typeObjetService;
 	/* ---------------------------------------------------- METHODE POST ---------------------------------------------------------------*/
 	
 	/**
@@ -21,12 +27,11 @@ public class BackendController {
 	 * @param libTypeMission libellé du type de Mission
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
-	public void createFraisAffaire(
+	public @ResponseBody String createFraisAffaire(
 			@PathVariable("idTypeObjet") long idTypeObjet,
-			@RequestParam("idTypeMission") long idTypeMission,
-			@RequestParam("libTypeMission") String libTypeMission) {
-		
-		//t.save(idTypeObjet);
+			@RequestParam("idTypeMission") long idTypeMission) {
+		typeObjetService.addTypeMission(idTypeObjet,idTypeMission);
+		return "Success";
 	}
 
 	/* ---------------------------------------------------- METHODE GET ---------------------------------------------------------------*/
@@ -35,26 +40,20 @@ public class BackendController {
 	 * Méthode de récupération des types d'objet
 	 * @return liste des type d'objets
 	 */
-	/*@RequestMapping(value = "/typeObjets", method = RequestMethod.GET)
-	public List<TypeObjet> getTypeObjets() {
-		// Il faudra load toutes les typeObjets depuis la bdd
-		List<TypeObjet> x = this.loadTypeObjets();
-		return x;
+	@RequestMapping(value = "/typeObjets", method = RequestMethod.GET)
+	public @ResponseBody List<TypeObjet> getTypeObjets() {
+		return typeObjetService.getTypeObjets();
 	}
-*/
+
 	/**
 	 * Méthode de récupération des type sMissions d'un type objet
 	 * @param idTypeObjet identifiant du type d'objet
 	 * @return liste des types mission du type objet
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.GET)
-	public List<TypeMission> getTypeMssions(
-			@PathVariable("idTypeObjet") long idTypeObjet) {
-
-		// Il faudra load toutes les typeMissions d'un typeObjet depuis la bdd
-		
-		//t.load();
-		return null;
+	public @ResponseBody TypeObjet getTypeMssions(
+			@PathVariable("idTypeObjet") long idTypeObjet) {	
+		return typeObjetService.getTypeObjet(idTypeObjet);
 	}
 
 	/**
@@ -95,15 +94,10 @@ public class BackendController {
 	 * @param idTypeMission identifiant du type de mission à supprimer
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMission/{idTypeMission}", method = RequestMethod.DELETE)
-	public void deleteTypeMission(
+	public @ResponseBody String deleteTypeMission(
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission) {
-
-	}
-
-	/* ---------------------------------------------------- METHODE ORM ---------------------------------------------------------------*/
-
-	public List<TypeObjet> loadTypeObjets() {
-		return null;
+		typeObjetService.deleteTypeMission(idTypeObjet, idTypeMission);
+		return "Success";
 	}
 }

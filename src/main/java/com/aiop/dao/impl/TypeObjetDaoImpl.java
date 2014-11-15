@@ -34,6 +34,10 @@ public class TypeObjetDaoImpl<T> implements TypeObjetDaoI<T> {
 	public TypeObjet load(long id) {
 		// TODO Auto-generated method stub
 		return (TypeObjet) getSession().get(TypeObjet.class, id);
-	}  
-    
+	}
+	@Override
+	public void update(TypeObjet to) {
+		// TODO Auto-generated method stub
+		getSession().update(to);
+	}
 }  
