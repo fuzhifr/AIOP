@@ -30,4 +30,11 @@ public class TypeMissionDaoImpl<T> implements TypeMissionDaoI<T> {
 		return (TypeMission) getSession().load(TypeMission.class, idTypeMission);
 	}
 
+	@Override
+	public void update(TypeMission tm) {
+		// TODO Auto-generated method stub
+		getSession().update(tm);
+		
+	}
+
 }

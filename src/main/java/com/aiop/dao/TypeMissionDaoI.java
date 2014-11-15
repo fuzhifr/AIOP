@@ -9,5 +9,7 @@ public interface TypeMissionDaoI<T>
 {  
     public Serializable save(T t);
 
-	public TypeMission load(long idTypeMission); 
+	public TypeMission load(long idTypeMission);
+
+	public void update(TypeMission tm); 
 }  

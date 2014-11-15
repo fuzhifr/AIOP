@@ -53,4 +53,32 @@ public class TypeObjetService
 		to.setTypeMissions(typeMissions);
 		typeObjetDao.update(to);
 	}
+
+	public TypeMission getTypeMission(long idTypeObjet, long idTypeMission) {
+		// TODO Auto-generated method stub
+		TypeObjet to=typeObjetDao.load(idTypeObjet);
+		List<TypeMission> typeMissions=to.getTypeMissions();
+		for(int i=0;i<typeMissions.size();i++){
+			if(typeMissions.get(i).getIdTypeMission()==idTypeMission){
+				return typeMissions.get(i);
+			}
+		}
+		return null;
+	}
+
+	public void modifieTypeMission(long idTypeObjet, long idTypeMission,
+			String libTypeMission) {
+		// TODO Auto-generated method stub
+		TypeObjet to=typeObjetDao.load(idTypeObjet);
+		List<TypeMission> typeMissions=to.getTypeMissions();
+		TypeMission tm=new TypeMission();
+		for(int i=0;i<typeMissions.size();i++){
+			if(typeMissions.get(i).getIdTypeMission()==idTypeMission){
+				tm=typeMissions.get(i);
+				break;
+			}
+		}
+		tm.setLibTypeMission(libTypeMission);
+		typeMissionDao.update(tm);
+	}
 }  

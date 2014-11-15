@@ -63,12 +63,12 @@ public class BackendController {
 	 * @return type mission
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMission/{idTypeMission}", method = RequestMethod.GET)
-	public TypeMission getTypeMssion(
+	public @ResponseBody TypeMission getTypeMssion(
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission) {
 
 		// Il faudra load un typeMissions d'un typeObjet depuis la bdd
-		return null;
+		return typeObjetService.getTypeMission(idTypeObjet,idTypeMission);
 	}
 
 	/* ---------------------------------------------------- METHODE PUT ---------------------------------------------------------------*/
@@ -80,10 +80,11 @@ public class BackendController {
 	 * @param libTypeMission nouveau libellé
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMission/{idTypeMission}", method = RequestMethod.PUT)
-	public void putScelle(@PathVariable("idTypeObjet") long idTypeObjet,
+	public @ResponseBody String putScelle(@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission,
 			@RequestParam("libTypeMission") String libTypeMission) {
-
+		typeObjetService.modifieTypeMission(idTypeObjet,idTypeMission,libTypeMission);
+		return "Success";
 	}
 
 	/* ---------------------------------------------------- METHODE DELET ---------------------------------------------------------------*/
