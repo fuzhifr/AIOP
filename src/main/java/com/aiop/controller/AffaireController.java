@@ -152,7 +152,8 @@ public class AffaireController {
 
 	/**
 	 * Méthode de récupération d'une affaire
-	 * @param idAffaire identifiant de l'affaire
+	 * @param idAffaire
+	 * 				identifiant de l'affaire
 	 * @return l'affaire recherchée
 	 * @author Hugo
 	 * 
@@ -166,6 +167,9 @@ public class AffaireController {
 	/**
 	 * Méthode de récupération de toutes les affaires
 	 * @return liste des affaire
+	 * @author Hugo
+	 * 
+	 * Terminé
 	 */
 	@RequestMapping(value = "/affaires", method = RequestMethod.GET)
 	public List<Affaire> getAffaires() {
@@ -175,38 +179,36 @@ public class AffaireController {
 
 	/**
 	 * Méthode de récupération des Frais d'une affaire
-	 * @param idAffaire identifiant de l'affaire
+	 * @param idAffaire
+	 * 				identifiant de l'affaire
 	 * @return liste des Frais de l'affaire
+	 * @author Hugo
+	 * 
+	 * Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.GET)
 	public List<Frais> getFraisAffaire(@PathVariable("idAffaire") long idAffaire) {
 
-		// il faudra le charger depuis la bdd et appeller le constructeur vide
-		//Affaire x = new Affaire(idAffaire);
-		// x.load(idAffaire);
-
-		return null;
+		return affaireService.getFrais(idAffaire);
 	}
 
 	/**
 	 * Méthode de récupération de l'état d'une affaire
-	 * @param idAffaire identifiant de l'affaire
+	 * @param idAffaire
+	 * 				identifiant de l'affaire
 	 * @return l'état d'une affaire
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/etat", method = RequestMethod.GET)
 	public String getEtatAffaire(@PathVariable("idAffaire") long idAffaire) {
 
-		// il faudra le charger depuis la bdd et appeller le constructeur vide
-		//Affaire x = new Affaire(idAffaire);
-		// x.load(idAffaire);
-
-		return null;
+		return affaireService.getEtat(idAffaire);
 	}
 	
 //nana
 	/**
 	 * Méthode de récupération des types objets d'une affaire
-	 * @param idAffaire identifiant de l'affaire
+	 * @param idAffaire
+					identifiant de l'affaire
 	 * @return liste des types objets de l'affaire
 	 * @author narjisse Zaki
 	 */
@@ -219,6 +221,7 @@ public class AffaireController {
 		//a.load(idAffaire);
 		return null;
 	}
+	
 //nana
 	/**
 	 * Méthode de récupération des objets d' un type objet d'une affaire
@@ -235,6 +238,7 @@ public class AffaireController {
 		//a.load(idAffaire);
 		return null;
 	}
+	
 	/**
 	 * Méthode de récupération d'un scellé d'une affaire
 	 * 
@@ -243,6 +247,9 @@ public class AffaireController {
 	 * @param numeroScelle
 	 *            numéro du scellé a récupérer
 	 * @return le scellé souhaité
+	 * @author Zhi
+	 * 
+	 * Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.GET)
 	public @ResponseBody Scelle getScelleAffaire(
@@ -258,6 +265,9 @@ public class AffaireController {
 	 * @param idAffaire
 	 *            identifiant de l'affaire
 	 * @return liste des scellés de l'affaire
+	 * @author Zhi
+	 * 
+	 * Terminé
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.GET)
@@ -268,7 +278,7 @@ public class AffaireController {
 		return scelles;
 	}
 
-	// nana
+
 	/**
 	 * Méthode de récupération des objets d'un scelle d'une affaire
 	 * 
@@ -278,14 +288,15 @@ public class AffaireController {
 	 *            numéro du scelle
 	 * @return liste des objets d'un scelle d'une affaire
 	 * @author narjisse Zaki
+	 * 
+	 * Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.GET)
 	public List<Objet> getAllObjetsScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle) {
-		Scelle sc = new Scelle();
-		// sc.load(numeroScelle);
-		return null;
+		
+		return affaireService.getObjetScelle(idAffaire, numeroScelle);
 	}
 
 	// nana
@@ -313,14 +324,21 @@ public class AffaireController {
 		return null;
 	}
 
+	/**
+	 * Méthode pour connaitre le nombre d'objet d'un type objet concernés par une mission pour une affaire
+	 * @param idAffaire
+	 * 				identifiant de l'affaire
+	 * @param idTypeObjet
+	 * 				identifiant du type objet recherché
+	 * @param idTypeMission
+	 * 				identifiant du type de Mission concerné
+	 * @author Hugo
+	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}/nbObjet", method = RequestMethod.GET)
 	public void getNbObjetForTypeObjetOfTypeMissionInAffaire(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle,
 			@PathVariable("idTypeObjet") long idTypeObjet,
-			@PathVariable("idTypeMission") long idTypeMission,
-			@RequestParam("libTypeMission") long libTypeMission,
-			@RequestParam("prixMission") String prixMission) {
+			@PathVariable("idTypeMission") long idTypeMission) {
 
 		// Je ne sais pas comment ça va marcher avec l'ORM
 		/*
@@ -329,7 +347,7 @@ public class AffaireController {
 		 */
 	}
 
-	// ----------------------------------------------------METHODEPUT---------------------------------------------------------------
+	/* ----------------------------------------------------METHODE PUT--------------------------------------------------------------- */
 
 	/**
 	 * Méthode de modification d'une affaire
@@ -359,7 +377,7 @@ public class AffaireController {
 	 * @param instruction
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.PUT)
-	public void PutAffaire(@PathVariable("idAffaire") long idAffaire,
+	public Affaire PutAffaire(@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("nomAffaire") String nom,
 			@RequestParam("numDossier") long dossier,
 			@RequestParam("numParquet") long parquet,
@@ -379,19 +397,19 @@ public class AffaireController {
 			@RequestParam("dateRemise") String dateRemise,
 			@RequestParam("numInstruction") long instruction) {
 
-		/*
-		 * Affaire x = new Affaire(idAffaire); x.setNomAffaire(nom);
-		 * x.setNumDossier(dossier); x.setNumParquet(parquet);
-		 * x.setDateOrdre(dateOrdre); x.setDateMax(dateMax);
-		 * x.setDateProrogation(dateProrogation); x.setNbPageNb(pageNb);
-		 * x.setNbPageCouleur(pageCoul); x.setNbHExpertise(hExp);
-		 * x.setNbHDeplacement(hDepl); x.setDateDevis(dateDevis);
-		 * x.setPourcentageDevis(pourcentDevis); x.setNumFacture(facture);
-		 * x.setMontantFacture(montantFacture);
-		 * x.setPourcentageRemise(pourcentRemise); x.setDelais10j(delais10j);
-		 * x.setDateRemise(dateRemise); x.setNumInstruction(instruction);
-		 * x.save();
-		 */
+
+		 Affaire aff = new Affaire(); 
+		 aff.setIdAffaire(idAffaire); aff.setNomAffaire(nom);
+		 aff.setNumDossier(dossier); aff.setNumParquet(parquet);
+		 aff.setDateOrdre(dateOrdre); aff.setDateMax(dateMax);
+		 aff.setDateProrogation(dateProrogation); aff.setNbPageNb(pageNb);
+		 aff.setNbPageCouleur(pageCoul); aff.setNbHExpertise(hExp);
+		 aff.setNbHDeplacement(hDepl); aff.setDateDevis(dateDevis);
+		 aff.setPourcentageDevis(pourcentDevis); aff.setNumFacture(facture);
+		 aff.setMontantFacture(montantFacture);
+		 aff.setPourcentageRemise(pourcentRemise); aff.setDelais10j(delais10j);
+		 aff.setDateRemise(dateRemise); aff.setNumInstruction(instruction);
+		 return affaireService.updateAffaire(aff);
 	}
 
 	/**
@@ -533,8 +551,8 @@ public class AffaireController {
 		// idTypeMission,libTypeMission, prixMission);
 	}
 
-	// -------------------------------------------------- METHODE DELETE
-	// -------------------------------------------------------------
+	/* -------------------------------------------------- METHODE DELETE ------------------------------------------------------------ */
+	
 	/**
 	 * Méthode de suppression d'un frais d'une affaire
 	 * 

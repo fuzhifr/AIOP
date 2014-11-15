@@ -33,9 +33,60 @@ public class AffaireService
     	return affaireDao.load(idAffaire); 
     } 
     
+    												/* GET simples methodes*/
+   
+	
+    public Scelle getScelle(long idAffaire,long numeroScelle){
+    	Affaire a=affaireDao.load(idAffaire);
+    	List<Scelle> scelles=a.getScelles();
+    	Scelle sRetour=new Scelle();
+    	for(Scelle s:scelles){
+    		if(s.getNumeroScelle()==numeroScelle){
+    			sRetour=s;
+    		}
+    	}
+		return sRetour;
+    }
+    
+    public Frais getFrais(long idAffaire,long idFrais){
+    	Affaire aff = affaireDao.load(idAffaire);
+    	List<Frais> scelles=aff.getFrais();
+    	Frais sRetour=new Frais();
+    	for(Frais s:scelles){
+    		if(s.getIdFrais()==idFrais){
+    			sRetour=s;
+    		}
+    	}
+		return sRetour;
+    }
+    
+    public String getEtat(long idAffaire) {
+		Affaire a=affaireDao.load(idAffaire);
+		return a.getEtat();
+	}
+  
+												/* GET liste methodes*/
+    
 	public List<Affaire> getAllAffaires() {
 		return affaireDao.getAllAffaires();
 	}
+	
+    public List<Scelle> getScelles(long idAffaire) {
+		Affaire a=affaireDao.load(idAffaire);
+		return a.getScelles();
+	}
+    
+    public List<Frais> getFrais(long idAffaire) {
+		Affaire a=affaireDao.load(idAffaire);
+		return a.getFrais();
+	}
+    
+	public List<Objet> getObjetScelle(long idAffaire, long numeroScelle) {
+		Scelle sc = getScelle(idAffaire,numeroScelle);
+		return sc.getObjets();
+	}
+
+													/* ADD methodes*/
     
     public void addAffaire(Affaire a)  
     {  
@@ -75,24 +126,6 @@ public class AffaireService
 		affaireDao.update(aff);
 		
 	}
-  
-    public Scelle getScelle(long idAffaire,long numeroScelle){
-    	Affaire a=affaireDao.load(idAffaire);
-    	List<Scelle> scelles=a.getScelles();
-    	Scelle sRetour=new Scelle();
-    	for(Scelle s:scelles){
-    		if(s.getNumeroScelle()==numeroScelle){
-    			sRetour=s;
-    		}
-    	}
-		return sRetour;
-    }
-
-	public List<Scelle> getScelles(long idAffaire) {
-		// TODO Auto-generated method stub
-		Affaire a=affaireDao.load(idAffaire);
-		return a.getScelles();
-	}
 
 	public void deleteScelle(long idAffaire, long numeroScelle) {
 		// TODO Auto-generated method stub
@@ -107,6 +140,11 @@ public class AffaireService
     	a.setScelles(scelles);
     	affaireDao.update(a);
     	scelleDao.delete(numeroScelle);
+	}
+
+	public Affaire updateAffaire(Affaire aff) {
+		
+		return aff;
 	}
 
 

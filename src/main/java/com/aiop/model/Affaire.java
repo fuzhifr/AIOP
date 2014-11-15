@@ -61,6 +61,8 @@ public class Affaire implements java.io.Serializable {
 	public Affaire()
 	{
 		this.scelles=new ArrayList<Scelle>();
+		this.frais = new ArrayList<Frais>();
+		this.devis = new ArrayList<LigneDevis>();
 	}
 	
 	
