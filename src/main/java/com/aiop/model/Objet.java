@@ -1,5 +1,22 @@
 package com.aiop.model;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+
+@SuppressWarnings("serial")
+@Entity
+@Table(name="Objet")
 public class Objet {
 	private long idObjet;
 	private String libelleObjet;
@@ -23,10 +40,14 @@ public Objet(long idObjet, String libelleObjet, long idTypeObjet) {
 /**
  * Setters and Getters
  */	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idObjet",nullable=false)
 	public long getIdObjet() {
 		return idObjet;
 	}
 	
+	@Column(name = "libelleObjet", length = 50)
 	public String getLibelleObjet() {
 		return libelleObjet;
 	}
@@ -35,6 +56,7 @@ public Objet(long idObjet, String libelleObjet, long idTypeObjet) {
 		this.libelleObjet = libelleObjet;
 	}
 	
+	@OneToOne(targetEntity = TypeObjet.class,fetch = FetchType.EAGER, mappedBy = "idObjet")
 	public long getIdTypeObjet() {
 		return idTypeObjet;
 	}
@@ -43,27 +65,5 @@ public Objet(long idObjet, String libelleObjet, long idTypeObjet) {
 		this.idTypeObjet = idTypeObjet;
 	}
 
-
-/*
- * Méthodes liées à l'ORM
- */
-
-public Objet load() {
-		return null;
-	}
-
-public void save(long numeroScelle) {
-	// TODO Auto-generated method stub
-	//parcourir tous les scelles pour trouver celui qui a dans sa liste d'objet l'objet courant (this)
-	//et comparer si cet ancien scelle que l'on vient de trouver est le meme ou non que celui dont l'identifiant
-	//nous a ete passe en parametre; si oui rien a changer sinon il faut supprimer le lien dans l'ancien scelle
-	//et creer le nouveau lien
-}
-
-//Supprime un élément de la base
-	public void delete() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
