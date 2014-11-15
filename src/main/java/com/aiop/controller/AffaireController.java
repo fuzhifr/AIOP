@@ -28,32 +28,46 @@ public class AffaireController {
 
 	/**
 	 * Méthode de création d'une affaire
-	 * @param nomAffaire nom de l'affaire créée
+	 * @param nomAffaire 
+	 * 				nom de l'affaire créée
 	 * @return l'affaire créée
+	 * @author Hugo
+	 * Terminé
 	 */
 	@RequestMapping(value = "/affaires", method = RequestMethod.POST)
 	public Affaire createAffaire(
 			@RequestParam(value = "nomAffaire", required = true) String nomAffaire) {
-		//Affaire x = new Affaire(nomAffaire);
-		//x.create();
-		return null;
+		
+		Affaire newAffaire = new Affaire();
+		newAffaire.setNomAffaire(nomAffaire);
+		affaireService.addAffaire(newAffaire);
+		return newAffaire;
 	}
 
 	/**
 	 * Méthode de création d'un frais pour une affaire
-	 * @param idAffaire identifiant de l'affaire concernée
-	 * @param libFrais libellé du nouveau Frais
-	 * @param prixFrais prix du nouveau Frais
+	 * @param idAffaire 
+	 * 				identifiant de l'affaire concernée
+	 * @param libFrais 
+	 * 				libellé du nouveau Frais
+	 * @param prixFrais 
+	 * 				prix du nouveau Frais
 	 * @return le Frais créé
+	 * @author Hugo
+	 * 
+	 * Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.POST)
 	public Frais createFraisAffaire(@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("libFrais") String libFrais,
 			@RequestParam("prixFrais") double prixFrais) {
-		Frais x = new Frais(libFrais, prixFrais);
-		x.save(idAffaire);
-		return x;
+		Frais newFrais = new Frais();
+		newFrais.setLibFrais(libFrais);
+		newFrais.setPrixFrais(prixFrais);
+		affaireService.addFrais(idAffaire, newFrais);
+		return newFrais;
 	}
+	
 	/**
 	 * Méthode de création d'un scellé pour une affaire
 	 * 
@@ -66,6 +80,9 @@ public class AffaireController {
 	 * @param commentaire
 	 *            commentaire concernant le scellé
 	 * @return le scellé créé
+	 * @author Zhi
+	 * 
+	 * Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.POST)
 	public @ResponseBody Scelle createScelleAffaire(
@@ -78,19 +95,23 @@ public class AffaireController {
 		return newScelle;
 	}
 
-	//nana
+
 	/**
 	 * Méthode de création d'un objet pour une affaire
 	 * @param idAffaire identifiant de l'affaire concernée
 	 * @param numeroScelle numéro du scellé concerné
+	 * @author Narjisse
+	 * 
+	 * Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.POST)
 	public Objet createObjetScelleAffaire(@PathVariable("idAffaire") long idAffaire, @PathVariable("numeroScelle") long numeroScelle,
-			@RequestParam("idObjet") long idObjet,
 			@RequestParam("libelleObjet") String libelleObjet,
 			@RequestParam("idTypeObjet") long idTypeObjet) {
-		Objet newObjet = new Objet(idObjet, libelleObjet, idTypeObjet);
-		newObjet.save(numeroScelle);
+		Objet newObjet = new Objet();
+		newObjet.setIdTypeObjet(idTypeObjet);
+		newObjet.setLibelleObjet(libelleObjet);
+		affaireService.addObjet(idAffaire,numeroScelle,newObjet);
 		return newObjet;
 	}
 

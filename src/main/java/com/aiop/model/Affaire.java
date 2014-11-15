@@ -54,9 +54,12 @@ public class Affaire implements java.io.Serializable {
 
 	private List<Scelle> scelles;
 
-	public Affaire(){
+	public Affaire()
+	{
 		this.scelles=new ArrayList<Scelle>();
 	}
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idAffaire", nullable = false, length = 20)

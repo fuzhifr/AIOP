@@ -116,12 +116,4 @@ public class Scelle implements java.io.Serializable {
 		this.idAffaire = idAffaire;
 	}
 
-	
-
-
-
-
-
-
-
 }

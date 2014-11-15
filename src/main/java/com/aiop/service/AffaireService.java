@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aiop.dao.AffaireDaoI;
 import com.aiop.dao.ScelleDaoI;
 import com.aiop.model.Affaire;
+import com.aiop.model.Frais;
+import com.aiop.model.Objet;
 import com.aiop.model.Scelle;
 
 
@@ -28,7 +30,7 @@ public class AffaireService
     public void addAffaire(Affaire a)  
     {  
     	affaireDao.save(a);  
-    }  
+    } 
     
     public void addScelle(long idAffaire,Scelle s){
     	Affaire a=affaireDao.load(idAffaire);
@@ -69,5 +71,22 @@ public class AffaireService
     	a.setScelles(scelles);
     	affaireDao.update(a);
     	scelleDao.delete(numeroScelle);
+	}
+
+	public void addFrais(long idAffaire, Frais newFrais) {
+    	Affaire aff = affaireDao.load(idAffaire);
+    	List<Frais> frais = aff.getFrais();
+    	frais.add(newFrais);
+    	aff.setFrais(frais);
+    	affaireDao.update(aff);		
+	}
+
+	public void addObjet(long idAffaire, long numeroScelle, Objet newObjet) {
+		Affaire aff = affaireDao.load(idAffaire);
+		Scelle sc = getScelle(idAffaire, numeroScelle);
+		List<Objet> obj = sc.getListeObjets();
+		obj.add(newObjet);
+		affaireDao.update(aff);
+		
 	}
 }  
