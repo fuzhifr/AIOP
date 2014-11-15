@@ -112,7 +112,7 @@ public class AffaireService
 	public void addObjet(long idAffaire, long numeroScelle, Objet newObjet) {
 		Affaire aff = affaireDao.load(idAffaire);
 		Scelle sc = getScelle(idAffaire, numeroScelle);
-		List<Objet> obj = sc.getListeObjets();
+		List<Objet> obj = sc.getObjets();
 		obj.add(newObjet);
 		affaireDao.update(aff);
 		

@@ -20,7 +20,6 @@ public class Tarif  implements java.io.Serializable{
 	private int forfait;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TEACHERSTUDENT")
 	@Column(name="ID",nullable=false)
 	public long getId() {
 		return id;
@@ -28,7 +27,7 @@ public class Tarif  implements java.io.Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL,targetEntity =TypeObjet.class)
 	@JoinColumn(name="idTypeObjet",unique=true)
 	public long getIdTypeObjet() {
 		return idTypeObjet;
@@ -36,7 +35,7 @@ public class Tarif  implements java.io.Serializable{
 	public void setIdTypeObjet(long idTypeObjet) {
 		this.idTypeObjet = idTypeObjet;
 	}
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL,targetEntity = TypeMission.class)
 	@JoinColumn(name="idTypeMission",unique=true)
 	public long getIdTypeMission() {
 		return idTypeMission;

@@ -1,12 +1,14 @@
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\service\ScelleService.java
+C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\model\Tarif.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\dao\AffaireDaoI.java
+C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\dao\LigneDevisDaoI.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\dao\impl\TypeMissionDaoImpl.java
-C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\controller\TestController.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\model\Affaire.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\dao\TypeObjetDaoI.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\model\Scelle.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\dao\UserDaoI.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\dao\impl\TypeObjetDaoImpl.java
+C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\model\LigneDevis.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\model\TypeMission.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\service\TypeMissionService.java
 C:\Users\F\Workspace-sts\AIOP\src\main\java\com\aiop\model\Frais.java
