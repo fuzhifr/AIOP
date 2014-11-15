@@ -46,14 +46,18 @@ public class Affaire implements java.io.Serializable {
 	private double montantFacture;
 	private double pourcentageRemise;
 	private boolean delais10j;
-
-	// Frais à gérer
-	private List<Frais> frais;
 	// Etat
-	private String Etat;
-
+		private String Etat;
+		
+	// Liste de Frais
+	private List<Frais> frais;
+	
+	// Liste de scellés
 	private List<Scelle> scelles;
-
+	
+	// Liste de LignesDevis
+	private List<LigneDevis> devis;
+	
 	public Affaire()
 	{
 		this.scelles=new ArrayList<Scelle>();
@@ -297,6 +301,17 @@ public class Affaire implements java.io.Serializable {
 
 	public void setScelles(List<Scelle> scelles) {
 		this.scelles = scelles;
+	}
+	
+	@OneToMany(targetEntity = LigneDevis.class,fetch = FetchType.EAGER, mappedBy = "idAffaire")
+	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.DELETE })
+	public List<LigneDevis> getLignesDevis() {
+		return devis;
+	}
+
+	public void setLignesDevis(List<LigneDevis> devis) {
+		this.devis = devis;
 	}
 
 }

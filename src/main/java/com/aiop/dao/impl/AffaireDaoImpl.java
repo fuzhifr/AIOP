@@ -2,6 +2,7 @@ package com.aiop.dao.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,13 +26,11 @@ public class AffaireDaoImpl implements AffaireDaoI {
 
 	@Override
 	public Serializable save(Affaire a) {
-		// TODO Auto-generated method stub
 		return getSession().save(a);
 	}
 
 	@Override
 	public void update(Affaire a) {
-		// TODO Auto-generated method stub
 		Affaire affaire=load(a.getIdAffaire());
 		//fait ajouter l'autre paramtre
 		affaire.setScelles(a.getScelles());
@@ -40,9 +39,12 @@ public class AffaireDaoImpl implements AffaireDaoI {
 
 	@Override
 	public Affaire load(long id) {
-		// TODO Auto-generated method stub
 		Affaire a=(Affaire)getSession().get(Affaire.class, id) ;
 		return a;
+	}
+	
+	public List<Affaire> getAllAffaires() {
+		return getSession().createQuery("from Produit").list();
 	}
 
 }

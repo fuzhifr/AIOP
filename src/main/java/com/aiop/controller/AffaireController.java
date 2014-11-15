@@ -89,7 +89,9 @@ public class AffaireController {
 			@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("numeroPV") long numeroPV,
 			@RequestParam("commentaire") String commentaire) {
-		Scelle newScelle = new Scelle(numeroPV, commentaire);
+		Scelle newScelle = new Scelle();
+		newScelle.setNumeroPV(numeroPV);
+		newScelle.setCommentaire(commentaire);
 		newScelle.setIdAffaire(idAffaire);
 		affaireService.addScelle(idAffaire, newScelle);
 		return newScelle;
@@ -117,18 +119,33 @@ public class AffaireController {
 
 	/**
 	 * Méthode de liaison d'une type mission à un type d'objet pour un scellé d'une affaire
-	 * @param idAffaire identifiant de l'affaire concernée
-	 * @param idScelle identifiant du scellé concerné
-	 * @param idTypeObjet identifiant du type d'objet à lier
-	 * @param idTypeMission identifiant du type de mission à lier
+	 * @param idAffaire
+	 * 				identifiant de l'affaire concernée
+	 * @param idScelle
+	 * 				identifiant du scellé concerné
+	 * @param idTypeObjet
+	 * 				identifiant du type d'objet à lier
+	 * @param idTypeMission
+	 * 				identifiant du type de mission à lier
+	 * @author Hugo
+	 * 
+	 * En cours !!
 	 */
-	@RequestMapping(value = "/affaire/{idAffaire}/scelle/{numeroScelle}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
-	public void createTypeMissionForTypeObjetInScelleInAffaire(@PathVariable("idAffaire") long idAffaire, @PathVariable("numeroScelle") long numeroScelle,
+	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
+	public void createTypeMissionForTypeObjeteInAffaire(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet,
-			@RequestParam("idTypeMission") String idTypeMission) {
-		//Affaire x = new Affaire(idAffaire);
-		//x.load(idAffaire);
-		//x.createMissionForTypeObjetInScelle(numeroScelle,idTypeObjet,idTypeMission);
+			@RequestParam("idTypeMission") long idTypeMission) {
+		
+		LigneDevis newLigne = new LigneDevis();
+		newLigne.setIdAffaire(idAffaire);
+		newLigne.setIdTypeMission(idTypeMission);
+		newLigne.setIdTypeObjet(idTypeObjet);
+		// Calculer le nombre d'objet d'un type mission
+		// Mettre ce nombre dans "quantiteDevis"
+		// Récupérer le prix de cette mission => Zhi
+		// Le mettre dans "montantDevis"
+		
+		affaireService.addLigneDevis(idAffaire,idTypeObjet,idTypeMission, newLigne);
 	}
 	
 /* ---------------------------------------------------- METHODE GET ---------------------------------------------------------------*/
@@ -137,15 +154,13 @@ public class AffaireController {
 	 * Méthode de récupération d'une affaire
 	 * @param idAffaire identifiant de l'affaire
 	 * @return l'affaire recherchée
+	 * @author Hugo
+	 * 
+	 * Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.GET)
 	public Affaire getAffaire(@PathVariable("idAffaire") long idAffaire) {
-
-		// il faudra le charger depuis la bdd et appeller le constructeur vide
-		Affaire x = new Affaire();
-		// x.load(idAffaire);
-
-		return x;
+		return affaireService.loadAffaire(idAffaire);
 	}
 
 	/**
@@ -154,17 +169,8 @@ public class AffaireController {
 	 */
 	@RequestMapping(value = "/affaires", method = RequestMethod.GET)
 	public List<Affaire> getAffaires() {
-
-		// Il faudra load toutes les affaires depuis la bdd
-		// Affaire x = new Affaire();
-		// return x.getAllAffaires();
-
-		// en attendant :
-		List<Affaire> x = new ArrayList<Affaire>();
-		/*x.add(new Affaire(1));
-		x.add(new Affaire(2));
-		x.add(new Affaire(3));*/
-		return x;
+		
+		return affaireService.getAllAffaires();
 	}
 
 	/**

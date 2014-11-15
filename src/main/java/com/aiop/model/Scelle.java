@@ -42,17 +42,7 @@ public class Scelle implements java.io.Serializable {
 	public Scelle(long numeroScelle){
 		this.setNumeroScelle(numeroScelle);
 	}
-	/**
-	 * Constructeur avec numeroScelle, numeroPV,commentaire
-	 * 
-	 * @param numeroScelle
-	 * @param numeroPV
-	 * @param commentaire
-	 */
-	public Scelle(long numeroPV, String commentaire) {
-		this.setNumeroPV(numeroPV);
-		this.setCommentaire(commentaire);
-	}
+
 	
 	/*
 	 * Méthodes 
@@ -123,8 +113,6 @@ public class Scelle implements java.io.Serializable {
 		this.idAffaire = idAffaire;
 	}
 
-<<<<<<< Updated upstream
-=======
 	
 
 	@OneToMany(targetEntity = Objet.class,fetch = FetchType.EAGER, mappedBy = "numeroScelle")
@@ -138,9 +126,4 @@ public class Scelle implements java.io.Serializable {
 		this.objets = objets;
 	}
 
-
-
-
-
->>>>>>> Stashed changes
 }
