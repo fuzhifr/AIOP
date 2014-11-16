@@ -173,9 +173,9 @@ public class AffaireService
     	scelleDao.delete(numeroScelle);
 	}
 
-	public Affaire updateAffaire(Affaire aff) {
+	public void updateAffaire(Affaire aff) {
 		
-		return aff;
+		 affaireDao.update(aff);
 	}
 
 	public Set<Objet> getObjetTypeObjet(long idAffaire, long idTypeObjet) {

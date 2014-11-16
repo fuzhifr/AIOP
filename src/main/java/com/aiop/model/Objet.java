@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="Objet")
+@Table(name="objet")
 public class Objet implements java.io.Serializable{
 	private long idObjet;
 	private String libelleObjet;

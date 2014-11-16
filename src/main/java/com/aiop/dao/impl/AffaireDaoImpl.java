@@ -31,11 +31,7 @@ public class AffaireDaoImpl implements AffaireDaoI {
 
 	@Override
 	public void update(Affaire a) {
-		Affaire affaire=load(a.getIdAffaire());
-		//fait ajouter l'autre paramtre
-		affaire.setScelles(a.getScelles());
-		affaire.setFrais(a.getFrais());
-		getSession().update(affaire);
+		getSession().update(a);
 	}
 
 	@Override

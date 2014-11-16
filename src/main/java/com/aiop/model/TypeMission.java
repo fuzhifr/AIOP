@@ -15,7 +15,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name= "TypeMission" )
+@Table(name= "typemission" )
 public class TypeMission implements java.io.Serializable{
 
 	private long idTypeMission;

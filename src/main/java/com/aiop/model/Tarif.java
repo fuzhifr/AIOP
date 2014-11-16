@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="Tarif")
+@Table(name="tarif")
 public class Tarif  implements java.io.Serializable{
 
 	private long id;

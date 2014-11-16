@@ -2,6 +2,7 @@ package com.aiop.controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aiop.model.*;
 import com.aiop.service.AffaireService;
+import com.aiop.service.FraisService;
 import com.aiop.service.ScelleService;
 
 @RestController
@@ -26,6 +28,9 @@ public class AffaireController {
 
 	@Autowired
 	private ScelleService scelleService;
+
+	@Autowired
+	private FraisService fraisService;
 
 	/*
 	 * ---------------------------------------------------- METHODE POST---------------------------------------------------------------
@@ -364,12 +369,6 @@ public class AffaireController {
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission) {
-
-		// Je ne sais pas comment ça va marcher avec l'ORM
-		/*
-		 * Affaire x = new Affaire(idAffaire); x.load(idAffaire);
-		 * x.nbObjet(idTypeObjet, idTypeMission);
-		 */
 	}
 
 	/*
@@ -404,7 +403,7 @@ public class AffaireController {
 	 * @param instruction
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.PUT)
-	public Affaire PutAffaire(@PathVariable("idAffaire") long idAffaire,
+	public @ResponseBody Affaire PutAffaire(@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("nomAffaire") String nom,
 			@RequestParam("numDossier") long dossier,
 			@RequestParam("numParquet") long parquet,
@@ -444,7 +443,8 @@ public class AffaireController {
 		aff.setDelais10j(delais10j);
 		aff.setDateRemise(dateRemise);
 		aff.setNumInstruction(instruction);
-		return affaireService.updateAffaire(aff);
+		affaireService.updateAffaire(aff);
+		return aff;
 	}
 
 	/**
@@ -454,18 +454,16 @@ public class AffaireController {
 	 *            identifiant de l'affaire
 	 * @param etat
 	 *            nouvel état de l'affaire
+	 *     zhi     testé
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/etat", method = RequestMethod.PUT)
-	public void putEtat(@PathVariable("idAffaire") long idAffaire,
+	public @ResponseBody String putEtat(@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("etat") String etat) {
-
-		// il faudra le charger depuis la bdd et appeller le constructeur vide
-		/*
-		 * Affaire x = new Affaire(idAffaire); // x.load(idAffaire);
-		 * 
-		 * x.setEtat(etat); x.save();
-		 */
+		Affaire a=affaireService.loadAffaire(idAffaire);
+		a.setEtat(etat);
+		affaireService.updateAffaire(a);
+		return "Success";
 	}
 
 	/**
@@ -479,18 +477,29 @@ public class AffaireController {
 	 *            nouveau libellé
 	 * @param prixFrais
 	 *            nouveau prix
+	 *      zhi      testé
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/frais/{idFrais}", method = RequestMethod.PUT)
-	public void putFrais(@PathVariable("idAffaire") long idAffaire,
+	public @ResponseBody String putFrais(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idFrais") long idFrais,
 			@RequestParam("libFrais") String libFrais,
 			@RequestParam("prixFrais") double prixFrais) {
-
-		/*
-		 * Frais x = new Frais(idFrais); x.setLibFrais(libFrais);
-		 * x.setPrixFrais(prixFrais); x.save(idAffaire);
-		 */
+		Affaire a=affaireService.loadAffaire(idAffaire);
+		Set<Frais> frais=a.getFrais();
+		Iterator it=frais.iterator();
+		Frais f = null;
+		while(it.hasNext()){
+			Frais temps=(Frais) it.next();
+			if(temps.getIdFrais()==idFrais){
+				f=temps;
+				break;
+			}
+		}
+		f.setIdFrais(idFrais);
+		f.setPrixFrais(prixFrais);
+		affaireService.updateAffaire(a);
+		return "Success";
 	}
 
 	/**
@@ -504,6 +513,7 @@ public class AffaireController {
 	 *            nouveau numéro du PV
 	 * @param commentaire
 	 *            nouveau commentaire
+	 *      zhi      testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.PUT)
 	public @ResponseBody Scelle putScelle(
@@ -511,12 +521,20 @@ public class AffaireController {
 			@PathVariable("numeroScelle") long numeroScelle,
 			@RequestParam("numeroPV") long numeroPV,
 			@RequestParam("commentaire") String commentaire) {
-		Scelle s = new Scelle();
-		s.setNumeroScelle(numeroScelle);
-		s.setNumeroPV(numeroPV);
-		s.setCommentaire(commentaire);
-		scelleService.updateScelle(s);
-		return s;
+		Affaire a=affaireService.loadAffaire(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator itS=scelles.iterator();
+		Scelle temps=null;
+		while(itS.hasNext()){
+			 temps=(Scelle) itS.next();
+			if(temps.getNumeroScelle()==numeroScelle){
+				temps.setNumeroPV(numeroPV);
+				temps.setCommentaire(commentaire);
+				break;
+			}
+		}
+		affaireService.updateAffaire(a);
+		return temps;
 	}
 
 	// nana
@@ -535,21 +553,37 @@ public class AffaireController {
 	 *            nouveau type de l'objet
 	 * @param numeroScelle
 	 *            nouveau numéro du scellé qui contient l'objet
-	 * @author narjisse Zaki
+	 * @author zhi testé
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets/{idObjet}", method = RequestMethod.PUT)
-	public void putObjet(@PathVariable("idAffaire") long idAffaire,
+	public @ResponseBody String putObjet(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelleOld,
 			@PathVariable("idObjet") long idObjet,
 			@RequestParam("libelleObjet") String libelleObjet,
 			@RequestParam("idTypeObjet") long idTypeObjet,
 			@RequestParam("numeroScelle") long numeroScelleNew) {
-		/*
-		 * Objet obj = new Objet(); obj.load();
-		 * obj.setLibelleObjet(libelleObjet); obj.setIdTypeObjet(idTypeObjet);
-		 * obj.save(numeroScelleNew);
-		 */
+		Affaire a=affaireService.loadAffaire(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator itS=scelles.iterator();
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			if(s.getNumeroScelle()==numeroScelleOld){
+				Set<Objet> obs=s.getObjets();
+				Iterator itO=obs.iterator();
+				while(itO.hasNext()){
+					Objet o=(Objet) itO.next();
+					if(o.getIdObjet()==idObjet){
+						o.setLibelleObjet(libelleObjet);
+						o.setIdTypeObjet(idTypeObjet);
+						o.setNumeroScelle(numeroScelleNew);
+						break;
+					}
+				}
+			}
+		}
+		affaireService.updateAffaire(a);
+		return "Success";
 	}
 
 	/**

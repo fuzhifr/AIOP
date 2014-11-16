@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
-@Table(name="Frais")
+@Table(name="frais")
 public class Frais {
 	
 	private long idFrais;

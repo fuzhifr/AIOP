@@ -22,7 +22,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "TypeObjet")
+@Table(name = "typeobjet")
 public class TypeObjet implements java.io.Serializable {
 
 	private long idTypeObjet;
