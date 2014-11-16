@@ -45,7 +45,7 @@ public class AffaireService
 	
     public Scelle getScelle(long idAffaire,long numeroScelle){
     	Affaire a=affaireDao.load(idAffaire);
-    	List<Scelle> scelles=a.getScelles();
+    	Set<Scelle> scelles=a.getScelles();
     	Scelle sRetour=new Scelle();
     	for(Scelle s:scelles){
     		long numero=s.getNumeroScelle();
@@ -79,7 +79,7 @@ public class AffaireService
 		return affaireDao.getAllAffaires();
 	}
 	
-    public List<Scelle> getScelles(long idAffaire) {
+    public Set<Scelle> getScelles(long idAffaire) {
 		Affaire a=affaireDao.load(idAffaire);
 		return a.getScelles();
 	}
@@ -102,17 +102,10 @@ public class AffaireService
 		while (iterator.hasNext()) {
 			Frais f =iterator.next();
 		 if(f.getIdFrais()==idFrais){
-			 frais.remove(f);
+			 iterator.remove();
 		 }
 		}
 		
-		/*
-    	for(int i=0;i<frais.size();i++){
-    		if(frais.get(i).getIdFrais()==idFrais){
-    			frais.remove(i);
-    		}
-    	}*/
-    	
     	a.setFrais(frais);
     	affaireDao.update(a);
     	fraisService.delete(idFrais);
@@ -128,7 +121,7 @@ public class AffaireService
     
     public void addScelle(long idAffaire,Scelle s){
     	Affaire aff = affaireDao.load(idAffaire);
-    	List<Scelle> scelles = aff.getScelles();
+    	Set<Scelle> scelles = aff.getScelles();
     	scelles.add(s);
     	aff.setScelles(scelles);
     	affaireDao.update(aff);
@@ -158,7 +151,7 @@ public class AffaireService
 	public void addLigneDevis(long idAffaire, long idTypeObjet,
 			long idTypeMission, LigneDevis newLigne) {
 		Affaire aff = affaireDao.load(idAffaire);
-		List<LigneDevis> devis = aff.getLignesDevis();
+		Set<LigneDevis> devis = aff.getLignesDevis();
 		devis.add(newLigne);
 		affaireDao.update(aff);
 		
@@ -167,13 +160,14 @@ public class AffaireService
 	public void deleteScelle(long idAffaire, long numeroScelle) {
 		// TODO Auto-generated method stub
 		Affaire a=affaireDao.load(idAffaire);
-		List<Scelle> scelles=a.getScelles();
-    	for(int i=0;i<scelles.size();i++){
-    		if(scelles.get(i).getNumeroScelle()==numeroScelle){
-    			scelles.remove(i);
-    		}
-    	}
-    	
+		Set<Scelle> scelles=a.getScelles();
+    	Iterator<Scelle> iterator = scelles.iterator();
+		while (iterator.hasNext()) {
+			Scelle s =iterator.next();
+		 if(s.getNumeroScelle()==numeroScelle){
+			 scelles.remove(s);
+		 }
+		}
     	a.setScelles(scelles);
     	affaireDao.update(a);
     	scelleDao.delete(numeroScelle);

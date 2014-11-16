@@ -57,16 +57,16 @@ public class Affaire implements java.io.Serializable {
 	private Set<Frais> frais;
 	
 	// Liste de scellés
-	private List<Scelle> scelles;
+	private Set<Scelle> scelles;
 	
 	// Liste de LignesDevis
-	private List<LigneDevis> devis;
+	private Set<LigneDevis> devis;
 	
 	public Affaire()
 	{
-		this.scelles=new ArrayList<Scelle>();
+		this.scelles=new HashSet<Scelle>();
 		this.frais = new HashSet<Frais>();
-		this.devis = new ArrayList<LigneDevis>();
+		this.devis = new HashSet<LigneDevis>();
 	}
 	
 	
@@ -304,23 +304,23 @@ public class Affaire implements java.io.Serializable {
 	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.DELETE })
 	@JsonIgnore
-	public List<Scelle> getScelles() {
+	public Set<Scelle> getScelles() {
 		return scelles;
 	}
 
-	public void setScelles(List<Scelle> scelles) {
+	public void setScelles(Set<Scelle> scelles) {
 		this.scelles = scelles;
 	}
 	
-	@OneToMany(targetEntity = LigneDevis.class,fetch = FetchType.LAZY, mappedBy = "idAffaire")
+	@OneToMany(targetEntity = LigneDevis.class,fetch = FetchType.EAGER, mappedBy = "idAffaire")
 	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.DELETE })
 	@JsonIgnore
-	public List<LigneDevis> getLignesDevis() {
+	public Set<LigneDevis> getLignesDevis() {
 		return devis;
 	}
 
-	public void setLignesDevis(List<LigneDevis> devis) {
+	public void setLignesDevis(Set<LigneDevis> devis) {
 		this.devis = devis;
 	}
 

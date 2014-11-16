@@ -43,19 +43,16 @@ public class ScelleService
     	scelleDao.update(scelleUpdate);
     }
     
-    public List<TypeObjet> getAllTypesObjetsAffaire(List scelles) {
-		List<TypeObjet> typeObjets = new ArrayList<TypeObjet>();
+    public Set<TypeObjet> getAllTypesObjetsAffaire(Set<Scelle> scelles) {
+		Set<TypeObjet> typeObjets = new HashSet<TypeObjet>();
 		
 		//List<Objet> objets = new ArrayList<Objet>();
 		Set<Objet> objets=new HashSet<Objet>();
-		List<Long> listeIdTypeObjet = new ArrayList();
+		Set<Long> listeIdTypeObjet = new HashSet();
 		HashSet hs = new HashSet();
-		
-		for(int i=0;i<scelles.size();i++){
-			objets=((Scelle) scelles.get(i)).getObjets();
-			/*for(int j=0;j<objets.size();j++){
-				listeIdTypeObjet.add(objets.get(j).getIdTypeObjet());		
-			}*/
+		Iterator <Scelle> it=scelles.iterator();
+		while(it.hasNext()){
+			objets=it.next().getObjets();
 			Iterator <Objet> iterator = objets.iterator();
 			while (iterator.hasNext()) {
 				Objet obj =iterator.next();
@@ -69,9 +66,9 @@ public class ScelleService
 		//delete duplicate
 		listeIdTypeObjet.addAll(hs);
 		
-		for(int i=0;i<listeIdTypeObjet.size();i++){
-			//typeObjets.add(listeIdTypeObjet.get(i).getObjetById());
-			typeObjets.add(typeObjetService.getObjetById(listeIdTypeObjet.get(i)));
+		Iterator<Long> listeID=listeIdTypeObjet.iterator();
+		while(listeID.hasNext()){
+			typeObjets.add(typeObjetService.getObjetById(listeID.next()));
 		}
 		return typeObjets;
 	}

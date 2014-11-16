@@ -1,6 +1,7 @@
 package com.aiop.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import com.aiop.model.*;
 import com.aiop.service.TarifService;
@@ -56,7 +57,7 @@ public class BackendController {
 	 * @return liste des types mission du type objet
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.GET)
-	public @ResponseBody List<Tarif> getTypeMssions(
+	public @ResponseBody Set<Tarif> getTypeMssions(
 			@PathVariable("idTypeObjet") long idTypeObjet) {	
 		return typeObjetService.getTypeObjet(idTypeObjet).getTypeMissions();
 	}

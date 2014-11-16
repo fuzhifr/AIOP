@@ -1,7 +1,9 @@
 package com.aiop.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,13 +27,13 @@ public class TypeObjet implements java.io.Serializable {
 
 	private long idTypeObjet;
 	private String libTypeObjet;
-	private List<Tarif> typeMissions;
+	private Set<Tarif> typeMissions;
 
 	/*
 	 * Constructeur
 	 */
 	public TypeObjet() {
-		typeMissions=new ArrayList<Tarif>();
+		typeMissions=new HashSet<Tarif>();
 	}
 
 	@Id
@@ -56,11 +58,11 @@ public class TypeObjet implements java.io.Serializable {
 
 	@OneToMany(mappedBy="idTypeObjet",cascade = { CascadeType.ALL },targetEntity = Tarif.class,fetch = FetchType.EAGER)
 	@JsonIgnore
-	public List<Tarif> getTypeMissions() {
+	public Set<Tarif> getTypeMissions() {
 		return typeMissions;
 	}
 
-	public void setTypeMissions(List<Tarif> typeMissions) {
+	public void setTypeMissions(Set<Tarif> typeMissions) {
 		this.typeMissions = typeMissions;
 	}
 

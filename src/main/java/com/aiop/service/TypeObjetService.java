@@ -1,6 +1,8 @@
 package com.aiop.service;  
   
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;  
@@ -43,10 +45,12 @@ public class TypeObjetService
 	public Tarif getTypeMission(long idTypeObjet, long idTypeMission) {
 		// TODO Auto-generated method stub
 		TypeObjet to=typeObjetDao.load(idTypeObjet);
-		List<Tarif> typeMissions=to.getTypeMissions();
-		for(int i=0;i<typeMissions.size();i++){
-			if(typeMissions.get(i).getIdTypeMission()==idTypeMission){
-				return typeMissions.get(i);
+		Set<Tarif> typeMissions=to.getTypeMissions();
+		Iterator<Tarif> it=typeMissions.iterator();
+		while(it.hasNext()){
+			Tarif temps=it.next();
+			if(temps.getIdTypeMission()==idTypeMission){
+				return temps;
 			}
 		}
 		return null;
@@ -56,11 +60,13 @@ public class TypeObjetService
 			String libTypeMission, int forfait) {
 		// TODO Auto-generated method stub
 		TypeObjet to=typeObjetDao.load(idTypeObjet);
-		List<Tarif> ts=to.getTypeMissions();
+		Set<Tarif> ts=to.getTypeMissions();
 		Tarif t=new Tarif();
-		for(int i=0;i<ts.size();i++){
-			if(ts.get(i).getIdTypeMission()==idTypeMission){
-				t=ts.get(i);
+		Iterator<Tarif> it=ts.iterator();
+		while(it.hasNext()){
+			Tarif temps=it.next();
+			if(temps.getIdTypeMission()==idTypeMission){
+				t=temps;
 				break;
 			}
 		}

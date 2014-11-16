@@ -1,6 +1,7 @@
 package com.aiop.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -105,7 +106,6 @@ public class AffaireController {
 		return newScelle;
 	}
 
-	/*-------------PB-----------------------------------------------------------------------------------------------------
 	/**
 	 * Méthode de création d'un objet pour une affaire
 	 * 
@@ -237,12 +237,12 @@ public class AffaireController {
 	 *            identifiant de l'affaire
 	 * @return liste des types objets de l'affaire
 	 * @author narjisse Zaki
-	 * 		Terminé pb
+	 * 		Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjets", method = RequestMethod.GET)
-	public @ResponseBody List<TypeObjet> getAllTypesObjetsAffaire(
+	public @ResponseBody Set<TypeObjet> getAllTypesObjetsAffaire(
 			@PathVariable("idAffaire") long idAffaire) {
-		List<Scelle> scelles =new ArrayList<Scelle>();
+		Set<Scelle> scelles =new HashSet<Scelle>();
 		scelles=affaireService.getScelles(idAffaire);
 		return scelleService.getAllTypesObjetsAffaire(scelles);
 		
@@ -300,9 +300,9 @@ public class AffaireController {
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.GET)
-	public @ResponseBody List<Scelle> getScelleAffaire(
+	public @ResponseBody Set<Scelle> getScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire) {
-		List<Scelle> scelles = new ArrayList<Scelle>();
+		Set<Scelle> scelles = new HashSet<Scelle>();
 		scelles = affaireService.getScelles(idAffaire);
 		return scelles;
 	}
@@ -602,7 +602,7 @@ public class AffaireController {
 	 * @param idAffaire identifiant de l'affaire
 	 * @param idFrais identifiant du frais à supprimer
 	 * @author narjissezaki
-	 * 			Terminé pb
+	 * 			Terminé testé
 	 */
 	@RequestMapping(value = "/affaires/{idAffaire}/frais/{idFrais}", method = RequestMethod.DELETE)
 	public @ResponseBody String deleteFrais(@PathVariable("idAffaire") long idAffaire,

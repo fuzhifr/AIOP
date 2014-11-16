@@ -45,7 +45,7 @@ public class TypeMission implements java.io.Serializable{
 		this.libTypeMission = libTypeMission;
 	}
 
-	@OneToMany(mappedBy="idTypeMission",cascade = { CascadeType.ALL },targetEntity = Tarif.class,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="idTypeMission",cascade = { CascadeType.ALL },targetEntity = Tarif.class,fetch = FetchType.EAGER)
 	@JsonIgnore
 	public List<TypeObjet> getTypeObjets() {
 		return typeObjets;
