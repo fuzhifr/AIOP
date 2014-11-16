@@ -236,15 +236,15 @@ public class AffaireController {
 	 *            identifiant de l'affaire
 	 * @return liste des types objets de l'affaire
 	 * @author narjisse Zaki
+	 * 		Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typesObjets", method = RequestMethod.GET)
 	public List<TypeObjet> getAllTypesObjetsAffaire(
 			@PathVariable("idAffaire") long idAffaire) {
-
-		// il faudra le charger depuis la bdd et appeller le constructeur vide
-		Affaire a = new Affaire();
-		// a.load(idAffaire);
-		return null;
+		List<Scelle> scelles =new ArrayList<Scelle>();
+		scelles=affaireService.getScelles(idAffaire);
+		return scelleService.getAllTypesObjetsAffaire(scelles);
+		
 	}
 
 	// nana
@@ -601,6 +601,7 @@ public class AffaireController {
 	 * @param idAffaire identifiant de l'affaire
 	 * @param idFrais identifiant du frais à supprimer
 	 * @author narjissezaki
+	 * 			Terminé
 	 */
 	@RequestMapping(value = "/affaires/{idAffaire}/frais/{idFrais}", method = RequestMethod.DELETE)
 	public void deleteFrais(@PathVariable("idAffaire") long idAffaire,

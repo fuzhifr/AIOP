@@ -13,4 +13,6 @@ public interface TypeObjetDaoI<T> {
 	public TypeObjet load(long id);
 
 	public void update(TypeObjet to);
+	
+	public TypeObjet getProduitById(long id);
 }

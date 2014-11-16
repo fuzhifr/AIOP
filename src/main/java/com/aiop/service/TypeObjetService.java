@@ -70,5 +70,9 @@ public class TypeObjetService
 		tarifDao.update(t);
 		typeMissionDao.update(tm);
 	}
+	
+	public TypeObjet getObjetById(long idTypeObjet) {
+		return  typeObjetDao.getProduitById(idTypeObjet);
+	}
 
 }  
