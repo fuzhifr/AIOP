@@ -30,7 +30,9 @@ public class AffaireService
     private AffaireDaoI affaireDao;  
      
     @Autowired  
-    private ScelleDaoI scelleDao; 
+    private ScelleDaoI scelleDao;
+    @Autowired  
+    private FraisService fraisService;
     
     public Affaire loadAffaire(long idAffaire)  
     {  
