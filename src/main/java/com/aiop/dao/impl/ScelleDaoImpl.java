@@ -19,7 +19,7 @@ public class ScelleDaoImpl implements ScelleDaoI {
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
+	@Override
 	public Serializable save(Scelle s) {
 		return getSession().save(s);
 	}

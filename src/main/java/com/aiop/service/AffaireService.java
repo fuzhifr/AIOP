@@ -1,6 +1,7 @@
 package com.aiop.service;  
   
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -9,12 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;  
 
 import com.aiop.dao.AffaireDaoI;
+import com.aiop.dao.FraisDaoI;
 import com.aiop.dao.ScelleDaoI;
 import com.aiop.model.Affaire;
 import com.aiop.model.Frais;
 import com.aiop.model.LigneDevis;
 import com.aiop.model.Objet;
 import com.aiop.model.Scelle;
+import com.aiop.service.*;
 
 
 
@@ -85,6 +88,31 @@ public class AffaireService
 	public Set<Objet> getObjetScelle(long idAffaire, long numeroScelle) {
 		Scelle sc = getScelle(idAffaire,numeroScelle);
 		return sc.getObjets();
+	}
+	
+	public void deleteFrais(long idAffaire, long idFrais) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Frais> frais=a.getFrais();
+		Iterator <Frais> iterator = frais.iterator();
+		while (iterator.hasNext()) {
+			Frais f =iterator.next();
+		 if(f.getIdFrais()==idFrais){
+			 frais.remove(f);
+		 }
+		}
+		
+		/*
+    	for(int i=0;i<frais.size();i++){
+    		if(frais.get(i).getIdFrais()==idFrais){
+    			frais.remove(i);
+    		}
+    	}*/
+    	
+    	a.setFrais(frais);
+    	affaireDao.update(a);
+    	fraisService.delete(idFrais);
+    	//fraisDao.delete(idFrais);
 	}
 
 													/* ADD methodes*/

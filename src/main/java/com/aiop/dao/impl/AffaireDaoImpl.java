@@ -34,6 +34,7 @@ public class AffaireDaoImpl implements AffaireDaoI {
 		Affaire affaire=load(a.getIdAffaire());
 		//fait ajouter l'autre paramtre
 		affaire.setScelles(a.getScelles());
+		affaire.setFrais(a.getFrais());
 		getSession().update(affaire);
 	}
 

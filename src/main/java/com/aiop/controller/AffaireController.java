@@ -598,18 +598,16 @@ public class AffaireController {
 
 	/**
 	 * Méthode de suppression d'un frais d'une affaire
-	 * 
-	 * @param idAffaire
-	 *            identifiant de l'affaire
-	 * @param idFrais
-	 *            identifiant du frais à supprimer
+	 * @param idAffaire identifiant de l'affaire
+	 * @param idFrais identifiant du frais à supprimer
+	 * @author narjissezaki
 	 */
-
 	@RequestMapping(value = "/affaires/{idAffaire}/frais/{idFrais}", method = RequestMethod.DELETE)
-	public void getAffaire2(@PathVariable("idAffaire") long idAffaire,
+	public void deleteFrais(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idFrais") long idFrais) {
-		// Frais x = new Frais(idAffaire, idFrais);
-		// x.delete();
+
+			affaireService.deleteFrais(idAffaire,idFrais);
+		
 	}
 
 	/**
