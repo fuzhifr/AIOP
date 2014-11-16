@@ -43,8 +43,9 @@ public class AffaireDaoImpl implements AffaireDaoI {
 		return a;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Affaire> getAllAffaires() {
-		return getSession().createQuery("from Produit").list();
+		return getSession().createQuery("from Affaire").list();
 	}
 
 }

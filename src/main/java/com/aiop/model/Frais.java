@@ -1,39 +1,29 @@
 package com.aiop.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Frais")
 public class Frais {
 	
 	private long idFrais;
 	private String libFrais;
 	private double prixFrais;
-	
-	/*
-	 * CONSTRUCTEURS
-	 */
-	
-	public Frais () {
-			
-		}
-	
-	public Frais (long id) {
-		setIdFrais(id);
-		setLibFrais("frais " + id);
-		setPrixFrais(id * 12.8);
-	}
+	private long idAffaire;
 
-	public Frais(long id, long idFrais) {
-		load(id, idFrais);
-	}
-	
-	public Frais(String libFrais, double prixFrais) {
-		this.setLibFrais(libFrais);
-		this.setPrixFrais(prixFrais);
-	}
-	
 	/*
 	 * GETTERS and SETTERS
 	 */
 
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idFrais",length=20)
 	public long getIdFrais() {
 		return idFrais;
 	}
@@ -42,6 +32,7 @@ public class Frais {
 		this.idFrais = idFrais;
 	}
 
+	@Column(name="libFrais",length=50)
 	public String getLibFrais() {
 		return libFrais;
 	}
@@ -50,6 +41,7 @@ public class Frais {
 		this.libFrais = libFrais;
 	}
 
+	@Column(name="prixFrais",length=20)
 	public double getPrixFrais() {
 		return prixFrais;
 	}
@@ -58,26 +50,13 @@ public class Frais {
 		this.prixFrais = prixFrais;
 	}
 	
-	
-	/*
-	 * Méthodes lidées à l'ORM
-	 */
-	
-	// Supprime un élément de la base
-	public void delete() {
-		// TODO Auto-generated method stub
-		
+	@Column(name="idAffaire",length=20)
+	public long getIdAffaire() {
+		return idAffaire;
 	}
 
-	// charge un frais d'une affaire
-	public void load(long idAffaire, long idFrais) {
-		
-	}
-	
-	// Sauvegarde un frais dans une affaire
-	public void save(long idAffaire) {
-		// TODO Auto-generated method stub
-		
+	public void setIdAffaire(long idAffaire) {
+		this.idAffaire = idAffaire;
 	}
 
 	

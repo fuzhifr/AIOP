@@ -2,6 +2,7 @@ package com.aiop.service;
   
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;  
@@ -50,7 +51,7 @@ public class AffaireService
     
     public Frais getFrais(long idAffaire,long idFrais){
     	Affaire aff = affaireDao.load(idAffaire);
-    	List<Frais> scelles=aff.getFrais();
+    	Set<Frais> scelles=aff.getFrais();
     	Frais sRetour=new Frais();
     	for(Frais s:scelles){
     		if(s.getIdFrais()==idFrais){
@@ -76,12 +77,12 @@ public class AffaireService
 		return a.getScelles();
 	}
     
-    public List<Frais> getFrais(long idAffaire) {
+    public Set<Frais> getFrais(long idAffaire) {
 		Affaire a=affaireDao.load(idAffaire);
 		return a.getFrais();
 	}
     
-	public List<Objet> getObjetScelle(long idAffaire, long numeroScelle) {
+	public Set<Objet> getObjetScelle(long idAffaire, long numeroScelle) {
 		Scelle sc = getScelle(idAffaire,numeroScelle);
 		return sc.getObjets();
 	}
@@ -103,7 +104,7 @@ public class AffaireService
     
 	public void addFrais(long idAffaire, Frais newFrais) {
     	Affaire aff = affaireDao.load(idAffaire);
-    	List<Frais> frais = aff.getFrais();
+    	Set<Frais> frais = aff.getFrais();
     	frais.add(newFrais);
     	aff.setFrais(frais);
     	affaireDao.update(aff);		
@@ -112,7 +113,7 @@ public class AffaireService
 	public void addObjet(long idAffaire, long numeroScelle, Objet newObjet) {
 		Affaire aff = affaireDao.load(idAffaire);
 		Scelle sc = getScelle(idAffaire, numeroScelle);
-		List<Objet> obj = sc.getObjets();
+		Set<Objet> obj = sc.getObjets();
 		obj.add(newObjet);
 		affaireDao.update(aff);
 		

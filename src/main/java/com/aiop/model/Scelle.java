@@ -2,7 +2,9 @@ package com.aiop.model;
 
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +12,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 
@@ -30,47 +31,14 @@ public class Scelle implements java.io.Serializable {
 	//manytoOne relation
 	private long idAffaire;
 	//objets dans le scelle
-	private List<Objet> objets;
+	private Set<Objet> objets;
 
 	/**
 	 * Constructeur par defaut
 	 */
 	public Scelle() {
-
+		objets=new HashSet<Objet>();
 	}
-
-	public Scelle(long numeroScelle){
-		this.setNumeroScelle(numeroScelle);
-	}
-
-	
-	/*
-	 * Méthodes 
-	 */
-
-	
-
-	@Override
-	public String toString() {
-		return "Scelle [numeroScelle=" + numeroScelle + ", numeroPV="
-				+ numeroPV + ", commentaire=" + commentaire + "]";
-	}
-	/*
-	 * Méthodes lidées à l'ORM
-	 */
-
-	/**
-	 * Charge un Scelle
-	 * 
-	 * @param numeroScelle
-	 * @return
-	 */
-	public void updateTypeMissionForTypeObjetInScelle(long idTypeObjet,
-			long idTypeMission, long libTypeMission, String prixMission) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	/*
 	 * Setters and Getters
 	 */
@@ -118,11 +86,12 @@ public class Scelle implements java.io.Serializable {
 	@OneToMany(targetEntity = Objet.class,fetch = FetchType.EAGER, mappedBy = "numeroScelle")
 	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.DELETE })
-	public List<Objet> getListeObjets() {
+	@JsonIgnore
+	public Set<Objet> getObjets() {
 		return this.objets;
 	}
 
-	public void setListeObjets(List<Objet> objets) {
+	public void setObjets(Set<Objet> objets) {
 		this.objets = objets;
 	}
 

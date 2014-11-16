@@ -1,7 +1,9 @@
 package com.aiop.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Cascade;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @SuppressWarnings("serial")
 @Entity
@@ -49,7 +54,7 @@ public class Affaire implements java.io.Serializable {
 		private String Etat;
 		
 	// Liste de Frais
-	private List<Frais> frais;
+	private Set<Frais> frais;
 	
 	// Liste de scellés
 	private List<Scelle> scelles;
@@ -60,7 +65,7 @@ public class Affaire implements java.io.Serializable {
 	public Affaire()
 	{
 		this.scelles=new ArrayList<Scelle>();
-		this.frais = new ArrayList<Frais>();
+		this.frais = new HashSet<Frais>();
 		this.devis = new ArrayList<LigneDevis>();
 	}
 	
@@ -274,13 +279,15 @@ public class Affaire implements java.io.Serializable {
 		this.delais10j = delais10j;
 	}
 
-	//faut reecrir
-	@Transient
-	public List<Frais> getFrais() {
+	@OneToMany(targetEntity = Frais.class,fetch = FetchType.EAGER, mappedBy = "idAffaire")
+	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Frais> getFrais() {
 		return frais;
 	}
 
-	public void setFrais(List<Frais> frais) {
+	public void setFrais(Set<Frais> frais) {
 		this.frais = frais;
 	}
 
@@ -296,6 +303,7 @@ public class Affaire implements java.io.Serializable {
 	@OneToMany(targetEntity = Scelle.class,fetch = FetchType.EAGER, mappedBy = "idAffaire")
 	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.DELETE })
+	@JsonIgnore
 	public List<Scelle> getScelles() {
 		return scelles;
 	}
@@ -304,9 +312,10 @@ public class Affaire implements java.io.Serializable {
 		this.scelles = scelles;
 	}
 	
-	@OneToMany(targetEntity = LigneDevis.class,fetch = FetchType.EAGER, mappedBy = "idAffaire")
+	@OneToMany(targetEntity = LigneDevis.class,fetch = FetchType.LAZY, mappedBy = "idAffaire")
 	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.DELETE })
+	@JsonIgnore
 	public List<LigneDevis> getLignesDevis() {
 		return devis;
 	}

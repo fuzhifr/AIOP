@@ -11,7 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 @SuppressWarnings("serial")
 @Entity
@@ -20,13 +23,13 @@ public class TypeObjet implements java.io.Serializable {
 
 	private long idTypeObjet;
 	private String libTypeObjet;
-	private List<TypeMission> typeMissions;
+	private List<Tarif> typeMissions;
 
 	/*
 	 * Constructeur
 	 */
 	public TypeObjet() {
-		typeMissions=new ArrayList<TypeMission>();
+		typeMissions=new ArrayList<Tarif>();
 	}
 
 	@Id
@@ -48,13 +51,13 @@ public class TypeObjet implements java.io.Serializable {
 		this.libTypeObjet = libTypeObjet;
 	}
 
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	@JoinTable(name = "Tarif", joinColumns =@JoinColumn(name = "idTypeObjet"), inverseJoinColumns =@JoinColumn(name = "idTypeMission"))
-	public List<TypeMission> getTypeMissions() {
+	@OneToMany(mappedBy="idTypeObjet",cascade = { CascadeType.ALL },targetEntity = Tarif.class,fetch = FetchType.EAGER)
+	@JsonIgnore
+	public List<Tarif> getTypeMissions() {
 		return typeMissions;
 	}
 
-	public void setTypeMissions(List<TypeMission> typeMissions) {
+	public void setTypeMissions(List<Tarif> typeMissions) {
 		this.typeMissions = typeMissions;
 	}
 

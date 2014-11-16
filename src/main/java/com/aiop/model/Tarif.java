@@ -3,13 +3,12 @@ package com.aiop.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name="Tarif")
 public class Tarif  implements java.io.Serializable{
@@ -20,23 +19,22 @@ public class Tarif  implements java.io.Serializable{
 	private int forfait;
 	
 	@Id
-	@Column(name="ID",nullable=false)
+	@Column(name="id",nullable=false)
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
-	@ManyToOne(cascade=CascadeType.ALL,targetEntity =TypeObjet.class)
-	@JoinColumn(name="idTypeObjet",unique=true)
+	
+	@Column(name="idTypeObjet", length=20)
 	public long getIdTypeObjet() {
 		return idTypeObjet;
 	}
 	public void setIdTypeObjet(long idTypeObjet) {
 		this.idTypeObjet = idTypeObjet;
 	}
-	@ManyToOne(cascade=CascadeType.ALL,targetEntity = TypeMission.class)
-	@JoinColumn(name="idTypeMission",unique=true)
+	@Column(name="idTypeMission", length=20)
 	public long getIdTypeMission() {
 		return idTypeMission;
 	}

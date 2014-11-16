@@ -3,6 +3,7 @@ package com.aiop.controller;
 import java.util.List;
 
 import com.aiop.model.*;
+import com.aiop.service.TarifService;
 import com.aiop.service.TypeObjetService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BackendController {
 	
+
 	@Autowired
 	private TypeObjetService typeObjetService;
+	@Autowired
+	private TarifService tarifService;
 	/* ---------------------------------------------------- METHODE POST ---------------------------------------------------------------*/
 	
 	/**
@@ -29,9 +33,10 @@ public class BackendController {
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
 	public @ResponseBody String createFraisAffaire(
 			@PathVariable("idTypeObjet") long idTypeObjet,
-			@RequestParam("idTypeMission") long idTypeMission) {
-		typeObjetService.addTypeMission(idTypeObjet,idTypeMission);
-		return "Success";
+			@RequestParam("idTypeMission") long idTypeMission,
+			@RequestParam("forfait") int forfait) {
+		String msg=tarifService.addTypeMission(idTypeObjet,idTypeMission,forfait);
+		return msg;
 	}
 
 	/* ---------------------------------------------------- METHODE GET ---------------------------------------------------------------*/
@@ -51,9 +56,9 @@ public class BackendController {
 	 * @return liste des types mission du type objet
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.GET)
-	public @ResponseBody TypeObjet getTypeMssions(
+	public @ResponseBody List<Tarif> getTypeMssions(
 			@PathVariable("idTypeObjet") long idTypeObjet) {	
-		return typeObjetService.getTypeObjet(idTypeObjet);
+		return typeObjetService.getTypeObjet(idTypeObjet).getTypeMissions();
 	}
 
 	/**
@@ -63,7 +68,7 @@ public class BackendController {
 	 * @return type mission
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMission/{idTypeMission}", method = RequestMethod.GET)
-	public @ResponseBody TypeMission getTypeMssion(
+	public @ResponseBody Tarif getTypeMssion(
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission) {
 
@@ -82,8 +87,9 @@ public class BackendController {
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMission/{idTypeMission}", method = RequestMethod.PUT)
 	public @ResponseBody String putScelle(@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission,
-			@RequestParam("libTypeMission") String libTypeMission) {
-		typeObjetService.modifieTypeMission(idTypeObjet,idTypeMission,libTypeMission);
+			@RequestParam("libTypeMission") String libTypeMission,
+			@RequestParam("forfait") int forfait) {
+		typeObjetService.modifieInfo(idTypeObjet,idTypeMission,libTypeMission,forfait);
 		return "Success";
 	}
 
@@ -98,7 +104,7 @@ public class BackendController {
 	public @ResponseBody String deleteTypeMission(
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission) {
-		typeObjetService.deleteTypeMission(idTypeObjet, idTypeMission);
+		tarifService.deleteTypeMission(idTypeObjet, idTypeMission);
 		return "Success";
 	}
 }

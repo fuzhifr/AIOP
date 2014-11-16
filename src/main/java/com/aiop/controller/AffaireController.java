@@ -2,6 +2,7 @@ package com.aiop.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.aiop.model.*;
 import com.aiop.service.AffaireService;
 import com.aiop.service.ScelleService;
@@ -24,20 +26,23 @@ public class AffaireController {
 	@Autowired
 	private ScelleService scelleService;
 
-	/* ---------------------------------------------------- METHODE POST ---------------------------------------------------------------*/
+	/*
+	 * ---------------------------------------------------- METHODE POST
+	 * ---------------------------------------------------------------
+	 */
 
 	/**
 	 * Méthode de création d'une affaire
-	 * @param nomAffaire 
-	 * 				nom de l'affaire créée
+	 * 
+	 * @param nomAffaire
+	 *            nom de l'affaire créée
 	 * @return l'affaire créée
-	 * @author Hugo
-	 * Terminé
+	 * @author Hugo Terminé
 	 */
 	@RequestMapping(value = "/affaires", method = RequestMethod.POST)
-	public Affaire createAffaire(
+	public @ResponseBody Affaire createAffaire(
 			@RequestParam(value = "nomAffaire", required = true) String nomAffaire) {
-		
+
 		Affaire newAffaire = new Affaire();
 		newAffaire.setNomAffaire(nomAffaire);
 		affaireService.addAffaire(newAffaire);
@@ -46,28 +51,31 @@ public class AffaireController {
 
 	/**
 	 * Méthode de création d'un frais pour une affaire
-	 * @param idAffaire 
-	 * 				identifiant de l'affaire concernée
-	 * @param libFrais 
-	 * 				libellé du nouveau Frais
-	 * @param prixFrais 
-	 * 				prix du nouveau Frais
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire concernée
+	 * @param libFrais
+	 *            libellé du nouveau Frais
+	 * @param prixFrais
+	 *            prix du nouveau Frais
 	 * @return le Frais créé
 	 * @author Hugo
 	 * 
-	 * Terminé
+	 *         Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.POST)
-	public Frais createFraisAffaire(@PathVariable("idAffaire") long idAffaire,
+	public @ResponseBody Frais createFraisAffaire(
+			@PathVariable("idAffaire") long idAffaire,
 			@RequestParam("libFrais") String libFrais,
 			@RequestParam("prixFrais") double prixFrais) {
 		Frais newFrais = new Frais();
 		newFrais.setLibFrais(libFrais);
 		newFrais.setPrixFrais(prixFrais);
+		newFrais.setIdAffaire(idAffaire);
 		affaireService.addFrais(idAffaire, newFrais);
 		return newFrais;
 	}
-	
+
 	/**
 	 * Méthode de création d'un scellé pour une affaire
 	 * 
@@ -82,7 +90,7 @@ public class AffaireController {
 	 * @return le scellé créé
 	 * @author Zhi
 	 * 
-	 * Terminé
+	 *         Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.POST)
 	public @ResponseBody Scelle createScelleAffaire(
@@ -97,45 +105,53 @@ public class AffaireController {
 		return newScelle;
 	}
 
-
+	/*-------------PB-----------------------------------------------------------------------------------------------------
 	/**
 	 * Méthode de création d'un objet pour une affaire
-	 * @param idAffaire identifiant de l'affaire concernée
-	 * @param numeroScelle numéro du scellé concerné
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire concernée
+	 * @param numeroScelle
+	 *            numéro du scellé concerné
 	 * @author Narjisse
 	 * 
-	 * Terminé
+	 *         Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.POST)
-	public Objet createObjetScelleAffaire(@PathVariable("idAffaire") long idAffaire, @PathVariable("numeroScelle") long numeroScelle,
+	public Objet createObjetScelleAffaire(
+			@PathVariable("idAffaire") long idAffaire,
+			@PathVariable("numeroScelle") long numeroScelle,
 			@RequestParam("libelleObjet") String libelleObjet,
 			@RequestParam("idTypeObjet") long idTypeObjet) {
 		Objet newObjet = new Objet();
 		newObjet.setIdTypeObjet(idTypeObjet);
 		newObjet.setLibelleObjet(libelleObjet);
-		affaireService.addObjet(idAffaire,numeroScelle,newObjet);
+		affaireService.addObjet(idAffaire, numeroScelle, newObjet);
 		return newObjet;
 	}
 
 	/**
-	 * Méthode de liaison d'une type mission à un type d'objet pour un scellé d'une affaire
+	 * Méthode de liaison d'une type mission à un type d'objet pour un scellé
+	 * d'une affaire
+	 * 
 	 * @param idAffaire
-	 * 				identifiant de l'affaire concernée
+	 *            identifiant de l'affaire concernée
 	 * @param idScelle
-	 * 				identifiant du scellé concerné
+	 *            identifiant du scellé concerné
 	 * @param idTypeObjet
-	 * 				identifiant du type d'objet à lier
+	 *            identifiant du type d'objet à lier
 	 * @param idTypeMission
-	 * 				identifiant du type de mission à lier
+	 *            identifiant du type de mission à lier
 	 * @author Hugo
 	 * 
-	 * En cours !!
+	 *         En cours !!
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
-	public void createTypeMissionForTypeObjeteInAffaire(@PathVariable("idAffaire") long idAffaire,
+	public void createTypeMissionForTypeObjeteInAffaire(
+			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@RequestParam("idTypeMission") long idTypeMission) {
-		
+
 		LigneDevis newLigne = new LigneDevis();
 		newLigne.setIdAffaire(idAffaire);
 		newLigne.setIdTypeMission(idTypeMission);
@@ -144,58 +160,66 @@ public class AffaireController {
 		// Mettre ce nombre dans "quantiteDevis"
 		// Récupérer le prix de cette mission => Zhi
 		// Le mettre dans "montantDevis"
-		
-		affaireService.addLigneDevis(idAffaire,idTypeObjet,idTypeMission, newLigne);
+
+		affaireService.addLigneDevis(idAffaire, idTypeObjet, idTypeMission,
+				newLigne);
 	}
-	
-/* ---------------------------------------------------- METHODE GET ---------------------------------------------------------------*/
+
+	/*
+	 * ---------------------------------------------------- METHODE GET
+	 * ---------------------------------------------------------------
+	 */
 
 	/**
 	 * Méthode de récupération d'une affaire
+	 * 
 	 * @param idAffaire
-	 * 				identifiant de l'affaire
+	 *            identifiant de l'affaire
 	 * @return l'affaire recherchée
 	 * @author Hugo
 	 * 
-	 * Terminé
+	 *         Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.GET)
-	public Affaire getAffaire(@PathVariable("idAffaire") long idAffaire) {
+	public @ResponseBody Affaire getAffaire(@PathVariable("idAffaire") long idAffaire) {
 		return affaireService.loadAffaire(idAffaire);
 	}
 
 	/**
 	 * Méthode de récupération de toutes les affaires
+	 * 
 	 * @return liste des affaire
 	 * @author Hugo
 	 * 
-	 * Terminé
+	 *         Terminé
 	 */
 	@RequestMapping(value = "/affaires", method = RequestMethod.GET)
-	public List<Affaire> getAffaires() {
-		
+	public @ResponseBody List<Affaire> getAffaires() {
+
 		return affaireService.getAllAffaires();
 	}
 
 	/**
 	 * Méthode de récupération des Frais d'une affaire
+	 * 
 	 * @param idAffaire
-	 * 				identifiant de l'affaire
+	 *            identifiant de l'affaire
 	 * @return liste des Frais de l'affaire
 	 * @author Hugo
 	 * 
-	 * Terminé
+	 *         Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.GET)
-	public List<Frais> getFraisAffaire(@PathVariable("idAffaire") long idAffaire) {
+	public @ResponseBody Set<Frais> getFraisAffaire(@PathVariable("idAffaire") long idAffaire) {
 
 		return affaireService.getFrais(idAffaire);
 	}
 
 	/**
 	 * Méthode de récupération de l'état d'une affaire
+	 * 
 	 * @param idAffaire
-	 * 				identifiant de l'affaire
+	 *            identifiant de l'affaire
 	 * @return l'état d'une affaire
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/etat", method = RequestMethod.GET)
@@ -203,12 +227,13 @@ public class AffaireController {
 
 		return affaireService.getEtat(idAffaire);
 	}
-	
-//nana
+
+	// nana
 	/**
 	 * Méthode de récupération des types objets d'une affaire
+	 * 
 	 * @param idAffaire
-					identifiant de l'affaire
+	 *            identifiant de l'affaire
 	 * @return liste des types objets de l'affaire
 	 * @author narjisse Zaki
 	 */
@@ -218,15 +243,18 @@ public class AffaireController {
 
 		// il faudra le charger depuis la bdd et appeller le constructeur vide
 		Affaire a = new Affaire();
-		//a.load(idAffaire);
+		// a.load(idAffaire);
 		return null;
 	}
-	
-//nana
+
+	// nana
 	/**
 	 * Méthode de récupération des objets d' un type objet d'une affaire
-	 * @param idAffaire identifiant de l'affaire
-	 * @param idTypeObjet identifiant d'un type objet d'une affaire
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire
+	 * @param idTypeObjet
+	 *            identifiant d'un type objet d'une affaire
 	 * @return liste des objets d'un type objet d'une affaire
 	 * @author narjisse Zaki
 	 */
@@ -235,10 +263,10 @@ public class AffaireController {
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet) {
 		Affaire a = new Affaire();
-		//a.load(idAffaire);
+		// a.load(idAffaire);
 		return null;
 	}
-	
+
 	/**
 	 * Méthode de récupération d'un scellé d'une affaire
 	 * 
@@ -249,7 +277,7 @@ public class AffaireController {
 	 * @return le scellé souhaité
 	 * @author Zhi
 	 * 
-	 * Terminé
+	 *         Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.GET)
 	public @ResponseBody Scelle getScelleAffaire(
@@ -267,7 +295,7 @@ public class AffaireController {
 	 * @return liste des scellés de l'affaire
 	 * @author Zhi
 	 * 
-	 * Terminé
+	 *         Terminé
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.GET)
@@ -277,8 +305,7 @@ public class AffaireController {
 		scelles = affaireService.getScelles(idAffaire);
 		return scelles;
 	}
-
-
+//-------------------------------------PB-------------------------------------------------------------
 	/**
 	 * Méthode de récupération des objets d'un scelle d'une affaire
 	 * 
@@ -289,13 +316,13 @@ public class AffaireController {
 	 * @return liste des objets d'un scelle d'une affaire
 	 * @author narjisse Zaki
 	 * 
-	 * Terminé
+	 *         Terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.GET)
-	public List<Objet> getAllObjetsScelleAffaire(
+	public @ResponseBody Set<Objet> getAllObjetsScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle) {
-		
+
 		return affaireService.getObjetScelle(idAffaire, numeroScelle);
 	}
 
@@ -325,13 +352,15 @@ public class AffaireController {
 	}
 
 	/**
-	 * Méthode pour connaitre le nombre d'objet d'un type objet concernés par une mission pour une affaire
+	 * Méthode pour connaitre le nombre d'objet d'un type objet concernés par
+	 * une mission pour une affaire
+	 * 
 	 * @param idAffaire
-	 * 				identifiant de l'affaire
+	 *            identifiant de l'affaire
 	 * @param idTypeObjet
-	 * 				identifiant du type objet recherché
+	 *            identifiant du type objet recherché
 	 * @param idTypeMission
-	 * 				identifiant du type de Mission concerné
+	 *            identifiant du type de Mission concerné
 	 * @author Hugo
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}/nbObjet", method = RequestMethod.GET)
@@ -347,7 +376,10 @@ public class AffaireController {
 		 */
 	}
 
-	/* ----------------------------------------------------METHODE PUT--------------------------------------------------------------- */
+	/*
+	 * ----------------------------------------------------METHODE
+	 * PUT---------------------------------------------------------------
+	 */
 
 	/**
 	 * Méthode de modification d'une affaire
@@ -397,19 +429,27 @@ public class AffaireController {
 			@RequestParam("dateRemise") String dateRemise,
 			@RequestParam("numInstruction") long instruction) {
 
-
-		 Affaire aff = new Affaire(); 
-		 aff.setIdAffaire(idAffaire); aff.setNomAffaire(nom);
-		 aff.setNumDossier(dossier); aff.setNumParquet(parquet);
-		 aff.setDateOrdre(dateOrdre); aff.setDateMax(dateMax);
-		 aff.setDateProrogation(dateProrogation); aff.setNbPageNb(pageNb);
-		 aff.setNbPageCouleur(pageCoul); aff.setNbHExpertise(hExp);
-		 aff.setNbHDeplacement(hDepl); aff.setDateDevis(dateDevis);
-		 aff.setPourcentageDevis(pourcentDevis); aff.setNumFacture(facture);
-		 aff.setMontantFacture(montantFacture);
-		 aff.setPourcentageRemise(pourcentRemise); aff.setDelais10j(delais10j);
-		 aff.setDateRemise(dateRemise); aff.setNumInstruction(instruction);
-		 return affaireService.updateAffaire(aff);
+		Affaire aff = new Affaire();
+		aff.setIdAffaire(idAffaire);
+		aff.setNomAffaire(nom);
+		aff.setNumDossier(dossier);
+		aff.setNumParquet(parquet);
+		aff.setDateOrdre(dateOrdre);
+		aff.setDateMax(dateMax);
+		aff.setDateProrogation(dateProrogation);
+		aff.setNbPageNb(pageNb);
+		aff.setNbPageCouleur(pageCoul);
+		aff.setNbHExpertise(hExp);
+		aff.setNbHDeplacement(hDepl);
+		aff.setDateDevis(dateDevis);
+		aff.setPourcentageDevis(pourcentDevis);
+		aff.setNumFacture(facture);
+		aff.setMontantFacture(montantFacture);
+		aff.setPourcentageRemise(pourcentRemise);
+		aff.setDelais10j(delais10j);
+		aff.setDateRemise(dateRemise);
+		aff.setNumInstruction(instruction);
+		return affaireService.updateAffaire(aff);
 	}
 
 	/**
@@ -551,8 +591,11 @@ public class AffaireController {
 		// idTypeMission,libTypeMission, prixMission);
 	}
 
-	/* -------------------------------------------------- METHODE DELETE ------------------------------------------------------------ */
-	
+	/*
+	 * -------------------------------------------------- METHODE DELETE
+	 * ------------------------------------------------------------
+	 */
+
 	/**
 	 * Méthode de suppression d'un frais d'une affaire
 	 * 
