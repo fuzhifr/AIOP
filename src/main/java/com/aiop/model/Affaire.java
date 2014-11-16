@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Affaire")
+@Table(name = "affaire")
 public class Affaire implements java.io.Serializable {
 
 	private String nomAffaire;

@@ -28,8 +28,7 @@ public class AffaireController {
 	private ScelleService scelleService;
 
 	/*
-	 * ---------------------------------------------------- METHODE POST
-	 * ---------------------------------------------------------------
+	 * ---------------------------------------------------- METHODE POST---------------------------------------------------------------
 	 */
 
 	/**
@@ -167,8 +166,7 @@ public class AffaireController {
 	}
 
 	/*
-	 * ---------------------------------------------------- METHODE GET
-	 * ---------------------------------------------------------------
+	 * ---------------------------------------------------- METHODE GET---------------------------------------------------------------
 	 */
 
 	/**
@@ -182,7 +180,8 @@ public class AffaireController {
 	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.GET)
-	public @ResponseBody Affaire getAffaire(@PathVariable("idAffaire") long idAffaire) {
+	public @ResponseBody Affaire getAffaire(
+			@PathVariable("idAffaire") long idAffaire) {
 		return affaireService.loadAffaire(idAffaire);
 	}
 
@@ -211,7 +210,8 @@ public class AffaireController {
 	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.GET)
-	public @ResponseBody Set<Frais> getFraisAffaire(@PathVariable("idAffaire") long idAffaire) {
+	public @ResponseBody Set<Frais> getFraisAffaire(
+			@PathVariable("idAffaire") long idAffaire) {
 
 		return affaireService.getFrais(idAffaire);
 	}
@@ -222,9 +222,10 @@ public class AffaireController {
 	 * @param idAffaire
 	 *            identifiant de l'affaire
 	 * @return l'état d'une affaire
+	 * testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/etat", method = RequestMethod.GET)
-	public String getEtatAffaire(@PathVariable("idAffaire") long idAffaire) {
+	public @ResponseBody String getEtatAffaire(@PathVariable("idAffaire") long idAffaire) {
 
 		return affaireService.getEtat(idAffaire);
 	}
@@ -236,16 +237,15 @@ public class AffaireController {
 	 * @param idAffaire
 	 *            identifiant de l'affaire
 	 * @return liste des types objets de l'affaire
-	 * @author narjisse Zaki
-	 * 		Terminé testé
+	 * @author narjisse Zaki Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjets", method = RequestMethod.GET)
 	public @ResponseBody Set<TypeObjet> getAllTypesObjetsAffaire(
 			@PathVariable("idAffaire") long idAffaire) {
-		Set<Scelle> scelles =new HashSet<Scelle>();
-		scelles=affaireService.getScelles(idAffaire);
+		Set<Scelle> scelles = new HashSet<Scelle>();
+		scelles = affaireService.getScelles(idAffaire);
 		return scelleService.getAllTypesObjetsAffaire(scelles);
-		
+
 	}
 
 	// nana
@@ -257,15 +257,13 @@ public class AffaireController {
 	 * @param idTypeObjet
 	 *            identifiant d'un type objet d'une affaire
 	 * @return liste des objets d'un type objet d'une affaire
-	 * @author narjisse Zaki
+	 * @author Zhi testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/objets", method = RequestMethod.GET)
-	public List<Objet> getAllObjetsTypeObjetAffaire(
+	public @ResponseBody Set<Objet> getAllObjetsTypeObjetAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet) {
-		Affaire a = new Affaire();
-		// a.load(idAffaire);
-		return null;
+		return affaireService.getObjetTypeObjet(idAffaire, idTypeObjet);
 	}
 
 	/**
@@ -306,7 +304,7 @@ public class AffaireController {
 		scelles = affaireService.getScelles(idAffaire);
 		return scelles;
 	}
-	
+
 	/**
 	 * Méthode de récupération des objets d'un scelle d'une affaire
 	 * 
@@ -317,7 +315,7 @@ public class AffaireController {
 	 * @return liste des objets d'un scelle d'une affaire
 	 * @author narjisse Zaki
 	 * 
-	 *         Terminé testé 
+	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.GET)
 	public @ResponseBody Set<Objet> getAllObjetsScelleAffaire(
@@ -338,18 +336,15 @@ public class AffaireController {
 	 * @param idObjet
 	 *            l'identifiant de l'objet à recuperer
 	 * @return l'objet souhaité
-	 * @author narjisse Zaki
+	 * @author zhi testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objet/{idObjet}", method = RequestMethod.GET)
-	public Objet getObjetScelleAffaire(
+	public @ResponseBody Objet getObjetScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle,
 			@PathVariable("idObjet") long idObjet) {
-		// il faudra le charger depuis la bdd et appeller le constructeur vide
-		/*
-		 * Scelle sc = new Scelle(); sc.load(numeroScelle);
-		 */
-		return null;
+		
+		return affaireService.getObjetScelle(idAffaire,numeroScelle,idObjet);
 	}
 
 	/**
@@ -378,8 +373,7 @@ public class AffaireController {
 	}
 
 	/*
-	 * ----------------------------------------------------METHODE
-	 * PUT---------------------------------------------------------------
+	 * ----------------------------------------------------METHODE PUT---------------------------------------------------------------
 	 */
 
 	/**
@@ -593,23 +587,25 @@ public class AffaireController {
 	}
 
 	/*
-	 * -------------------------------------------------- METHODE DELETE
-	 * ------------------------------------------------------------
+	 * -------------------------------------------------- METHODE DELETE ------------------------------------------------------------
 	 */
 
 	/**
 	 * Méthode de suppression d'un frais d'une affaire
-	 * @param idAffaire identifiant de l'affaire
-	 * @param idFrais identifiant du frais à supprimer
-	 * @author narjissezaki
-	 * 			Terminé testé
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire
+	 * @param idFrais
+	 *            identifiant du frais à supprimer
+	 * @author narjissezaki Terminé testé
 	 */
 	@RequestMapping(value = "/affaires/{idAffaire}/frais/{idFrais}", method = RequestMethod.DELETE)
-	public @ResponseBody String deleteFrais(@PathVariable("idAffaire") long idAffaire,
+	public @ResponseBody String deleteFrais(
+			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idFrais") long idFrais) {
 
-			affaireService.deleteFrais(idAffaire,idFrais);
-		 return "Success";
+		affaireService.deleteFrais(idAffaire, idFrais);
+		return "Success";
 	}
 
 	/**

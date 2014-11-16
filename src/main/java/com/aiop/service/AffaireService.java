@@ -178,6 +178,49 @@ public class AffaireService
 		return aff;
 	}
 
+	public Set<Objet> getObjetTypeObjet(long idAffaire, long idTypeObjet) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator itScelle=scelles.iterator();
+		Set<Objet> Robjets=new HashSet<Objet>();
+		while(itScelle.hasNext()){
+			Set<Objet> objets=((Scelle)itScelle.next()).getObjets();
+			Iterator itObjet=objets.iterator();
+			while(itObjet.hasNext()){
+				Objet objet=(Objet) itObjet.next();
+				if(objet.getIdTypeObjet()==idTypeObjet){
+					Robjets.add(objet);
+				}
+			}
+		}
+		return Robjets;
+	}
+
+	public Objet getObjetScelle(long idAffaire, long numeroScelle, long idObjet) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator itS=scelles.iterator();
+		Scelle s=null;
+		while(itS.hasNext()){
+			Scelle t=(Scelle) itS.next();
+			if(t.getNumeroScelle()==numeroScelle){
+				s=t;
+				break;
+			}
+		}
+		Set<Objet> objets=s.getObjets();
+		Iterator itO=objets.iterator();
+		while(itO.hasNext()){
+			Objet o=(Objet) itO.next();
+			if(o.getIdObjet()==idObjet){
+				return o;
+			}
+		}
+		return null;
+	}
+
 
 
 }  
