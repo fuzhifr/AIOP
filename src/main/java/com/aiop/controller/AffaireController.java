@@ -37,7 +37,7 @@ public class AffaireController {
 	 * @param nomAffaire
 	 *            nom de l'affaire créée
 	 * @return l'affaire créée
-	 * @author Hugo Terminé
+	 * @author Hugo Terminé Testé
 	 */
 	@RequestMapping(value = "/affaires", method = RequestMethod.POST)
 	public @ResponseBody Affaire createAffaire(
@@ -61,7 +61,7 @@ public class AffaireController {
 	 * @return le Frais créé
 	 * @author Hugo
 	 * 
-	 *         Terminé
+	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.POST)
 	public @ResponseBody Frais createFraisAffaire(
@@ -90,7 +90,7 @@ public class AffaireController {
 	 * @return le scellé créé
 	 * @author Zhi
 	 * 
-	 *         Terminé
+	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.POST)
 	public @ResponseBody Scelle createScelleAffaire(
@@ -115,10 +115,10 @@ public class AffaireController {
 	 *            numéro du scellé concerné
 	 * @author Narjisse
 	 * 
-	 *         Terminé
+	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.POST)
-	public Objet createObjetScelleAffaire(
+	public @ResponseBody Objet createObjetScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle,
 			@RequestParam("libelleObjet") String libelleObjet,
@@ -126,6 +126,7 @@ public class AffaireController {
 		Objet newObjet = new Objet();
 		newObjet.setIdTypeObjet(idTypeObjet);
 		newObjet.setLibelleObjet(libelleObjet);
+		newObjet.setNumeroScelle(numeroScelle);
 		affaireService.addObjet(idAffaire, numeroScelle, newObjet);
 		return newObjet;
 	}
@@ -178,7 +179,7 @@ public class AffaireController {
 	 * @return l'affaire recherchée
 	 * @author Hugo
 	 * 
-	 *         Terminé
+	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.GET)
 	public @ResponseBody Affaire getAffaire(@PathVariable("idAffaire") long idAffaire) {
@@ -191,7 +192,7 @@ public class AffaireController {
 	 * @return liste des affaire
 	 * @author Hugo
 	 * 
-	 *         Terminé
+	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaires", method = RequestMethod.GET)
 	public @ResponseBody List<Affaire> getAffaires() {
@@ -207,7 +208,7 @@ public class AffaireController {
 	 * @return liste des Frais de l'affaire
 	 * @author Hugo
 	 * 
-	 *         Terminé
+	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.GET)
 	public @ResponseBody Set<Frais> getFraisAffaire(@PathVariable("idAffaire") long idAffaire) {
@@ -236,10 +237,10 @@ public class AffaireController {
 	 *            identifiant de l'affaire
 	 * @return liste des types objets de l'affaire
 	 * @author narjisse Zaki
-	 * 		Terminé
+	 * 		Terminé pb
 	 */
-	@RequestMapping(value = "/affaire/{idAffaire}/typesObjets", method = RequestMethod.GET)
-	public List<TypeObjet> getAllTypesObjetsAffaire(
+	@RequestMapping(value = "/affaire/{idAffaire}/typeObjets", method = RequestMethod.GET)
+	public @ResponseBody List<TypeObjet> getAllTypesObjetsAffaire(
 			@PathVariable("idAffaire") long idAffaire) {
 		List<Scelle> scelles =new ArrayList<Scelle>();
 		scelles=affaireService.getScelles(idAffaire);
@@ -277,7 +278,7 @@ public class AffaireController {
 	 * @return le scellé souhaité
 	 * @author Zhi
 	 * 
-	 *         Terminé
+	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.GET)
 	public @ResponseBody Scelle getScelleAffaire(
@@ -295,7 +296,7 @@ public class AffaireController {
 	 * @return liste des scellés de l'affaire
 	 * @author Zhi
 	 * 
-	 *         Terminé
+	 *         Terminé testé
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.GET)
@@ -305,7 +306,7 @@ public class AffaireController {
 		scelles = affaireService.getScelles(idAffaire);
 		return scelles;
 	}
-//-------------------------------------PB-------------------------------------------------------------
+	
 	/**
 	 * Méthode de récupération des objets d'un scelle d'une affaire
 	 * 
@@ -316,7 +317,7 @@ public class AffaireController {
 	 * @return liste des objets d'un scelle d'une affaire
 	 * @author narjisse Zaki
 	 * 
-	 *         Terminé
+	 *         Terminé testé 
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.GET)
 	public @ResponseBody Set<Objet> getAllObjetsScelleAffaire(
@@ -601,14 +602,14 @@ public class AffaireController {
 	 * @param idAffaire identifiant de l'affaire
 	 * @param idFrais identifiant du frais à supprimer
 	 * @author narjissezaki
-	 * 			Terminé
+	 * 			Terminé pb
 	 */
 	@RequestMapping(value = "/affaires/{idAffaire}/frais/{idFrais}", method = RequestMethod.DELETE)
-	public void deleteFrais(@PathVariable("idAffaire") long idAffaire,
+	public @ResponseBody String deleteFrais(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idFrais") long idFrais) {
 
 			affaireService.deleteFrais(idAffaire,idFrais);
-		
+		 return "Success";
 	}
 
 	/**

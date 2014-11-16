@@ -57,8 +57,9 @@ public Objet(long idObjet, String libelleObjet, long idTypeObjet) {
 		this.libelleObjet = libelleObjet;
 	}
 	
-	@OneToOne(targetEntity = TypeObjet.class,cascade=CascadeType.ALL)
-	@JoinColumn(name="idTypeObjet")
+	/*@OneToOne(targetEntity = TypeObjet.class,cascade=CascadeType.ALL)
+	@JoinColumn(name="idTypeObjet")*/
+	@Column(name="idTypeObjet",length=20)
 	public long getIdTypeObjet() {
 		return idTypeObjet;
 	}

@@ -1,6 +1,7 @@
 package com.aiop.service;  
   
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +48,8 @@ public class AffaireService
     	List<Scelle> scelles=a.getScelles();
     	Scelle sRetour=new Scelle();
     	for(Scelle s:scelles){
-    		if(s.getNumeroScelle()==numeroScelle){
+    		long numero=s.getNumeroScelle();
+    		if(numero==numeroScelle){
     			sRetour=s;
     		}
     	}
@@ -144,7 +146,11 @@ public class AffaireService
 		Affaire aff = affaireDao.load(idAffaire);
 		Scelle sc = getScelle(idAffaire, numeroScelle);
 		Set<Objet> obj = sc.getObjets();
+		if(obj==null){
+			obj=new HashSet<Objet>();
+		}
 		obj.add(newObjet);
+		scelleDao.update(sc);
 		affaireDao.update(aff);
 		
 	}
