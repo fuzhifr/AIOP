@@ -19,6 +19,8 @@ import com.aiop.model.*;
 import com.aiop.service.AffaireService;
 import com.aiop.service.FraisService;
 import com.aiop.service.ScelleService;
+import com.aiop.service.TarifService;
+import com.aiop.service.TypeObjetService;
 
 @RestController
 public class AffaireController {
@@ -31,6 +33,12 @@ public class AffaireController {
 
 	@Autowired
 	private FraisService fraisService;
+	
+	@Autowired
+	private TypeObjetService typeObjetService;
+	
+	@Autowired
+	private TarifService tarifService;
 
 	/*
 	 * ---------------------------------------------------- METHODE POST---------------------------------------------------------------
@@ -147,12 +155,12 @@ public class AffaireController {
 	 *            identifiant du type d'objet à lier
 	 * @param idTypeMission
 	 *            identifiant du type de mission à lier
-	 * @author Hugo
+	 * @author Hugo et Zhi terminé testé
 	 * 
-	 *         En cours !!
+	 *         
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
-	public void createTypeMissionForTypeObjeteInAffaire(
+	public @ResponseBody String createTypeMissionForTypeObjeteInAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@RequestParam("idTypeMission") long idTypeMission) {
@@ -165,9 +173,27 @@ public class AffaireController {
 		// Mettre ce nombre dans "quantiteDevis"
 		// Récupérer le prix de cette mission => Zhi
 		// Le mettre dans "montantDevis"
-
-		affaireService.addLigneDevis(idAffaire, idTypeObjet, idTypeMission,
-				newLigne);
+		Affaire a=affaireService.loadAffaire(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator itS=scelles.iterator();
+		int nbObjet=0;
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			Set<Objet> objets=s.getObjets();
+			Iterator itO=objets.iterator();
+			while(itO.hasNext()){
+				Objet o=(Objet) itO.next();
+				if(o.getIdTypeObjet()==idTypeObjet){
+					nbObjet++;
+				}
+			}
+		}
+		newLigne.setQuantiteDevis(nbObjet);
+		int prix=tarifService.getTarif(idTypeObjet, idTypeMission).getForfait();
+		long montant=prix*nbObjet;
+		newLigne.setMontantDevis(montant);
+		affaireService.addLigneDevis(idAffaire,newLigne);
+		return "Success";
 	}
 
 	/*
@@ -362,13 +388,33 @@ public class AffaireController {
 	 *            identifiant du type objet recherché
 	 * @param idTypeMission
 	 *            identifiant du type de Mission concerné
-	 * @author Hugo
+	 * @author zhi testé   peut etre
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}/nbObjet", method = RequestMethod.GET)
-	public void getNbObjetForTypeObjetOfTypeMissionInAffaire(
+	public @ResponseBody int getNbObjetForTypeObjetOfTypeMissionInAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission) {
+		Tarif t=tarifService.getTarif(idTypeObjet, idTypeMission);
+		if(t==null){
+			return 0;
+		}
+		Affaire a=affaireService.loadAffaire(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator itS=scelles.iterator();
+		int nbObjet=0;
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			Set<Objet> objets=s.getObjets();
+			Iterator itO=objets.iterator();
+			while(itO.hasNext()){
+				Objet o=(Objet) itO.next();
+				if(o.getIdTypeObjet()==idTypeObjet){
+					nbObjet++;
+				}
+			}
+		}
+		return nbObjet;
 	}
 
 	/*
@@ -604,6 +650,7 @@ public class AffaireController {
 	 *            nouveau libellé
 	 * @param prixMission
 	 *            nouveau prix
+	 *            pb
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}", method = RequestMethod.PUT)
@@ -672,7 +719,7 @@ public class AffaireController {
 	 *            identifiant du scellé contenant l'objet
 	 * @param idObjet
 	 *            identifiant de l'objet à supprimer
-	 * @author narjisse Zaki pas reussi
+	 * @author narjisse Zaki pas reussi pb
 	 */
 
 	@RequestMapping(value = "/affaires/{idAffaire}/scelles/{numeroScelle}/objet/{idObjet}", method = RequestMethod.DELETE)

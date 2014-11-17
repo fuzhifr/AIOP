@@ -148,8 +148,7 @@ public class AffaireService
 		
 	}
 	
-	public void addLigneDevis(long idAffaire, long idTypeObjet,
-			long idTypeMission, LigneDevis newLigne) {
+	public void addLigneDevis(long idAffaire, LigneDevis newLigne) {
 		Affaire aff = affaireDao.load(idAffaire);
 		Set<LigneDevis> devis = aff.getLignesDevis();
 		devis.add(newLigne);

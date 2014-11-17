@@ -50,6 +50,10 @@ public class TarifService
 		tarifDao.delete(t);
 	}  
   
-
+	public Tarif getTarif(long idTypeObjet, long idTypeMission) {
+		// TODO Auto-generated method stub
+		Tarif t=tarifDao.load(idTypeMission, idTypeObjet);
+		return t;
+	}  
 
 }  
