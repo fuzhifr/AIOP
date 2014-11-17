@@ -9,6 +9,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<start-class>Application</start-class>
 	</properties>
 	<dependencies>
 		<!-- log4j -->
@@ -89,6 +90,11 @@
             <type>pom</type>
             <scope>import</scope>
         </dependency>
+        <dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-autoconfigure</artifactId>
+	<version>1.0.0.RELEASE</version>
+</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
