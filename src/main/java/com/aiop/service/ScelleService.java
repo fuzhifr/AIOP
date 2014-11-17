@@ -37,10 +37,8 @@ public class ScelleService
     }
     
     public void updateScelle(Scelle s){
-    	Scelle scelleUpdate=getScelle(s.getNumeroScelle());
-    	scelleUpdate.setNumeroPV(s.getNumeroPV());
-    	scelleUpdate.setCommentaire(s.getCommentaire());
-    	scelleDao.update(scelleUpdate);
+
+    	scelleDao.update(s);
     }
     
     public Set<TypeObjet> getAllTypesObjetsAffaire(Set<Scelle> scelles) {

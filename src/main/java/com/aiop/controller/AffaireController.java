@@ -352,7 +352,7 @@ public class AffaireController {
 		return affaireService.getObjetScelle(idAffaire,numeroScelle,idObjet);
 	}
 
-	/**
+	/**  ???
 	 * Méthode pour connaitre le nombre d'objet d'un type objet concernés par
 	 * une mission pour une affaire
 	 * 
@@ -401,6 +401,8 @@ public class AffaireController {
 	 * @param delais10j
 	 * @param dateRemise
 	 * @param instruction
+	 * 
+	 * zhi 
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.PUT)
 	public @ResponseBody Affaire PutAffaire(@PathVariable("idAffaire") long idAffaire,
@@ -423,7 +425,7 @@ public class AffaireController {
 			@RequestParam("dateRemise") String dateRemise,
 			@RequestParam("numInstruction") long instruction) {
 
-		Affaire aff = new Affaire();
+		Affaire aff = affaireService.loadAffaire(idAffaire);
 		aff.setIdAffaire(idAffaire);
 		aff.setNomAffaire(nom);
 		aff.setNumDossier(dossier);
@@ -586,7 +588,7 @@ public class AffaireController {
 		return "Success";
 	}
 
-	/**
+	/**  ???
 	 * Méthode de modification d'une type mission pour un type d'objet d'un
 	 * scellé d'une affaire
 	 * 
@@ -649,6 +651,7 @@ public class AffaireController {
 	 *            identifiant de l'affaire
 	 * @param numeroScelle
 	 *            identifiant du scellé à supprimer
+	 *            zhi testé
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.DELETE, produces = "text/plain")
@@ -669,18 +672,33 @@ public class AffaireController {
 	 *            identifiant du scellé contenant l'objet
 	 * @param idObjet
 	 *            identifiant de l'objet à supprimer
-	 * @author narjisse Zaki
+	 * @author narjisse Zaki pas reussi
 	 */
 
 	@RequestMapping(value = "/affaires/{idAffaire}/scelles/{numeroScelle}/objet/{idObjet}", method = RequestMethod.DELETE)
-	public void deleteObjetInScelle(@PathVariable("idAffaire") long idAffaire,
-
+	public @ResponseBody String deleteObjetInScelle(@PathVariable("idAffaire") long idAffaire,
 	@PathVariable("numeroScelle") long numeroScelle,
-
 	@PathVariable("idObjet") long idObjet) {
-		Scelle sc = new Scelle();
-		// sc.load(numeroScelle);
-		// sc.deleteObjectById(idObjet);
+		Affaire a=affaireService.loadAffaire(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			if(s.getNumeroScelle()==numeroScelle){
+				Set<Objet> objets=s.getObjets();
+				Iterator itO=objets.iterator();
+				while(itO.hasNext()){
+					Objet o=(Objet) itO.next();
+					if(o.getIdObjet()==idObjet){
+						itO.remove();
+						scelleService.updateScelle(s);
+						break;
+					}
+				}
+			}
+		}
+		affaireService.updateAffaire(a);
+		return "Success";
 	}
 
 }

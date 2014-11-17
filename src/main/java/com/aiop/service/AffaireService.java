@@ -165,7 +165,7 @@ public class AffaireService
 		while (iterator.hasNext()) {
 			Scelle s =iterator.next();
 		 if(s.getNumeroScelle()==numeroScelle){
-			 scelles.remove(s);
+			 iterator.remove();
 		 }
 		}
     	a.setScelles(scelles);

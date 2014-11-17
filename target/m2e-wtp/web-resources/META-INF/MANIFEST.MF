@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: Hugo 'Finiarel'
-Build-Jdk: 1.8.0_25
+Build-Jdk: 1.6.0_10-rc2
+Built-By: F
 Created-By: Maven Integration for Eclipse
 
