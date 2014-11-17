@@ -28,12 +28,15 @@ public class AffaireService
 {     
     //typeObjetdao  
     @Autowired  
-    private AffaireDaoI affaireDao;  
+    private AffaireDaoI affaireDao;
+
      
     @Autowired  
     private ScelleDaoI scelleDao;
     @Autowired  
     private FraisService fraisService;
+    @Autowired  
+    private AffaireService affaireService;
     
     public Affaire loadAffaire(long idAffaire)  
     {  
@@ -218,6 +221,31 @@ public class AffaireService
 			}
 		}
 		return null;
+	}
+
+	public String deleteObjetInScelleInAffaire(long idAffaire, long numeroScelle,
+			long idObjet) {
+		Affaire a=affaireDao.load(idAffaire);
+		Scelle s=affaireService.getScelle(idAffaire,numeroScelle);
+		Set<Objet> objets=s.getObjets();
+		Iterator<Objet> itO=objets.iterator();
+		String var="Echec";
+		
+		while(itO.hasNext()){
+			Objet obj=(Objet) itO.next();
+			if(obj.getIdObjet()==idObjet){
+				itO.remove();
+				var="Success";
+				break;
+				}
+			}
+		s.setObjets(objets);
+		scelleDao.update(s);
+		//Pas sur que ca marche sans setScelles
+		affaireDao.update(a);
+		//objetService.delete(idObjet);
+		
+		return var;
 	}
 
 

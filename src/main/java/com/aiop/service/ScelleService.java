@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.aiop.dao.ScelleDaoI;
+import com.aiop.model.Affaire;
 import com.aiop.model.Frais;
 import com.aiop.model.Objet;
 import com.aiop.model.Scelle;
@@ -26,7 +27,7 @@ public class ScelleService
     
     @Autowired  
     private TypeObjetService typeObjetService;
-      
+    
     public void addScelle(Scelle s)  
     {  
     	scelleDao.save(s);  
@@ -70,4 +71,6 @@ public class ScelleService
 		}
 		return typeObjets;
 	}
+
+	
 }  
