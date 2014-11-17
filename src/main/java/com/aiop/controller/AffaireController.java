@@ -726,7 +726,7 @@ public class AffaireController {
 	public @ResponseBody String deleteObjetInScelle(@PathVariable("idAffaire") long idAffaire,
 	@PathVariable("numeroScelle") long numeroScelle,
 	@PathVariable("idObjet") long idObjet) {
-		Affaire a=affaireService.loadAffaire(idAffaire);
+		/*Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
 		Iterator<Scelle> itS=scelles.iterator();
 		while(itS.hasNext()){
@@ -744,7 +744,8 @@ public class AffaireController {
 				}
 			}
 		}
-		affaireService.updateAffaire(a);
+		affaireService.updateAffaire(a);*/
+		affaireService.deleteObjetInScelleInAffaire(idAffaire, numeroScelle, idObjet);
 		return "Success";
 	}
 

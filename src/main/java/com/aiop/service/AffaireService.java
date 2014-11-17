@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aiop.dao.AffaireDaoI;
 import com.aiop.dao.FraisDaoI;
+import com.aiop.dao.ObjetDaoI;
 import com.aiop.dao.ScelleDaoI;
 import com.aiop.model.Affaire;
 import com.aiop.model.Frais;
@@ -33,10 +34,11 @@ public class AffaireService
      
     @Autowired  
     private ScelleDaoI scelleDao;
+    
+    @Autowired  
+    private ObjetDaoI objetDao;
     @Autowired  
     private FraisService fraisService;
-    @Autowired  
-    private AffaireService affaireService;
     
     public Affaire loadAffaire(long idAffaire)  
     {  
@@ -226,7 +228,15 @@ public class AffaireService
 	public String deleteObjetInScelleInAffaire(long idAffaire, long numeroScelle,
 			long idObjet) {
 		Affaire a=affaireDao.load(idAffaire);
-		Scelle s=affaireService.getScelle(idAffaire,numeroScelle);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		Scelle s=new Scelle();
+		while(itS.hasNext()){
+			Scelle temps=(Scelle) itS.next();
+			if(temps.getNumeroScelle()==numeroScelle){
+				s=temps;
+			}
+		}
 		Set<Objet> objets=s.getObjets();
 		Iterator<Objet> itO=objets.iterator();
 		String var="Echec";
@@ -234,6 +244,7 @@ public class AffaireService
 		while(itO.hasNext()){
 			Objet obj=(Objet) itO.next();
 			if(obj.getIdObjet()==idObjet){
+				objetDao.delete(obj);
 				itO.remove();
 				var="Success";
 				break;
