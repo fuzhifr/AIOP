@@ -8,9 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aiop.dao.EtatObjetDaoI;
 import com.aiop.model.EtatObjet;
 
-
-
-
 @Service("etatObjetService")  
 @Transactional  
 public class EtatObjetService    
@@ -19,27 +16,32 @@ public class EtatObjetService
     @Autowired  
     private EtatObjetDaoI etatObjetDao;
 
-	public String addEtatObjet(long idTypeObjet, long idTypeMission, int forfait) {
+	public EtatObjet addEtatObjet(EtatObjet eo) {
 		// TODO Auto-generated method stub
-		/*String msg = "fail";
-		Tarif t=tarifDao.load(idTypeMission, idTypeObjet);
+		EtatObjet t=etatObjetDao.load(eo.getIdObjet(), eo.getIdTypeMission());
 		if(t!=null){
-			msg="le Tarif existe";
+			String msg="l'etat existe";
+			return null;
 		}else{
-			t=new Tarif();
-			t.setIdTypeMission(idTypeMission);
-			t.setIdTypeObjet(idTypeObjet);
-			t.setForfait(forfait);
-			tarifDao.save(t);
-			msg="Success";
-		}*/
-		return null;
+			etatObjetDao.save(eo);
+			return eo;
+		}
 	}
 
   
 	public EtatObjet getEtatObjet(long idObjet, long idTypeMission) {
 		// TODO Auto-generated method stub
 		EtatObjet t=etatObjetDao.load(idObjet, idTypeMission);
+		return t;
+	}
+
+
+	public EtatObjet updateEtatObjet(EtatObjet newEtatObjet) {
+		// TODO Auto-generated method stub
+		EtatObjet t=etatObjetDao.load(newEtatObjet.getIdObjet(), newEtatObjet.getIdTypeMission());
+		t.setCommentaire(newEtatObjet.getCommentaire());
+		t.setFait(newEtatObjet.getFait());
+		etatObjetDao.update(t);
 		return t;
 	}  
 

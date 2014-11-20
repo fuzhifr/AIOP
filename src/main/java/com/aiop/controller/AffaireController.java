@@ -763,7 +763,8 @@ public class AffaireController {
 		affaireService.deleteObjetInScelleInAffaire(idAffaire, numeroScelle, idObjet);
 		return "Success";
 	}
-	//nouvelle fonctinon par Zhi
+	
+	//nouvelle fonctinon par Zhi------------------------------------------------------------------------------------
 	
 	/**
 	 * Méthode de delete liaison d'une type mission à un type d'objet d'une affaire
@@ -863,5 +864,56 @@ public class AffaireController {
 			}
 		}
 		return setEtatObjets;
+	}
+	
+
+	/**
+	 * Méthode de création d'un etat objet pour une typeMission
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire concernée
+	 * @param numeroScelle
+	 *            numéro du scellé concerné
+	 * @author Zhi
+	 * 
+	 *         Terminé testé
+	 */
+	@RequestMapping(value = "/objet/{idObjet}/typeMission", method = RequestMethod.POST)
+	public @ResponseBody EtatObjet createEtatObjet(
+			@PathVariable("idObjet") long idObjet, HttpServletRequest request) {
+		EtatObjet newEtatObjet = new EtatObjet();
+		Long idTypeMission = Long.parseLong(request.getParameter("idTypeMission"));
+		String commentaire=request.getParameter("commentaire");
+		String fait=request.getParameter("fait");
+		newEtatObjet.setIdTypeMission(idTypeMission);
+		newEtatObjet.setIdObjet(idObjet);
+		newEtatObjet.setCommentaire(commentaire);
+		newEtatObjet.setFait(fait);
+		return etatObjetService.addEtatObjet(newEtatObjet);
+	}
+	
+	/**
+	 * Méthode de création d'un etat objet pour une typeMission
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire concernée
+	 * @param numeroScelle
+	 *            numéro du scellé concerné
+	 * @author Zhi
+	 * 
+	 *         Terminé testé
+	 */
+	@RequestMapping(value = "/objet/{idObjet}/typeMission", method = RequestMethod.PUT)
+	public @ResponseBody EtatObjet PutEtatObjet(
+			@PathVariable("idObjet") long idObjet, HttpServletRequest request) {
+		EtatObjet newEtatObjet = new EtatObjet();
+		Long idTypeMission = Long.parseLong(request.getParameter("idTypeMission"));
+		String commentaire=request.getParameter("commentaire");
+		String fait=request.getParameter("fait");
+		newEtatObjet.setIdTypeMission(idTypeMission);
+		newEtatObjet.setIdObjet(idObjet);
+		newEtatObjet.setCommentaire(commentaire);
+		newEtatObjet.setFait(fait);
+		return etatObjetService.updateEtatObjet(newEtatObjet);
 	}
 }

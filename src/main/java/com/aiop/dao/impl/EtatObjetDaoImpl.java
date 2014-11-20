@@ -32,12 +32,7 @@ public class EtatObjetDaoImpl implements EtatObjetDaoI {
 	@Override
 	public void update(EtatObjet a) {
 		// TODO Auto-generated method stub
-		EtatObjet ld=this.load(a.getIdObjet(), a.getIdTypeMission());
-		if(ld!=null){
-		ld.setCommentaire(a.getCommentaire());
-		ld.setFait(a.getFait());
-		getSession().update(ld);
-		}
+		getSession().update(a);
 	}
 
 	@Override
