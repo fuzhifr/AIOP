@@ -1,8 +1,6 @@
 package com.aiop.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -17,7 +15,6 @@ import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Cascade;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @SuppressWarnings("serial")
 @Entity

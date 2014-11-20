@@ -1,6 +1,5 @@
 package com.aiop.controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aiop.model.*;
 import com.aiop.service.AffaireService;
+import com.aiop.service.EtatObjetService;
 import com.aiop.service.FraisService;
 import com.aiop.service.ScelleService;
 import com.aiop.service.TarifService;
@@ -41,6 +40,9 @@ public class AffaireController {
 	
 	@Autowired
 	private TarifService tarifService;
+	
+	@Autowired
+	private EtatObjetService etatObjetService;
 
 	/*
 	 * ---------------------------------------------------- METHODE POST---------------------------------------------------------------
@@ -173,12 +175,12 @@ public class AffaireController {
 		newLigne.setIdTypeObjet(idTypeObjet);
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
-		Iterator itS=scelles.iterator();
+		Iterator<Scelle> itS=scelles.iterator();
 		int nbObjet=0;
 		while(itS.hasNext()){
 			Scelle s=(Scelle) itS.next();
 			Set<Objet> objets=s.getObjets();
-			Iterator itO=objets.iterator();
+			Iterator<Objet> itO=objets.iterator();
 			while(itO.hasNext()){
 				Objet o=(Objet) itO.next();
 				if(o.getIdTypeObjet()==idTypeObjet){
@@ -399,12 +401,12 @@ public class AffaireController {
 		}
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
-		Iterator itS=scelles.iterator();
+		Iterator<Scelle> itS=scelles.iterator();
 		int nbObjet=0;
 		while(itS.hasNext()){
 			Scelle s=(Scelle) itS.next();
 			Set<Objet> objets=s.getObjets();
-			Iterator itO=objets.iterator();
+			Iterator<Objet> itO=objets.iterator();
 			while(itO.hasNext()){
 				Objet o=(Objet) itO.next();
 				if(o.getIdTypeObjet()==idTypeObjet){
@@ -539,12 +541,11 @@ public class AffaireController {
 	public @ResponseBody String putFrais(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idFrais") long idFrais, HttpServletRequest request) {
 		
-		String libFrais = request.getParameter("libFrais");
 		Long prixFrais = Long.parseLong(request.getParameter("prixFrais"));
 		
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Frais> frais=a.getFrais();
-		Iterator it=frais.iterator();
+		Iterator<Frais> it=frais.iterator();
 		Frais f = null;
 		while(it.hasNext()){
 			Frais temps=(Frais) it.next();
@@ -582,7 +583,7 @@ public class AffaireController {
 		
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
-		Iterator itS=scelles.iterator();
+		Iterator<Scelle> itS=scelles.iterator();
 		Scelle temps=null;
 		while(itS.hasNext()){
 			 temps=(Scelle) itS.next();
@@ -626,12 +627,12 @@ public class AffaireController {
 		
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
-		Iterator itS=scelles.iterator();
+		Iterator<Scelle> itS=scelles.iterator();
 		while(itS.hasNext()){
 			Scelle s=(Scelle) itS.next();
 			if(s.getNumeroScelle()==numeroScelleOld){
 				Set<Objet> obs=s.getObjets();
-				Iterator itO=obs.iterator();
+				Iterator<Objet> itO=obs.iterator();
 				while(itO.hasNext()){
 					Objet o=(Objet) itO.next();
 					if(o.getIdObjet()==idObjet){
@@ -762,5 +763,105 @@ public class AffaireController {
 		affaireService.deleteObjetInScelleInAffaire(idAffaire, numeroScelle, idObjet);
 		return "Success";
 	}
+	//nouvelle fonctinon par Zhi
+	
+	/**
+	 * Méthode de delete liaison d'une type mission à un type d'objet d'une affaire
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire concernée
+	 * @param idScelle
+	 *            identifiant du scellé concerné
+	 * @param idTypeObjet
+	 *            identifiant du type d'objet à lier
+	 * @param idTypeMission
+	 *            identifiant du type de mission à lier
+	 * @author Zhi terminé testé
+	 * 
+	 *         
+	 */
+	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.DELETE)
+	public @ResponseBody String deleteTypeMissionForTypeObjeteInAffaire(
+			@PathVariable("idAffaire") long idAffaire,
+			@PathVariable("idTypeObjet") long idTypeObjet,
+			@RequestParam("idTypeMission") long idTypeMission) {
+		affaireService.deleteTypeMissionForTypeObjeteInAffaire(idAffaire,idTypeObjet,idTypeMission);
+		return "Success";
+	}
+	
+	/**  
+	 * Méthode pour obtenir des objets d'un type objet concernés par
+	 * une mission pour une affaire
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire
+	 * @param idTypeObjet
+	 *            identifiant du type objet recherché
+	 * @param idTypeMission
+	 *            identifiant du type de Mission concerné
+	 * @author zhi testé   peut etre
+	 */
+	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}", method = RequestMethod.GET)
+	public @ResponseBody Set<Objet> getObjetForTypeObjetOfTypeMissionInAffaire(
+			@PathVariable("idAffaire") long idAffaire,
+			@PathVariable("idTypeObjet") long idTypeObjet,
+			@PathVariable("idTypeMission") long idTypeMission) {
+		Affaire a=affaireService.loadAffaire(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		Set<Objet> setObjets=new HashSet<Objet>();
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			Set<Objet> objets=s.getObjets();
+			Iterator<Objet> itO=objets.iterator();
+			while(itO.hasNext()){
+				Objet o=(Objet) itO.next();
+				if(o.getIdTypeObjet()==idTypeObjet){
+					EtatObjet eo=etatObjetService.getEtatObjet(o.getIdObjet(), idTypeMission);
+					if(eo!=null){
+						setObjets.add(o);
+					}
+				}
+			}
+		}
+		return setObjets;
+	}
 
+	/**  
+	 * Méthode pour obtenir des etat objets d'un type objet concernés par
+	 * une mission pour une affaire
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire
+	 * @param idTypeObjet
+	 *            identifiant du type objet recherché
+	 * @param idTypeMission
+	 *            identifiant du type de Mission concerné
+	 * @author zhi testé   peut etre
+	 */
+	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}/etat", method = RequestMethod.GET)
+	public @ResponseBody Set<EtatObjet> getEtatObjetForTypeObjetOfTypeMissionInAffaire(
+			@PathVariable("idAffaire") long idAffaire,
+			@PathVariable("idTypeObjet") long idTypeObjet,
+			@PathVariable("idTypeMission") long idTypeMission) {
+		Affaire a=affaireService.loadAffaire(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		Set<EtatObjet> setEtatObjets=new HashSet<EtatObjet>();
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			Set<Objet> objets=s.getObjets();
+			Iterator<Objet> itO=objets.iterator();
+			while(itO.hasNext()){
+				Objet o=(Objet) itO.next();
+				if(o.getIdTypeObjet()==idTypeObjet){
+					EtatObjet eo=etatObjetService.getEtatObjet(o.getIdObjet(), idTypeMission);
+					if(eo!=null){
+						setEtatObjets.add(eo);
+					}
+				}
+			}
+		}
+		return setEtatObjets;
+	}
 }

@@ -1,9 +1,6 @@
 package com.aiop.dao;  
   
 import java.io.Serializable;  
-import java.util.List;
-
-import com.aiop.model.Affaire;
 import com.aiop.model.Objet;
   
 public interface ObjetDaoI  

@@ -4,15 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;  
 import org.springframework.transaction.annotation.Transactional;  
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import com.aiop.dao.ScelleDaoI;
-import com.aiop.model.Affaire;
-import com.aiop.model.Frais;
 import com.aiop.model.Objet;
 import com.aiop.model.Scelle;
 import com.aiop.model.TypeObjet;
@@ -47,8 +43,8 @@ public class ScelleService
 		
 		//List<Objet> objets = new ArrayList<Objet>();
 		Set<Objet> objets=new HashSet<Objet>();
-		Set<Long> listeIdTypeObjet = new HashSet();
-		HashSet hs = new HashSet();
+		Set<Long> listeIdTypeObjet = new HashSet<Long>();
+		HashSet<Long> hs = new HashSet<Long>();
 		Iterator <Scelle> it=scelles.iterator();
 		while(it.hasNext()){
 			objets=it.next().getObjets();

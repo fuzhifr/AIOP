@@ -1,7 +1,6 @@
 package com.aiop.dao.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -10,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.aiop.dao.AffaireDaoI;
-import com.aiop.dao.ScelleDaoI;
 import com.aiop.model.Affaire;
-import com.aiop.model.Scelle;
 
 @Repository("affaireDao")
 public class AffaireDaoImpl implements AffaireDaoI {
