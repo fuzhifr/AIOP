@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,11 +55,11 @@ public class AffaireController {
 	 * @author Hugo Terminé Testé
 	 */
 	@RequestMapping(value = "/affaires", method = RequestMethod.POST)
-	public @ResponseBody Affaire createAffaire(
-			@RequestParam(value = "nomAffaire", required = true) String nomAffaire) {
-
+	public @ResponseBody Affaire createAffaire( HttpServletRequest request) {
+		String nomAffaire = request.getParameter("nomAffaire");
 		Affaire newAffaire = new Affaire();
 		newAffaire.setNomAffaire(nomAffaire);
+		newAffaire.setEtat("create");
 		affaireService.addAffaire(newAffaire);
 		return newAffaire;
 	}
@@ -77,11 +79,11 @@ public class AffaireController {
 	 *         Terminé testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/frais", method = RequestMethod.POST)
-	public @ResponseBody Frais createFraisAffaire(
-			@PathVariable("idAffaire") long idAffaire,
-			@RequestParam("libFrais") String libFrais,
-			@RequestParam("prixFrais") double prixFrais) {
+	public @ResponseBody Frais createFraisAffaire(HttpServletRequest request,
+			@PathVariable("idAffaire") long idAffaire) {
 		Frais newFrais = new Frais();
+		String libFrais = request.getParameter("libFrais");
+		Long prixFrais = Long.parseLong(request.getParameter("prixFrais"));
 		newFrais.setLibFrais(libFrais);
 		newFrais.setPrixFrais(prixFrais);
 		newFrais.setIdAffaire(idAffaire);
@@ -107,10 +109,10 @@ public class AffaireController {
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.POST)
 	public @ResponseBody Scelle createScelleAffaire(
-			@PathVariable("idAffaire") long idAffaire,
-			@RequestParam("numeroPV") long numeroPV,
-			@RequestParam("commentaire") String commentaire) {
+			@PathVariable("idAffaire") long idAffaire,HttpServletRequest request) {
 		Scelle newScelle = new Scelle();
+		String commentaire = request.getParameter("commentaire");
+		Long numeroPV = Long.parseLong(request.getParameter("numeroPV"));
 		newScelle.setNumeroPV(numeroPV);
 		newScelle.setCommentaire(commentaire);
 		newScelle.setIdAffaire(idAffaire);
@@ -132,10 +134,10 @@ public class AffaireController {
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.POST)
 	public @ResponseBody Objet createObjetScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle,
-			@RequestParam("libelleObjet") String libelleObjet,
-			@RequestParam("idTypeObjet") long idTypeObjet) {
+			@PathVariable("numeroScelle") long numeroScelle, HttpServletRequest request) {
 		Objet newObjet = new Objet();
+		String libelleObjet = request.getParameter("libelleObjet");
+		Long idTypeObjet = Long.parseLong(request.getParameter("idTypeObjet"));
 		newObjet.setIdTypeObjet(idTypeObjet);
 		newObjet.setLibelleObjet(libelleObjet);
 		newObjet.setNumeroScelle(numeroScelle);
@@ -162,17 +164,13 @@ public class AffaireController {
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
 	public @ResponseBody String createTypeMissionForTypeObjeteInAffaire(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("idTypeObjet") long idTypeObjet,
-			@RequestParam("idTypeMission") long idTypeMission) {
+			@PathVariable("idTypeObjet") long idTypeObjet, HttpServletRequest request) {
 
 		LigneDevis newLigne = new LigneDevis();
+		Long idTypeMission = Long.parseLong(request.getParameter("idTypeMission"));
 		newLigne.setIdAffaire(idAffaire);
 		newLigne.setIdTypeMission(idTypeMission);
 		newLigne.setIdTypeObjet(idTypeObjet);
-		// Calculer le nombre d'objet d'un type mission
-		// Mettre ce nombre dans "quantiteDevis"
-		// Récupérer le prix de cette mission => Zhi
-		// Le mettre dans "montantDevis"
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
 		Iterator itS=scelles.iterator();
@@ -452,26 +450,32 @@ public class AffaireController {
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.PUT)
 	public @ResponseBody Affaire PutAffaire(@PathVariable("idAffaire") long idAffaire,
-			@RequestParam("nomAffaire") String nom,
-			@RequestParam("numDossier") long dossier,
-			@RequestParam("numParquet") long parquet,
-			@RequestParam("dateOrdre") String dateOrdre,
-			@RequestParam("dateMax") String dateMax,
-			@RequestParam("dateProrogation") String dateProrogation,
-			@RequestParam("nbPageNb") long pageNb,
-			@RequestParam("nbPageCouleur") long pageCoul,
-			@RequestParam("nbHExpertise") long hExp,
-			@RequestParam("nbHDepalacement") long hDepl,
-			@RequestParam("dateDevis") String dateDevis,
-			@RequestParam("pourcentageDevis") double pourcentDevis,
-			@RequestParam("numFacture") long facture,
-			@RequestParam("montantFacture") double montantFacture,
-			@RequestParam("pourcentageRemise") double pourcentRemise,
-			@RequestParam("delais10j") boolean delais10j,
-			@RequestParam("dateRemise") String dateRemise,
-			@RequestParam("numInstruction") long instruction) {
-
+			HttpServletRequest request) {
+			
 		Affaire aff = affaireService.loadAffaire(idAffaire);
+		
+		String nom = request.getParameter("nom");
+		String dateOrdre = request.getParameter("DateOrdre");
+		String dateMax = request.getParameter("dateMax");
+		String dateProrogation = request.getParameter("dateProrogation");
+		String dateDevis = request.getParameter("dateDevis");
+		String dateRemise = request.getParameter("dateRemise");
+		
+		Long dossier = Long.parseLong(request.getParameter("dossier"));
+		Long parquet = Long.parseLong(request.getParameter("parquet"));
+		Long pageNb = Long.parseLong(request.getParameter("pageNb"));
+		Long pageCoul = Long.parseLong(request.getParameter("pageCoul"));
+		Long nbHExpertise = Long.parseLong(request.getParameter("nbHExpertise"));
+		Long nbHDeplacement = Long.parseLong(request.getParameter("nbHDeplacement"));
+		Long facture = Long.parseLong(request.getParameter("facture"));
+		Long instruction = Long.parseLong(request.getParameter("instruction"));
+		
+		Double pourcentDevis = Double.parseDouble(request.getParameter("pourcentageDevis"));
+		Double montantFacture = Double.parseDouble(request.getParameter("montantFacture"));
+		Double pourcentRemise = Double.parseDouble(request.getParameter("pourcentRemise"));
+		
+		Boolean delais10j = Boolean.parseBoolean(request.getParameter("delais10j"));
+
 		aff.setIdAffaire(idAffaire);
 		aff.setNomAffaire(nom);
 		aff.setNumDossier(dossier);
@@ -481,8 +485,8 @@ public class AffaireController {
 		aff.setDateProrogation(dateProrogation);
 		aff.setNbPageNb(pageNb);
 		aff.setNbPageCouleur(pageCoul);
-		aff.setNbHExpertise(hExp);
-		aff.setNbHDeplacement(hDepl);
+		aff.setNbHExpertise(nbHExpertise);
+		aff.setNbHDeplacement(nbHDeplacement);
 		aff.setDateDevis(dateDevis);
 		aff.setPourcentageDevis(pourcentDevis);
 		aff.setNumFacture(facture);
@@ -507,7 +511,10 @@ public class AffaireController {
 
 	@RequestMapping(value = "/affaire/{idAffaire}/etat", method = RequestMethod.PUT)
 	public @ResponseBody String putEtat(@PathVariable("idAffaire") long idAffaire,
-			@RequestParam("etat") String etat) {
+			HttpServletRequest request) {
+		
+		String etat = request.getParameter("etat");
+		
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		a.setEtat(etat);
 		affaireService.updateAffaire(a);
@@ -530,9 +537,11 @@ public class AffaireController {
 
 	@RequestMapping(value = "/affaire/{idAffaire}/frais/{idFrais}", method = RequestMethod.PUT)
 	public @ResponseBody String putFrais(@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("idFrais") long idFrais,
-			@RequestParam("libFrais") String libFrais,
-			@RequestParam("prixFrais") double prixFrais) {
+			@PathVariable("idFrais") long idFrais, HttpServletRequest request) {
+		
+		String libFrais = request.getParameter("libFrais");
+		Long prixFrais = Long.parseLong(request.getParameter("prixFrais"));
+		
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Frais> frais=a.getFrais();
 		Iterator it=frais.iterator();
@@ -566,9 +575,11 @@ public class AffaireController {
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.PUT)
 	public @ResponseBody Scelle putScelle(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle,
-			@RequestParam("numeroPV") long numeroPV,
-			@RequestParam("commentaire") String commentaire) {
+			@PathVariable("numeroScelle") long numeroScelle, HttpServletRequest request) {
+		
+		Long numeroPV = Long.parseLong(request.getParameter("numeroPV"));
+		String commentaire = request.getParameter("commentaire");
+		
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
 		Iterator itS=scelles.iterator();
@@ -607,10 +618,12 @@ public class AffaireController {
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets/{idObjet}", method = RequestMethod.PUT)
 	public @ResponseBody String putObjet(@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelleOld,
-			@PathVariable("idObjet") long idObjet,
-			@RequestParam("libelleObjet") String libelleObjet,
-			@RequestParam("idTypeObjet") long idTypeObjet,
-			@RequestParam("numeroScelle") long numeroScelleNew) {
+			@PathVariable("idObjet") long idObjet, HttpServletRequest request) {
+		
+		String libelleObjet =request.getParameter("libelleObjet");
+		Long idTypeObjet = Long.parseLong(request.getParameter("idTypeObjet"));
+		Long numeroScelleNew = Long.parseLong(request.getParameter("numeroScelle"));
+		
 		Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
 		Iterator itS=scelles.iterator();
@@ -658,9 +671,10 @@ public class AffaireController {
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("numeroScelle") long numeroScelle,
 			@PathVariable("idTypeObjet") long idTypeObjet,
-			@PathVariable("idTypeMission") long idTypeMission,
-			@RequestParam("libTypeMission") long libTypeMission,
-			@RequestParam("prixMission") String prixMission) {
+			@PathVariable("idTypeMission") long idTypeMission, HttpServletRequest request) {
+		
+		Long libTypeMission = Long.parseLong(request.getParameter("libTypeMission"));
+		String prixMission = request.getParameter("prixMission");
 
 		// Je ne sais pas comment ça va marcher avec l'ORM Scelle x = new
 		// Scelle(numeroScelle);
