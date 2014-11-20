@@ -22,6 +22,7 @@ import org.hibernate.annotations.Cascade;
 @Table(name="scelle")
 public class Scelle implements java.io.Serializable {
 	// Numéro
+	private long idScelle;
 	private long numeroScelle;
 	private long numeroPV;
 	private String commentaire;
@@ -39,9 +40,7 @@ public class Scelle implements java.io.Serializable {
 	/*
 	 * Setters and Getters
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "numeroScelle",nullable=false)
+	@Column(name = "numeroScelle")
 	public long getNumeroScelle() {
 		return numeroScelle;
 	}
@@ -91,5 +90,17 @@ public class Scelle implements java.io.Serializable {
 	public void setObjets(Set<Objet> objets) {
 		this.objets = objets;
 	}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idScelle",nullable=false)
+	public long getIdScelle() {
+		return idScelle;
+	}
+	public void setIdScelle(long idScelle) {
+		this.idScelle = idScelle;
+	}
+	
+	
 
 }
