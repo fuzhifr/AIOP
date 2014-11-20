@@ -112,4 +112,5 @@ public class BackendController {
 		tarifService.deleteTypeMission(idTypeObjet, idTypeMission);
 		return "Success";
 	}
+	
 }

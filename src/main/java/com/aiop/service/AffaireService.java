@@ -1,6 +1,5 @@
 package com.aiop.service;  
   
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;  
 
 import com.aiop.dao.AffaireDaoI;
-import com.aiop.dao.FraisDaoI;
+import com.aiop.dao.LigneDevisDaoI;
 import com.aiop.dao.ObjetDaoI;
 import com.aiop.dao.ScelleDaoI;
 import com.aiop.model.Affaire;
@@ -19,7 +18,6 @@ import com.aiop.model.Frais;
 import com.aiop.model.LigneDevis;
 import com.aiop.model.Objet;
 import com.aiop.model.Scelle;
-import com.aiop.service.*;
 
 
 
@@ -37,6 +35,10 @@ public class AffaireService
     
     @Autowired  
     private ObjetDaoI objetDao;
+    
+    @Autowired  
+    private LigneDevisDaoI ligneDevisDao;
+    
     @Autowired  
     private FraisService fraisService;
     
@@ -153,12 +155,19 @@ public class AffaireService
 		
 	}
 	
-	public void addLigneDevis(long idAffaire, LigneDevis newLigne) {
+	public String addLigneDevis(long idAffaire, LigneDevis newLigne) {
 		Affaire aff = affaireDao.load(idAffaire);
 		Set<LigneDevis> devis = aff.getLignesDevis();
+		Iterator<LigneDevis> itD=devis.iterator();
+		while(itD.hasNext()){
+			LigneDevis ld=itD.next();
+			if(ld.getIdAffaire()==newLigne.getIdAffaire()&&ld.getIdTypeObjet()==newLigne.getIdTypeObjet()&&ld.getIdTypeMission()==newLigne.getIdTypeMission()){
+				return "ligneDevis exist";
+			}
+		}
 		devis.add(newLigne);
 		affaireDao.update(aff);
-		
+		return "success";
 	}
 
 	public void deleteScelle(long idAffaire, long numeroScelle) {
@@ -186,11 +195,11 @@ public class AffaireService
 		// TODO Auto-generated method stub
 		Affaire a=affaireDao.load(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
-		Iterator itScelle=scelles.iterator();
+		Iterator<Scelle> itScelle=scelles.iterator();
 		Set<Objet> Robjets=new HashSet<Objet>();
 		while(itScelle.hasNext()){
 			Set<Objet> objets=((Scelle)itScelle.next()).getObjets();
-			Iterator itObjet=objets.iterator();
+			Iterator<Objet> itObjet=objets.iterator();
 			while(itObjet.hasNext()){
 				Objet objet=(Objet) itObjet.next();
 				if(objet.getIdTypeObjet()==idTypeObjet){
@@ -205,7 +214,7 @@ public class AffaireService
 		// TODO Auto-generated method stub
 		Affaire a=affaireDao.load(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
-		Iterator itS=scelles.iterator();
+		Iterator<Scelle> itS=scelles.iterator();
 		Scelle s=null;
 		while(itS.hasNext()){
 			Scelle t=(Scelle) itS.next();
@@ -215,7 +224,7 @@ public class AffaireService
 			}
 		}
 		Set<Objet> objets=s.getObjets();
-		Iterator itO=objets.iterator();
+		Iterator<Objet> itO=objets.iterator();
 		while(itO.hasNext()){
 			Objet o=(Objet) itO.next();
 			if(o.getIdObjet()==idObjet){
@@ -257,6 +266,12 @@ public class AffaireService
 		//objetService.delete(idObjet);
 		
 		return var;
+	}
+
+	public void deleteTypeMissionForTypeObjeteInAffaire(long idAffaire,
+			long idTypeObjet, long idTypeMission) {
+		// TODO Auto-generated method stub
+		ligneDevisDao.delete(idAffaire, idTypeObjet, idTypeMission);
 	}
 
 
