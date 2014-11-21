@@ -2,6 +2,7 @@ package com.aiop.dao.impl;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +43,9 @@ public class TypeMissionDaoImpl<T> implements TypeMissionDaoI<T> {
 
 	@Override
 	public Set<TypeMission> getTypeMissionNotAssignedWTypeObjet() {
-			return (Set<TypeMission>) getSession().createQuery("from TypeMission").list();	
+			 List<TypeMission> listTemp=getSession().createQuery("from TypeMission").list();
+			 Set<TypeMission> tm  = new HashSet<TypeMission>(listTemp);
+			 return tm;
 		
 	}
 
