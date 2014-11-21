@@ -687,7 +687,21 @@ public class AffaireController {
 	/*
 	 * -------------------------------------------------- METHODE DELETE ------------------------------------------------------------
 	 */
-
+	//nouvelle fonction 
+	/**
+	 * Méthode de suppression d'une affaire
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire
+	 * @author narjissezaki Terminé 
+	 */
+	@RequestMapping(value = "/affaires/{idAffaire}", method = RequestMethod.DELETE)
+	public @ResponseBody String deleteAffaire(
+			@PathVariable("idAffaire") long idAffaire){
+		String var="Echec";
+		var=affaireService.deleteAffaire(idAffaire);
+		return var;
+	}
 	/**
 	 * Méthode de suppression d'un frais d'une affaire
 	 * 
@@ -741,6 +755,7 @@ public class AffaireController {
 	public @ResponseBody String deleteObjetInScelle(@PathVariable("idAffaire") long idAffaire,
 	@PathVariable("numeroScelle") long numeroScelle,
 	@PathVariable("idObjet") long idObjet) {
+		String var;
 		/*Affaire a=affaireService.loadAffaire(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
 		Iterator<Scelle> itS=scelles.iterator();
@@ -760,8 +775,8 @@ public class AffaireController {
 			}
 		}
 		affaireService.updateAffaire(a);*/
-		affaireService.deleteObjetInScelleInAffaire(idAffaire, numeroScelle, idObjet);
-		return "Success";
+		var=affaireService.deleteObjetInScelleInAffaire(idAffaire, numeroScelle, idObjet);
+		return var;
 	}
 	
 	//nouvelle fonctinon par Zhi------------------------------------------------------------------------------------

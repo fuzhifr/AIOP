@@ -42,4 +42,11 @@ public class AffaireDaoImpl implements AffaireDaoI {
 		return getSession().createQuery("from Affaire").list();
 	}
 
+	@Override
+	public void delete(long idAffaire) {
+		Affaire a=(Affaire) getSession().load(Affaire.class, idAffaire);
+		getSession().delete(a);
+		
+	}
+
 }

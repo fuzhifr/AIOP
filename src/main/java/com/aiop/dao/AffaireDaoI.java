@@ -11,4 +11,5 @@ public interface AffaireDaoI
     public void update(Affaire a);
     public Affaire load(long id);
 	public List<Affaire> getAllAffaires();
+	public void delete(long idAffaire);
 }  

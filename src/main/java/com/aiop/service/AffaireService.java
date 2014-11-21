@@ -274,6 +274,11 @@ public class AffaireService
 		ligneDevisDao.delete(idAffaire, idTypeObjet, idTypeMission);
 	}
 
+	public String deleteAffaire(long idAffaire) {
+		affaireDao.delete(idAffaire);
+		return "Success";
+	}
+
 
 
 }  
