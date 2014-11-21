@@ -173,21 +173,7 @@ public class AffaireController {
 		newLigne.setIdAffaire(idAffaire);
 		newLigne.setIdTypeMission(idTypeMission);
 		newLigne.setIdTypeObjet(idTypeObjet);
-		Affaire a=affaireService.loadAffaire(idAffaire);
-		Set<Scelle> scelles=a.getScelles();
-		Iterator<Scelle> itS=scelles.iterator();
-		int nbObjet=0;
-		while(itS.hasNext()){
-			Scelle s=(Scelle) itS.next();
-			Set<Objet> objets=s.getObjets();
-			Iterator<Objet> itO=objets.iterator();
-			while(itO.hasNext()){
-				Objet o=(Objet) itO.next();
-				if(o.getIdTypeObjet()==idTypeObjet){
-					nbObjet++;
-				}
-			}
-		}
+		int nbObjet=affaireService.getNbObjetTypeObjet(idAffaire,idTypeObjet);
 		newLigne.setQuantiteDevis(nbObjet);
 		int prix=tarifService.getTarif(idTypeObjet, idTypeMission).getForfait();
 		long montant=prix*nbObjet;
@@ -399,22 +385,7 @@ public class AffaireController {
 		if(t==null){
 			return 0;
 		}
-		Affaire a=affaireService.loadAffaire(idAffaire);
-		Set<Scelle> scelles=a.getScelles();
-		Iterator<Scelle> itS=scelles.iterator();
-		int nbObjet=0;
-		while(itS.hasNext()){
-			Scelle s=(Scelle) itS.next();
-			Set<Objet> objets=s.getObjets();
-			Iterator<Objet> itO=objets.iterator();
-			while(itO.hasNext()){
-				Objet o=(Objet) itO.next();
-				if(o.getIdTypeObjet()==idTypeObjet){
-					nbObjet++;
-				}
-			}
-		}
-		return nbObjet;
+		return affaireService.getObjetScelleAffaire(idAffaire,idTypeObjet);
 	}
 
 	/*
@@ -542,21 +513,7 @@ public class AffaireController {
 			@PathVariable("idFrais") long idFrais, HttpServletRequest request) {
 		
 		Long prixFrais = Long.parseLong(request.getParameter("prixFrais"));
-		
-		Affaire a=affaireService.loadAffaire(idAffaire);
-		Set<Frais> frais=a.getFrais();
-		Iterator<Frais> it=frais.iterator();
-		Frais f = null;
-		while(it.hasNext()){
-			Frais temps=(Frais) it.next();
-			if(temps.getIdFrais()==idFrais){
-				f=temps;
-				break;
-			}
-		}
-		f.setIdFrais(idFrais);
-		f.setPrixFrais(prixFrais);
-		affaireService.updateAffaire(a);
+		affaireService.putFrais(idAffaire,idFrais,prixFrais);
 		return "Success";
 	}
 
@@ -580,21 +537,7 @@ public class AffaireController {
 		
 		Long numeroPV = Long.parseLong(request.getParameter("numeroPV"));
 		String commentaire = request.getParameter("commentaire");
-		
-		Affaire a=affaireService.loadAffaire(idAffaire);
-		Set<Scelle> scelles=a.getScelles();
-		Iterator<Scelle> itS=scelles.iterator();
-		Scelle temps=null;
-		while(itS.hasNext()){
-			 temps=(Scelle) itS.next();
-			if(temps.getNumeroScelle()==numeroScelle){
-				temps.setNumeroPV(numeroPV);
-				temps.setCommentaire(commentaire);
-				break;
-			}
-		}
-		affaireService.updateAffaire(a);
-		return temps;
+		return affaireService.putScelle(idAffaire,numeroScelle,numeroPV,commentaire);
 	}
 
 	// nana
@@ -624,27 +567,7 @@ public class AffaireController {
 		String libelleObjet =request.getParameter("libelleObjet");
 		Long idTypeObjet = Long.parseLong(request.getParameter("idTypeObjet"));
 		Long numeroScelleNew = Long.parseLong(request.getParameter("numeroScelle"));
-		
-		Affaire a=affaireService.loadAffaire(idAffaire);
-		Set<Scelle> scelles=a.getScelles();
-		Iterator<Scelle> itS=scelles.iterator();
-		while(itS.hasNext()){
-			Scelle s=(Scelle) itS.next();
-			if(s.getNumeroScelle()==numeroScelleOld){
-				Set<Objet> obs=s.getObjets();
-				Iterator<Objet> itO=obs.iterator();
-				while(itO.hasNext()){
-					Objet o=(Objet) itO.next();
-					if(o.getIdObjet()==idObjet){
-						o.setLibelleObjet(libelleObjet);
-						o.setIdTypeObjet(idTypeObjet);
-						o.setNumeroScelle(numeroScelleNew);
-						break;
-					}
-				}
-			}
-		}
-		affaireService.updateAffaire(a);
+		affaireService.putObjet(idAffaire,libelleObjet,idTypeObjet,numeroScelleNew,numeroScelleOld,idObjet);
 		return "Success";
 	}
 
@@ -756,25 +679,6 @@ public class AffaireController {
 	@PathVariable("numeroScelle") long numeroScelle,
 	@PathVariable("idObjet") long idObjet) {
 		String var;
-		/*Affaire a=affaireService.loadAffaire(idAffaire);
-		Set<Scelle> scelles=a.getScelles();
-		Iterator<Scelle> itS=scelles.iterator();
-		while(itS.hasNext()){
-			Scelle s=(Scelle) itS.next();
-			if(s.getNumeroScelle()==numeroScelle){
-				Set<Objet> objets=s.getObjets();
-				Iterator itO=objets.iterator();
-				while(itO.hasNext()){
-					Objet o=(Objet) itO.next();
-					if(o.getIdObjet()==idObjet){
-						itO.remove();
-						scelleService.updateScelle(s);
-						break;
-					}
-				}
-			}
-		}
-		affaireService.updateAffaire(a);*/
 		var=affaireService.deleteObjetInScelleInAffaire(idAffaire, numeroScelle, idObjet);
 		return var;
 	}
@@ -822,25 +726,8 @@ public class AffaireController {
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission) {
-		Affaire a=affaireService.loadAffaire(idAffaire);
-		Set<Scelle> scelles=a.getScelles();
-		Iterator<Scelle> itS=scelles.iterator();
-		Set<Objet> setObjets=new HashSet<Objet>();
-		while(itS.hasNext()){
-			Scelle s=(Scelle) itS.next();
-			Set<Objet> objets=s.getObjets();
-			Iterator<Objet> itO=objets.iterator();
-			while(itO.hasNext()){
-				Objet o=(Objet) itO.next();
-				if(o.getIdTypeObjet()==idTypeObjet){
-					EtatObjet eo=etatObjetService.getEtatObjet(o.getIdObjet(), idTypeMission);
-					if(eo!=null){
-						setObjets.add(o);
-					}
-				}
-			}
-		}
-		return setObjets;
+	
+		return affaireService.getObjetForTypeObjetOfTypeMissionInAffaire(idAffaire,idTypeObjet,idTypeMission);
 	}
 
 	/**  
@@ -860,25 +747,8 @@ public class AffaireController {
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission) {
-		Affaire a=affaireService.loadAffaire(idAffaire);
-		Set<Scelle> scelles=a.getScelles();
-		Iterator<Scelle> itS=scelles.iterator();
-		Set<EtatObjet> setEtatObjets=new HashSet<EtatObjet>();
-		while(itS.hasNext()){
-			Scelle s=(Scelle) itS.next();
-			Set<Objet> objets=s.getObjets();
-			Iterator<Objet> itO=objets.iterator();
-			while(itO.hasNext()){
-				Objet o=(Objet) itO.next();
-				if(o.getIdTypeObjet()==idTypeObjet){
-					EtatObjet eo=etatObjetService.getEtatObjet(o.getIdObjet(), idTypeMission);
-					if(eo!=null){
-						setEtatObjets.add(eo);
-					}
-				}
-			}
-		}
-		return setEtatObjets;
+		
+		return affaireService.getEtatObjetForTypeObjetOfTypeMissionInAffaire(idAffaire,idTypeObjet,idTypeMission);
 	}
 	
 

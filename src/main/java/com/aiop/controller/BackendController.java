@@ -3,6 +3,8 @@ package com.aiop.controller;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.aiop.model.*;
 import com.aiop.service.TarifService;
 import com.aiop.service.TypeObjetService;
@@ -37,9 +39,9 @@ public class BackendController {
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
 	public @ResponseBody String createFraisAffaire(
-			@PathVariable("idTypeObjet") long idTypeObjet,
-			@RequestParam("idTypeMission") long idTypeMission,
-			@RequestParam("forfait") int forfait) {
+			@PathVariable("idTypeObjet") long idTypeObjet, HttpServletRequest request) {
+		Long idTypeMission = Long.parseLong(request.getParameter("idTypeMission"));
+		int forfait = Integer.parseInt(request.getParameter("forfait"));
 		String msg=tarifService.addTypeMission(idTypeObjet,idTypeMission,forfait);
 		return msg;
 	}
@@ -91,9 +93,9 @@ public class BackendController {
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMission/{idTypeMission}", method = RequestMethod.PUT)
 	public @ResponseBody String putScelle(@PathVariable("idTypeObjet") long idTypeObjet,
-			@PathVariable("idTypeMission") long idTypeMission,
-			@RequestParam("libTypeMission") String libTypeMission,
-			@RequestParam("forfait") int forfait) {
+			@PathVariable("idTypeMission") long idTypeMission,HttpServletRequest request) {
+		String libTypeMission =request.getParameter("libTypeMission");
+		int forfait = Integer.parseInt(request.getParameter("forfait"));
 		typeObjetService.modifieInfo(idTypeObjet,idTypeMission,libTypeMission,forfait);
 		return "Success";
 	}

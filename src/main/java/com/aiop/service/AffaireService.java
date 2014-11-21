@@ -14,6 +14,7 @@ import com.aiop.dao.LigneDevisDaoI;
 import com.aiop.dao.ObjetDaoI;
 import com.aiop.dao.ScelleDaoI;
 import com.aiop.model.Affaire;
+import com.aiop.model.EtatObjet;
 import com.aiop.model.Frais;
 import com.aiop.model.LigneDevis;
 import com.aiop.model.Objet;
@@ -41,6 +42,9 @@ public class AffaireService
     
     @Autowired  
     private FraisService fraisService;
+    
+    @Autowired  
+    private EtatObjetService etatObjetService;
     
     public Affaire loadAffaire(long idAffaire)  
     {  
@@ -279,6 +283,155 @@ public class AffaireService
 		return "Success";
 	}
 
+	public int getNbObjetTypeObjet(long idAffaire, long idTypeObjet) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		int nbObjet=0;
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			Set<Objet> objets=s.getObjets();
+			Iterator<Objet> itO=objets.iterator();
+			while(itO.hasNext()){
+				Objet o=(Objet) itO.next();
+				if(o.getIdTypeObjet()==idTypeObjet){
+					nbObjet++;
+				}
+			}
+		}
+		return nbObjet;
+	}
 
+	public Set<Objet> getObjetForTypeObjetOfTypeMissionInAffaire(long idAffaire,
+			long idTypeObjet, long idTypeMission) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		Set<Objet> setObjets=new HashSet<Objet>();
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			Set<Objet> objets=s.getObjets();
+			Iterator<Objet> itO=objets.iterator();
+			while(itO.hasNext()){
+				Objet o=(Objet) itO.next();
+				if(o.getIdTypeObjet()==idTypeObjet){
+					EtatObjet eo=etatObjetService.getEtatObjet(o.getIdObjet(), idTypeMission);
+					if(eo!=null){
+						setObjets.add(o);
+					}
+				}
+			}
+		}
+		return setObjets;
+	}
+
+	public Set<EtatObjet> getEtatObjetForTypeObjetOfTypeMissionInAffaire(long idAffaire,
+			long idTypeObjet, long idTypeMission) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		Set<EtatObjet> setEtatObjets=new HashSet<EtatObjet>();
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			Set<Objet> objets=s.getObjets();
+			Iterator<Objet> itO=objets.iterator();
+			while(itO.hasNext()){
+				Objet o=(Objet) itO.next();
+				if(o.getIdTypeObjet()==idTypeObjet){
+					EtatObjet eo=etatObjetService.getEtatObjet(o.getIdObjet(), idTypeMission);
+					if(eo!=null){
+						setEtatObjets.add(eo);
+					}
+				}
+			}
+		}
+		return setEtatObjets;
+	}
+
+	public void putObjet(long idAffaire, String libelleObjet, Long idTypeObjet,
+			Long numeroScelleNew, long numeroScelleOld, long idObjet) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			if(s.getNumeroScelle()==numeroScelleOld){
+				Set<Objet> obs=s.getObjets();
+				Iterator<Objet> itO=obs.iterator();
+				while(itO.hasNext()){
+					Objet o=(Objet) itO.next();
+					if(o.getIdObjet()==idObjet){
+						o.setLibelleObjet(libelleObjet);
+						o.setIdTypeObjet(idTypeObjet);
+						o.setNumeroScelle(numeroScelleNew);
+						break;
+					}
+				}
+			}
+		}
+		affaireDao.update(a);
+	}
+
+	public Scelle putScelle(long idAffaire, long numeroScelle, Long numeroPV,
+			String commentaire) {
+		// TODO Auto-generated method stub
+		
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		Scelle temps=null;
+		while(itS.hasNext()){
+			 temps=(Scelle) itS.next();
+			if(temps.getNumeroScelle()==numeroScelle){
+				temps.setNumeroPV(numeroPV);
+				temps.setCommentaire(commentaire);
+				break;
+			}
+		}
+		affaireDao.update(a);
+		return temps;
+	}
+
+	public void putFrais(long idAffaire, long idFrais, Long prixFrais) {
+		// TODO Auto-generated method stub
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Frais> frais=a.getFrais();
+		Iterator<Frais> it=frais.iterator();
+		Frais f = null;
+		while(it.hasNext()){
+			Frais temps=(Frais) it.next();
+			if(temps.getIdFrais()==idFrais){
+				f=temps;
+				break;
+			}
+		}
+		f.setIdFrais(idFrais);
+		f.setPrixFrais(prixFrais);
+		affaireDao.update(a);
+	}
+
+	public int getObjetScelleAffaire(long idAffaire, long idTypeObjet) {
+		Affaire a=affaireDao.load(idAffaire);
+		Set<Scelle> scelles=a.getScelles();
+		Iterator<Scelle> itS=scelles.iterator();
+		int nbObjet=0;
+		while(itS.hasNext()){
+			Scelle s=(Scelle) itS.next();
+			Set<Objet> objets=s.getObjets();
+			Iterator<Objet> itO=objets.iterator();
+			while(itO.hasNext()){
+				Objet o=(Objet) itO.next();
+				if(o.getIdTypeObjet()==idTypeObjet){
+					nbObjet++;
+				}
+			}
+		}
+		// TODO Auto-generated method stub
+		return nbObjet;
+	}
 
 }  
