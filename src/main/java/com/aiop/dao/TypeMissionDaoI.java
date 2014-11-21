@@ -1,6 +1,8 @@
 package com.aiop.dao;  
   
 import java.io.Serializable;  
+import java.util.Set;
+
 import com.aiop.model.TypeMission;
   
 public interface TypeMissionDaoI<T>  
@@ -9,5 +11,7 @@ public interface TypeMissionDaoI<T>
 
 	public TypeMission load(long idTypeMission);
 
-	public void update(TypeMission tm); 
+	public void update(TypeMission tm);
+
+	public Set<TypeMission> getTypeMissionNotAssignedWTypeObjet(); 
 }  

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.aiop.model.*;
 import com.aiop.service.TarifService;
+import com.aiop.service.TypeMissionService;
 import com.aiop.service.TypeObjetService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class BackendController {
 	private TypeObjetService typeObjetService;
 	@Autowired
 	private TarifService tarifService;
+	@Autowired
+	private TypeMissionService typeMissionService;
 	/* ---------------------------------------------------- METHODE POST ---------------------------------------------------------------*/
 	
 	/**
@@ -81,6 +84,16 @@ public class BackendController {
 
 		// Il faudra load un typeMissions d'un typeObjet depuis la bdd
 		return typeObjetService.getTypeMission(idTypeObjet,idTypeMission);
+	}
+	
+	/**
+	 * Méthode de récupération des types de mission non liées à un type objet
+	 * @return liste des type d'objets
+	 * @author narjisse Zaki
+	 */
+	@RequestMapping(value = "/typeObjets", method = RequestMethod.GET)
+	public @ResponseBody Set<TypeMission> getTypeMissionsNotAssignedWTypeObjet() {
+		return typeMissionService.getTypeMissionNotAssignedWTypeObjet();
 	}
 
 	/* ---------------------------------------------------- METHODE PUT ---------------------------------------------------------------*/

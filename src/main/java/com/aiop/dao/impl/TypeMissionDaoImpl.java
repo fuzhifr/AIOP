@@ -1,6 +1,9 @@
 package com.aiop.dao.impl;
 
+
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -34,6 +37,12 @@ public class TypeMissionDaoImpl<T> implements TypeMissionDaoI<T> {
 	public void update(TypeMission tm) {
 		// TODO Auto-generated method stub
 		getSession().update(tm);
+		
+	}
+
+	@Override
+	public Set<TypeMission> getTypeMissionNotAssignedWTypeObjet() {
+			return (Set<TypeMission>) getSession().createQuery("from TypeMission").list();	
 		
 	}
 
