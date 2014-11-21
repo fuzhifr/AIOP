@@ -44,6 +44,7 @@ public class EtatObjetService
 		t.setFait(newEtatObjet.getFait());
 		etatObjetDao.update(t);
 		return t;
-	}  
+	}
+  
 
 }  

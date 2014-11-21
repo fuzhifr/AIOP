@@ -727,7 +727,7 @@ public class AffaireController {
 	 *            identifiant du type de Mission concerné
 	 * @author zhi testé   peut etre
 	 */
-	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}", method = RequestMethod.GET)
+	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}/objets", method = RequestMethod.GET)
 	public @ResponseBody Set<Objet> getObjetForTypeObjetOfTypeMissionInAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet,
@@ -761,50 +761,66 @@ public class AffaireController {
 	/**
 	 * Méthode de création d'un etat objet pour une typeMission
 	 * 
-	 * @param idAffaire
-	 *            identifiant de l'affaire concernée
-	 * @param idScelle
-	 *            numéro du scellé concerné
 	 * @author Zhi
 	 * 
 	 *         Terminé testé
 	 */
-	@RequestMapping(value = "/objet/{idObjet}/typeMission", method = RequestMethod.POST)
+	@RequestMapping(value = "/objet/{idObjet}/TypeMission/{idTypeMission}/etat", method = RequestMethod.POST)
 	public @ResponseBody EtatObjet createEtatObjet(
-			@PathVariable("idObjet") long idObjet, HttpServletRequest request) {
+			@PathVariable("idObjet") long idObjet,
+			@PathVariable("idTypeMission") long idTypeMission, HttpServletRequest request) {
+		
 		EtatObjet newEtatObjet = new EtatObjet();
-		Long idTypeMission = Long.parseLong(request.getParameter("idTypeMission"));
+		
 		String commentaire=request.getParameter("commentaire");
 		String fait=request.getParameter("fait");
+		
 		newEtatObjet.setIdTypeMission(idTypeMission);
 		newEtatObjet.setIdObjet(idObjet);
 		newEtatObjet.setCommentaire(commentaire);
 		newEtatObjet.setFait(fait);
+		
 		return etatObjetService.addEtatObjet(newEtatObjet);
 	}
 	
 	/**
-	 * Méthode de création d'un etat objet pour une typeMission
+	 * Méthode de modification d'un etat objet pour une typeMission
 	 * 
-	 * @param idAffaire
-	 *            identifiant de l'affaire concernée
-	 * @param idScelle
-	 *            numéro du scellé concerné
 	 * @author Zhi
 	 * 
 	 *         Terminé testé
 	 */
-	@RequestMapping(value = "/objet/{idObjet}/typeMission", method = RequestMethod.PUT)
+	@RequestMapping(value = "/objet/{idObjet}/TypeMission/{idTypeMission}/etat", method = RequestMethod.PUT)
 	public @ResponseBody EtatObjet PutEtatObjet(
-			@PathVariable("idObjet") long idObjet, HttpServletRequest request) {
+			@PathVariable("idObjet") long idObjet,
+			@PathVariable("idTypeMission") long idTypeMission, HttpServletRequest request) {
+		
 		EtatObjet newEtatObjet = new EtatObjet();
-		Long idTypeMission = Long.parseLong(request.getParameter("idTypeMission"));
+		
 		String commentaire=request.getParameter("commentaire");
 		String fait=request.getParameter("fait");
+		
 		newEtatObjet.setIdTypeMission(idTypeMission);
 		newEtatObjet.setIdObjet(idObjet);
 		newEtatObjet.setCommentaire(commentaire);
 		newEtatObjet.setFait(fait);
+		
 		return etatObjetService.updateEtatObjet(newEtatObjet);
+	}
+	
+	/**
+	 * Méthode de modification d'un etat objet pour une typeMission
+	 * 
+	 * @author Zhi
+	 * 
+	 *         Terminé testé
+	 */
+	@RequestMapping(value = "/objet/{idObjet}/TypeMission/{idTypeMission}/etat", method = RequestMethod.GET)
+	public @ResponseBody EtatObjet GetEtatObjet(
+			@PathVariable("idObjet") long idObjet,
+			@PathVariable("idTypeMission") long idTypeMission, HttpServletRequest request) {
+
+		
+		return etatObjetService.getEtatObjet(idObjet, idTypeMission);
 	}
 }
