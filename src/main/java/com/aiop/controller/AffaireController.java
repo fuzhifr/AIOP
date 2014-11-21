@@ -1,7 +1,6 @@
 package com.aiop.controller;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -597,8 +596,8 @@ public class AffaireController {
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission, HttpServletRequest request) {
 		
-		Long libTypeMission = Long.parseLong(request.getParameter("libTypeMission"));
-		String prixMission = request.getParameter("prixMission");
+		//Long libTypeMission = Long.parseLong(request.getParameter("libTypeMission"));
+		//String prixMission = request.getParameter("prixMission");
 
 		// Je ne sais pas comment ça va marcher avec l'ORM Scelle x = new
 		// Scelle(numeroScelle);
