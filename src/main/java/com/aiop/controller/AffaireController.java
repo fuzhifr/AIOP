@@ -97,7 +97,7 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire concernée
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            numéro pénal du scellé
 	 * @param numeroPV
 	 *            numéro du procés verbal
@@ -111,11 +111,15 @@ public class AffaireController {
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles", method = RequestMethod.POST)
 	public @ResponseBody Scelle createScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,HttpServletRequest request) {
+		
 		Scelle newScelle = new Scelle();
-		String commentaire = request.getParameter("commentaire");
+		String nom = request.getParameter("commentaire");
 		Long numeroPV = Long.parseLong(request.getParameter("numeroPV"));
+		Long numeroScelle = Long.parseLong(request.getParameter("numeroScelle"));
+		
 		newScelle.setNumeroPV(numeroPV);
-		newScelle.setCommentaire(commentaire);
+		newScelle.setNumeroScelle(numeroScelle);
+		newScelle.setNom(nom);
 		newScelle.setIdAffaire(idAffaire);
 		affaireService.addScelle(idAffaire, newScelle);
 		return newScelle;
@@ -126,23 +130,23 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire concernée
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            numéro du scellé concerné
 	 * @author Narjisse
 	 * 
 	 *         Terminé testé
 	 */
-	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.POST)
+	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{idScelle}/objets", method = RequestMethod.POST)
 	public @ResponseBody Objet createObjetScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle, HttpServletRequest request) {
+			@PathVariable("idScelle") long idScelle, HttpServletRequest request) {
 		Objet newObjet = new Objet();
 		String libelleObjet = request.getParameter("libelleObjet");
 		Long idTypeObjet = Long.parseLong(request.getParameter("idTypeObjet"));
 		newObjet.setIdTypeObjet(idTypeObjet);
 		newObjet.setLibelleObjet(libelleObjet);
-		newObjet.setNumeroScelle(numeroScelle);
-		affaireService.addObjet(idAffaire, numeroScelle, newObjet);
+		newObjet.setIdScelle(idScelle);
+		affaireService.addObjet(idAffaire, idScelle, newObjet);
 		return newObjet;
 	}
 
@@ -169,6 +173,7 @@ public class AffaireController {
 
 		LigneDevis newLigne = new LigneDevis();
 		Long idTypeMission = Long.parseLong(request.getParameter("idTypeMission"));
+		
 		newLigne.setIdAffaire(idAffaire);
 		newLigne.setIdTypeMission(idTypeMission);
 		newLigne.setIdTypeObjet(idTypeObjet);
@@ -287,19 +292,19 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            numéro du scellé a récupérer
 	 * @return le scellé souhaité
 	 * @author Zhi
 	 * 
 	 *         Terminé testé
 	 */
-	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.GET)
+	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{idScelle}", method = RequestMethod.GET)
 	public @ResponseBody Scelle getScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle) {
+			@PathVariable("idScelle") long idScelle) {
 
-		return affaireService.getScelle(idAffaire, numeroScelle);
+		return affaireService.getScelle(idAffaire, idScelle);
 	}
 
 	/**
@@ -326,19 +331,19 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            numéro du scelle
 	 * @return liste des objets d'un scelle d'une affaire
 	 * @author narjisse Zaki
 	 * 
 	 *         Terminé testé
 	 */
-	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets", method = RequestMethod.GET)
+	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{idScelle}/objets", method = RequestMethod.GET)
 	public @ResponseBody Set<Objet> getAllObjetsScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle) {
+			@PathVariable("idScelle") long idScelle) {
 
-		return affaireService.getObjetScelle(idAffaire, numeroScelle);
+		return affaireService.getObjetScelle(idAffaire, idScelle);
 	}
 
 	// nana
@@ -347,20 +352,20 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            numéro du scelle qui contient l'objet
 	 * @param idObjet
 	 *            l'identifiant de l'objet à recuperer
 	 * @return l'objet souhaité
 	 * @author zhi testé
 	 */
-	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objet/{idObjet}", method = RequestMethod.GET)
+	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{idScelle}/objet/{idObjet}", method = RequestMethod.GET)
 	public @ResponseBody Objet getObjetScelleAffaire(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle,
+			@PathVariable("idScelle") long idScelle,
 			@PathVariable("idObjet") long idObjet) {
 		
-		return affaireService.getObjetScelle(idAffaire,numeroScelle,idObjet);
+		return affaireService.getObjetScelle(idAffaire,idScelle,idObjet);
 	}
 
 	/**  ???
@@ -521,7 +526,7 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            numéro du scellé à modifier
 	 * @param numeroPV
 	 *            nouveau numéro du PV
@@ -529,14 +534,16 @@ public class AffaireController {
 	 *            nouveau commentaire
 	 *      zhi      testé
 	 */
-	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{idScelle}", method = RequestMethod.PUT)
 	public @ResponseBody Scelle putScelle(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle, HttpServletRequest request) {
+			@PathVariable("idScelle") long idScelle, HttpServletRequest request) {
 		
 		Long numeroPV = Long.parseLong(request.getParameter("numeroPV"));
-		String commentaire = request.getParameter("commentaire");
-		return affaireService.putScelle(idAffaire,numeroScelle,numeroPV,commentaire);
+		String nom = request.getParameter("nom");
+		Long numeroScelle = Long.parseLong(request.getParameter("numeroScelle"));
+		
+		return affaireService.putScelle(idAffaire,idScelle,numeroPV,nom,numeroScelle);
 	}
 
 	// nana
@@ -545,7 +552,7 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            numéro du scellé qui contient l'objet
 	 * @param idObjet
 	 *            identifiant de l'objet à modifier
@@ -553,20 +560,20 @@ public class AffaireController {
 	 *            nouveau libelle de l'objet
 	 * @param idTypeObjet
 	 *            nouveau type de l'objet
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            nouveau numéro du scellé qui contient l'objet
 	 * @author zhi testé
 	 */
 
-	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/objets/{idObjet}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{idScelle}/objets/{idObjet}", method = RequestMethod.PUT)
 	public @ResponseBody String putObjet(@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelleOld,
+			@PathVariable("idScelle") long idScelleOld,
 			@PathVariable("idObjet") long idObjet, HttpServletRequest request) {
 		
 		String libelleObjet =request.getParameter("libelleObjet");
 		Long idTypeObjet = Long.parseLong(request.getParameter("idTypeObjet"));
-		Long numeroScelleNew = Long.parseLong(request.getParameter("numeroScelle"));
-		affaireService.putObjet(idAffaire,libelleObjet,idTypeObjet,numeroScelleNew,numeroScelleOld,idObjet);
+		Long idScelleNew = Long.parseLong(request.getParameter("idScelle"));
+		affaireService.putObjet(idAffaire,libelleObjet,idTypeObjet,idScelleNew,idScelleOld,idObjet);
 		return "Success";
 	}
 
@@ -576,7 +583,7 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire concernée
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            identifiant du scellé concerné
 	 * @param idTypeObjet
 	 *            identifiant du type d'objet concerné
@@ -589,10 +596,10 @@ public class AffaireController {
 	 *            pb
 	 */
 
-	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{idScelle}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}", method = RequestMethod.PUT)
 	public void putTypeMissionForTypeObjetInScelle(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle,
+			@PathVariable("idScelle") long idScelle,
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission, HttpServletRequest request) {
 		
@@ -600,7 +607,7 @@ public class AffaireController {
 		//String prixMission = request.getParameter("prixMission");
 
 		// Je ne sais pas comment ça va marcher avec l'ORM Scelle x = new
-		// Scelle(numeroScelle);
+		// Scelle(idScelle);
 		// x.load();
 		// x.updateTypeMissionForTypeObjetInScelle(idTypeObjet,
 		// idTypeMission,libTypeMission, prixMission);
@@ -647,16 +654,16 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            identifiant du scellé à supprimer
 	 *            zhi testé
 	 */
 
-	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{numeroScelle}", method = RequestMethod.DELETE, produces = "text/plain")
+	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{idScelle}", method = RequestMethod.DELETE, produces = "text/plain")
 	public @ResponseBody String deleteScelle(
 			@PathVariable("idAffaire") long idAffaire,
-			@PathVariable("numeroScelle") long numeroScelle) {
-		affaireService.deleteScelle(idAffaire, numeroScelle);
+			@PathVariable("idScelle") long idScelle) {
+		affaireService.deleteScelle(idAffaire, idScelle);
 		return "success";
 	}
 
@@ -666,19 +673,19 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            identifiant du scellé contenant l'objet
 	 * @param idObjet
 	 *            identifiant de l'objet à supprimer
 	 * @author narjisse Zaki pas reussi pb
 	 */
 
-	@RequestMapping(value = "/affaires/{idAffaire}/scelles/{numeroScelle}/objet/{idObjet}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/affaires/{idAffaire}/scelles/{idScelle}/objet/{idObjet}", method = RequestMethod.DELETE)
 	public @ResponseBody String deleteObjetInScelle(@PathVariable("idAffaire") long idAffaire,
-	@PathVariable("numeroScelle") long numeroScelle,
+	@PathVariable("idScelle") long idScelle,
 	@PathVariable("idObjet") long idObjet) {
 		String var;
-		var=affaireService.deleteObjetInScelleInAffaire(idAffaire, numeroScelle, idObjet);
+		var=affaireService.deleteObjetInScelleInAffaire(idAffaire, idScelle, idObjet);
 		return var;
 	}
 	
@@ -756,7 +763,7 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire concernée
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            numéro du scellé concerné
 	 * @author Zhi
 	 * 
@@ -781,7 +788,7 @@ public class AffaireController {
 	 * 
 	 * @param idAffaire
 	 *            identifiant de l'affaire concernée
-	 * @param numeroScelle
+	 * @param idScelle
 	 *            numéro du scellé concerné
 	 * @author Zhi
 	 * 

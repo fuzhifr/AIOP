@@ -25,7 +25,7 @@ public class Scelle implements java.io.Serializable {
 	private long idScelle;
 	private long numeroScelle;
 	private long numeroPV;
-	private String commentaire;
+	private String nom;
 	//manytoOne relation
 	private long idAffaire;
 	//objets dans le scelle
@@ -58,13 +58,13 @@ public class Scelle implements java.io.Serializable {
 		this.numeroPV = numeroPV;
 	}
 	
-	@Column(name = "commentaire", length = 50)
-	public String getCommentaire() {
-		return commentaire;
+	@Column(name = "nom", length = 50)
+	public String getNom() {
+		return nom;
 	}
 
-	public void setCommentaire(String commentaire) {
-		this.commentaire = commentaire;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 	
 

@@ -54,13 +54,13 @@ public class AffaireService
     												/* GET simples methodes*/
    
 	
-    public Scelle getScelle(long idAffaire,long numeroScelle){
+    public Scelle getScelle(long idAffaire,long idScelle){
     	Affaire a=affaireDao.load(idAffaire);
     	Set<Scelle> scelles=a.getScelles();
     	Scelle sRetour=new Scelle();
     	for(Scelle s:scelles){
-    		long numero=s.getNumeroScelle();
-    		if(numero==numeroScelle){
+    		long numero=s.getIdScelle();
+    		if(numero==idScelle){
     			sRetour=s;
     		}
     	}
@@ -100,8 +100,8 @@ public class AffaireService
 		return a.getFrais();
 	}
     
-	public Set<Objet> getObjetScelle(long idAffaire, long numeroScelle) {
-		Scelle sc = getScelle(idAffaire,numeroScelle);
+	public Set<Objet> getObjetScelle(long idAffaire, long idScelle) {
+		Scelle sc = getScelle(idAffaire,idScelle);
 		return sc.getObjets();
 	}
 	
@@ -146,9 +146,9 @@ public class AffaireService
     	affaireDao.update(aff);		
 	}
 
-	public void addObjet(long idAffaire, long numeroScelle, Objet newObjet) {
+	public void addObjet(long idAffaire, long idScelle, Objet newObjet) {
 		Affaire aff = affaireDao.load(idAffaire);
-		Scelle sc = getScelle(idAffaire, numeroScelle);
+		Scelle sc = getScelle(idAffaire, idScelle);
 		Set<Objet> obj = sc.getObjets();
 		if(obj==null){
 			obj=new HashSet<Objet>();
@@ -174,20 +174,20 @@ public class AffaireService
 		return "success";
 	}
 
-	public void deleteScelle(long idAffaire, long numeroScelle) {
+	public void deleteScelle(long idAffaire, long idScelle) {
 		// TODO Auto-generated method stub
 		Affaire a=affaireDao.load(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
     	Iterator<Scelle> iterator = scelles.iterator();
 		while (iterator.hasNext()) {
 			Scelle s =iterator.next();
-		 if(s.getNumeroScelle()==numeroScelle){
+		 if(s.getIdScelle()==idScelle){
 			 iterator.remove();
 		 }
 		}
     	a.setScelles(scelles);
     	affaireDao.update(a);
-    	scelleDao.delete(numeroScelle);
+    	scelleDao.delete(idScelle);
 	}
 
 	public void updateAffaire(Affaire aff) {
@@ -214,7 +214,7 @@ public class AffaireService
 		return Robjets;
 	}
 
-	public Objet getObjetScelle(long idAffaire, long numeroScelle, long idObjet) {
+	public Objet getObjetScelle(long idAffaire, long idScelle, long idObjet) {
 		// TODO Auto-generated method stub
 		Affaire a=affaireDao.load(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
@@ -222,7 +222,7 @@ public class AffaireService
 		Scelle s=null;
 		while(itS.hasNext()){
 			Scelle t=(Scelle) itS.next();
-			if(t.getNumeroScelle()==numeroScelle){
+			if(t.getIdScelle()==idScelle){
 				s=t;
 				break;
 			}
@@ -238,7 +238,7 @@ public class AffaireService
 		return null;
 	}
 
-	public String deleteObjetInScelleInAffaire(long idAffaire, long numeroScelle,
+	public String deleteObjetInScelleInAffaire(long idAffaire, long idScelle,
 			long idObjet) {
 		Affaire a=affaireDao.load(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
@@ -246,7 +246,7 @@ public class AffaireService
 		Scelle s=new Scelle();
 		while(itS.hasNext()){
 			Scelle temps=(Scelle) itS.next();
-			if(temps.getNumeroScelle()==numeroScelle){
+			if(temps.getIdScelle()==idScelle){
 				s=temps;
 			}
 		}
@@ -352,14 +352,14 @@ public class AffaireService
 	}
 
 	public void putObjet(long idAffaire, String libelleObjet, Long idTypeObjet,
-			Long numeroScelleNew, long numeroScelleOld, long idObjet) {
+			Long idScelleNew, long idScelleOld, long idObjet) {
 		// TODO Auto-generated method stub
 		Affaire a=affaireDao.load(idAffaire);
 		Set<Scelle> scelles=a.getScelles();
 		Iterator<Scelle> itS=scelles.iterator();
 		while(itS.hasNext()){
 			Scelle s=(Scelle) itS.next();
-			if(s.getNumeroScelle()==numeroScelleOld){
+			if(s.getIdScelle()==idScelleOld){
 				Set<Objet> obs=s.getObjets();
 				Iterator<Objet> itO=obs.iterator();
 				while(itO.hasNext()){
@@ -367,7 +367,7 @@ public class AffaireService
 					if(o.getIdObjet()==idObjet){
 						o.setLibelleObjet(libelleObjet);
 						o.setIdTypeObjet(idTypeObjet);
-						o.setNumeroScelle(numeroScelleNew);
+						o.setIdScelle(idScelleNew);
 						break;
 					}
 				}
@@ -376,8 +376,8 @@ public class AffaireService
 		affaireDao.update(a);
 	}
 
-	public Scelle putScelle(long idAffaire, long numeroScelle, Long numeroPV,
-			String commentaire) {
+	public Scelle putScelle(long idAffaire, long idScelle, Long numeroPV,
+			String commentaire, Long numeroScelle) {
 		// TODO Auto-generated method stub
 		
 		Affaire a=affaireDao.load(idAffaire);
@@ -386,9 +386,10 @@ public class AffaireService
 		Scelle temps=null;
 		while(itS.hasNext()){
 			 temps=(Scelle) itS.next();
-			if(temps.getNumeroScelle()==numeroScelle){
+			if(temps.getIdScelle()==idScelle){
 				temps.setNumeroPV(numeroPV);
-				temps.setCommentaire(commentaire);
+				temps.setNom(commentaire);
+				temps.setNumeroScelle(numeroScelle);
 				break;
 			}
 		}

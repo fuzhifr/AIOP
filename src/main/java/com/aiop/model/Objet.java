@@ -14,7 +14,7 @@ public class Objet implements java.io.Serializable{
 	private long idObjet;
 	private String libelleObjet;
 	private long idTypeObjet;
-	private long numeroScelle;
+	private long idScelle;
 	
 	public Objet(){
 		
@@ -65,13 +65,13 @@ public Objet(long idObjet, String libelleObjet, long idTypeObjet) {
 		this.idTypeObjet = idTypeObjet;
 	}
 
-	@Column(name = "numeroScelle", length = 20)
-	public long getNumeroScelle() {
-		return numeroScelle;
+	@Column(name = "idScelle", length = 20)
+	public long getIdScelle() {
+		return idScelle;
 	}
 
-	public void setNumeroScelle(long numeroScelle) {
-		this.numeroScelle = numeroScelle;
+	public void setIdScelle(long idScelle) {
+		this.idScelle = idScelle;
 	}
 
 
