@@ -20,6 +20,7 @@ public class EtatObjetService
 		// TODO Auto-generated method stub
 		EtatObjet t=etatObjetDao.load(eo.getIdObjet(), eo.getIdTypeMission());
 		if(t!=null){
+			@SuppressWarnings("unused")
 			String msg="l'etat existe";
 			return null;
 		}else{

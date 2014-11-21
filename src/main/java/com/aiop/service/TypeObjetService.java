@@ -45,7 +45,7 @@ public class TypeObjetService
 	public Tarif getTypeMission(long idTypeObjet, long idTypeMission) {
 		// TODO Auto-generated method stub
 		TypeObjet to=typeObjetDao.load(idTypeObjet);
-		Set<Tarif> typeMissions=to.getTypeMissions();
+		Set<Tarif> typeMissions=to.getTarifs();
 		Iterator<Tarif> it=typeMissions.iterator();
 		while(it.hasNext()){
 			Tarif temps=it.next();
@@ -60,7 +60,7 @@ public class TypeObjetService
 			String libTypeMission, int forfait) {
 		// TODO Auto-generated method stub
 		TypeObjet to=typeObjetDao.load(idTypeObjet);
-		Set<Tarif> ts=to.getTypeMissions();
+		Set<Tarif> ts=to.getTarifs();
 		Tarif t=new Tarif();
 		Iterator<Tarif> it=ts.iterator();
 		while(it.hasNext()){

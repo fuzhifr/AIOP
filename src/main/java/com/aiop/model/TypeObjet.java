@@ -22,13 +22,13 @@ public class TypeObjet implements java.io.Serializable {
 
 	private long idTypeObjet;
 	private String libTypeObjet;
-	private Set<Tarif> typeMissions;
+	private Set<Tarif> tarifs;
 
 	/*
 	 * Constructeur
 	 */
 	public TypeObjet() {
-		typeMissions=new HashSet<Tarif>();
+		tarifs=new HashSet<Tarif>();
 	}
 
 	@Id
@@ -53,12 +53,12 @@ public class TypeObjet implements java.io.Serializable {
 
 	@OneToMany(mappedBy="idTypeObjet",cascade = { CascadeType.ALL },targetEntity = Tarif.class,fetch = FetchType.EAGER)
 	@JsonIgnore
-	public Set<Tarif> getTypeMissions() {
-		return typeMissions;
+	public Set<Tarif> getTarifs() {
+		return tarifs;
 	}
 
-	public void setTypeMissions(Set<Tarif> typeMissions) {
-		this.typeMissions = typeMissions;
+	public void setTarifs(Set<Tarif> tarifs) {
+		this.tarifs = tarifs;
 	}
 
 }

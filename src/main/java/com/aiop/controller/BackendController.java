@@ -67,7 +67,7 @@ public class BackendController {
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.GET)
 	public @ResponseBody Set<Tarif> getTypeMssions(
 			@PathVariable("idTypeObjet") long idTypeObjet) {	
-		return typeObjetService.getTypeObjet(idTypeObjet).getTypeMissions();
+		return typeObjetService.getTypeObjet(idTypeObjet).getTarifs();
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class BackendController {
 	 * @return liste des type d'objets
 	 * @author narjisse Zaki
 	 */
-	@RequestMapping(value = "/typeObjets", method = RequestMethod.GET)
+	@RequestMapping(value = "/typeMissions", method = RequestMethod.GET)
 	public @ResponseBody Set<TypeMission> getTypeMissionsNotAssignedWTypeObjet() {
 		return typeMissionService.getTypeMissionNotAssignedWTypeObjet();
 	}
