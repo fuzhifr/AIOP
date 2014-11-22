@@ -34,5 +34,11 @@ public class TokenDaoImpl implements TokenDaoI {
 		Token t=(Token)getSession().get(Token.class, idTokenLast) ;
 		return t;
 	}
+	@Override
+	public void delete(int idToken) {
+		Token t=(Token) getSession().load(Token.class, idToken);
+		getSession().delete(t);
+		
+	}
 
 }

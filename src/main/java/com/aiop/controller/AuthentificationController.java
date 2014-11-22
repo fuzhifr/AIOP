@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aiop.model.Token;
-
 import com.aiop.service.TokenService;
 
 public class AuthentificationController {
@@ -25,11 +24,24 @@ public class AuthentificationController {
 	 * @author narjissezaki
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public @ResponseBody int connexion(
-			@PathVariable("motDepasse") long motDepasse, HttpServletRequest request) {
+	public @ResponseBody int connexion(HttpServletRequest request) {
 		Token t= new Token();
 		String mdp =request.getParameter("motDepasse");
 		int tk=tockenService.connexion(t,mdp);
 		return tk;
+	}
+	
+	/**
+	 * Méthode de connexion
+	 * @param mot de passe 
+	 * @return tocken
+	 * @author narjissezaki
+	 */
+	@RequestMapping(value = "/tokens/{idToken}", method = RequestMethod.DELETE)
+	public @ResponseBody String deconnexion(
+			@PathVariable("idToken") int idToken) {
+			String var="Echec";
+		    var=tockenService.deconnexion(idToken);
+		    return var;
 	}
 }

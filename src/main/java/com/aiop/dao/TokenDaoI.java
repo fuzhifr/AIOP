@@ -9,6 +9,8 @@ public interface TokenDaoI {
 
 	public int lastInsert();
 
-	public Token load(int idTokenLast); 
+	public Token load(int idTokenLast);
+
+	public void delete(int idToken); 
 
 }

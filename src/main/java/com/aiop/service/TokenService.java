@@ -34,6 +34,12 @@ public class TokenService {
 		}
 			return 0;
 	}
+
+	public String deconnexion(int idToken) {
+		tokenDao.delete(idToken);
+		return "Deconnexion";
+		
+	}
 	
 	 
 
