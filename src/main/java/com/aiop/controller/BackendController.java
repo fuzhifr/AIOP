@@ -59,6 +59,16 @@ public class BackendController {
 		return typeObjetService.getTypeObjets();
 	}
 
+	//nouvelle fonction
+	/**
+	 * Méthode de récupération des types mission
+	 * @return liste des type mission
+	 * @author narjissezaki
+	 */
+	@RequestMapping(value = "/typeObjets", method = RequestMethod.GET)
+	public @ResponseBody List<TypeMission> getTypeMissions() {
+		return typeMissionService.getTypeMissions();
+	}
 	/**
 	 * Méthode de récupération des type sMissions d'un type objet
 	 * @param idTypeObjet identifiant du type d'objet
@@ -69,6 +79,7 @@ public class BackendController {
 			@PathVariable("idTypeObjet") long idTypeObjet) {	
 		return typeObjetService.getTypeObjet(idTypeObjet).getTarifs();
 	}
+	
 
 	/**
 	 * Méthode de récupération d'un type Mission d'un type objet

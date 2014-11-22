@@ -48,5 +48,10 @@ public class TypeMissionDaoImpl<T> implements TypeMissionDaoI<T> {
 			 return tm;
 		
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> getTypeMissions() {
+		return getSession().createQuery("from TypeMission").list();
+	}
 
 }
