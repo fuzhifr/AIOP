@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aiop.model.Token;
+
 import com.aiop.service.TokenService;
 
 public class AuthentificationController {
