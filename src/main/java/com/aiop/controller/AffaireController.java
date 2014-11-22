@@ -18,6 +18,7 @@ import com.aiop.model.*;
 import com.aiop.service.AffaireService;
 import com.aiop.service.EtatObjetService;
 import com.aiop.service.FraisService;
+import com.aiop.service.LigneDevisService;
 import com.aiop.service.ScelleService;
 import com.aiop.service.TarifService;
 import com.aiop.service.TypeObjetService;
@@ -42,6 +43,10 @@ public class AffaireController {
 	
 	@Autowired
 	private EtatObjetService etatObjetService;
+	
+	@Autowired
+	private LigneDevisService ligneDevisService;
+
 
 	/*
 	 * ---------------------------------------------------- METHODE POST---------------------------------------------------------------
@@ -367,6 +372,24 @@ public class AffaireController {
 		
 		return affaireService.getObjetScelle(idAffaire,idScelle,idObjet);
 	}
+	
+	//nouvelle fonction
+	/**
+	 * Méthode de récupération des types mission non affectés à un type objet d'une affaire
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire
+	 * @param idTypeObjet
+	 *            identifiant d'un type objet d'une affaire
+	 * @return liste des types missions non affectés aun type d'objet donné d'une affaire donnée
+	 * @author Narjisse Zaki terminé
+	 */
+	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}", method = RequestMethod.GET)
+	public @ResponseBody Set<TypeMission> getAllTypeMissionsForTypeObjetAffaire(
+			@PathVariable("idAffaire") long idAffaire,
+			@PathVariable("idTypeObjet") long idTypeObjet) {
+		return ligneDevisService.getAllTypeMissionsForTypeObjetAffaire(idAffaire, idTypeObjet);
+	}
 
 	/**  ???
 	 * Méthode pour connaitre le nombre d'objet d'un type objet concernés par
@@ -677,7 +700,7 @@ public class AffaireController {
 	 *            identifiant du scellé contenant l'objet
 	 * @param idObjet
 	 *            identifiant de l'objet à supprimer
-	 * @author narjisse Zaki pas reussi pb
+	 * @author narjisse Zaki terminée testée
 	 */
 
 	@RequestMapping(value = "/affaires/{idAffaire}/scelles/{idScelle}/objet/{idObjet}", method = RequestMethod.DELETE)

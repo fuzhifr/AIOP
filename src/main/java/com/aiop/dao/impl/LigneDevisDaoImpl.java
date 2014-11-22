@@ -1,7 +1,9 @@
 package com.aiop.dao.impl;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.aiop.dao.LigneDevisDaoI;
 import com.aiop.model.LigneDevis;
+import com.aiop.model.TypeMission;
 
 @Repository("ligneDevisDao")
 public class LigneDevisDaoImpl implements LigneDevisDaoI {
@@ -57,6 +60,15 @@ public class LigneDevisDaoImpl implements LigneDevisDaoI {
 		if(ld!=null){
 		getSession().delete(ld);
 		}
+	}
+
+	@Override
+	public Set<TypeMission> load(long idAffaire, long idTypeObjet) {
+		Query query=getSession().createQuery("from TypeMission as typMiss where typMiss.idTypeMission not in (select ld.idTypeMission from LigneDevis as ld where ld.idAffaire=:idAffaire and ld.idTypeObjet=:idTypeObjet)");
+		Set<TypeMission>tm=null;
+		List<TypeMission> list=query.list();
+		tm=new HashSet<TypeMission>(list);
+		return tm;
 	}
 
 }
