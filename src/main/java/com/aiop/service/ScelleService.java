@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.aiop.dao.ScelleDaoI;
+import com.aiop.dao.TypeObjetDaoI;
 import com.aiop.model.Objet;
 import com.aiop.model.Scelle;
 import com.aiop.model.TypeObjet;
@@ -23,6 +24,9 @@ public class ScelleService
     
     @Autowired  
     private TypeObjetService typeObjetService;
+    
+    @Autowired  
+    private TypeObjetDaoI typeObjetDao;
     
     public void addScelle(Scelle s)  
     {  
@@ -44,7 +48,6 @@ public class ScelleService
 		//List<Objet> objets = new ArrayList<Objet>();
 		Set<Objet> objets=new HashSet<Objet>();
 		Set<Long> listeIdTypeObjet = new HashSet<Long>();
-		HashSet<Long> hs = new HashSet<Long>();
 		Iterator <Scelle> it=scelles.iterator();
 		while(it.hasNext()){
 			objets=it.next().getObjets();
@@ -55,15 +58,10 @@ public class ScelleService
 			 
 			}
 		}
-		// add elements including duplicates
-		hs.addAll(listeIdTypeObjet);
-		listeIdTypeObjet.clear();
-		//delete duplicate
-		listeIdTypeObjet.addAll(hs);
 		
 		Iterator<Long> listeID=listeIdTypeObjet.iterator();
 		while(listeID.hasNext()){
-			typeObjets.add(typeObjetService.getObjetById(listeID.next()));
+			typeObjets.add(typeObjetDao.load(listeID.next()));
 		}
 		return typeObjets;
 	}

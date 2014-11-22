@@ -263,7 +263,7 @@ public class AffaireController {
 	 * @param idAffaire
 	 *            identifiant de l'affaire
 	 * @return liste des types objets de l'affaire
-	 * @author narjisse Zaki Terminé testé
+	 * @author zhi
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjets", method = RequestMethod.GET)
 	public @ResponseBody Set<TypeObjet> getAllTypesObjetsAffaire(
