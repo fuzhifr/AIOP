@@ -73,4 +73,16 @@ public class LigneDevisDaoImpl implements LigneDevisDaoI {
 		return tm;
 	}
 
+	@Override
+	public Set<TypeMission> loadAffected(long idAffaire, long idTypeObjet) {
+		
+		Query query=getSession().createQuery("from TypeMission as typMiss where typMiss.idTypeMission in (select ld.idTypeMission from LigneDevis as ld where ld.idAffaire=:idAffaire and ld.idTypeObjet=:idTypeObjet)");
+		query.setLong("idTypeObjet", idTypeObjet);
+		query.setLong("idAffaire", idAffaire);
+		Set<TypeMission>tm=null;
+		List<TypeMission> list=query.list();
+		tm=new HashSet<TypeMission>(list);
+		return tm;
+	}
+
 }

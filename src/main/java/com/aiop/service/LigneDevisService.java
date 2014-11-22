@@ -15,11 +15,18 @@ import com.aiop.model.TypeMission;
 public class LigneDevisService {
 	@Autowired  
     private LigneDevisDaoI ligneDevisDao;
-
+//Les types mission non affectées à un type objet
 	public Set<TypeMission> getAllTypeMissionsForTypeObjetAffaire(
 			long idAffaire, long idTypeObjet) {
 		//récuprer la liste des id de types missions
 		Set<TypeMission> typesMission=ligneDevisDao.load(idAffaire,idTypeObjet);
+		return typesMission;
+	}
+	
+//Les types mission affectées à un typeObjet
+	public Set<TypeMission> getAllTypeMissionsAffectedToTypeObjet(
+			long idAffaire, long idTypeObjet) {
+		Set<TypeMission> typesMission=ligneDevisDao.loadAffected(idAffaire,idTypeObjet);
 		return typesMission;
 	} 
 	

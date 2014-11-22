@@ -137,7 +137,7 @@ public class AffaireController {
 	 *            identifiant de l'affaire concernée
 	 * @param idScelle
 	 *            numéro du scellé concerné
-	 * @author Narjisse
+	 * @author Narjisse Zaki
 	 * 
 	 *         Terminé testé
 	 */
@@ -248,7 +248,7 @@ public class AffaireController {
 	 * @param idAffaire
 	 *            identifiant de l'affaire
 	 * @return l'état d'une affaire
-	 * testé
+	 * @author Narjisse Zaki testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/etat", method = RequestMethod.GET)
 	public @ResponseBody String getEtatAffaire(@PathVariable("idAffaire") long idAffaire) {
@@ -263,7 +263,7 @@ public class AffaireController {
 	 * @param idAffaire
 	 *            identifiant de l'affaire
 	 * @return liste des types objets de l'affaire
-	 * @author zhi
+	 * @author Narjisse Zaki
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjets", method = RequestMethod.GET)
 	public @ResponseBody Set<TypeObjet> getAllTypesObjetsAffaire(
@@ -283,7 +283,7 @@ public class AffaireController {
 	 * @param idTypeObjet
 	 *            identifiant d'un type objet d'une affaire
 	 * @return liste des objets d'un type objet d'une affaire
-	 * @author Zhi testé
+	 * @author Narjisse Zaki testé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/objets", method = RequestMethod.GET)
 	public @ResponseBody Set<Objet> getAllObjetsTypeObjetAffaire(
@@ -291,6 +291,8 @@ public class AffaireController {
 			@PathVariable("idTypeObjet") long idTypeObjet) {
 		return affaireService.getObjetTypeObjet(idAffaire, idTypeObjet);
 	}
+	
+	
 
 	/**
 	 * Méthode de récupération d'un scellé d'une affaire
@@ -384,13 +386,31 @@ public class AffaireController {
 	 * @return liste des types missions non affectés aun type d'objet donné d'une affaire donnée
 	 * @author Narjisse Zaki terminé
 	 */
-	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}", method = RequestMethod.GET)
+	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissionsNotAffected", method = RequestMethod.GET)
 	public @ResponseBody Set<TypeMission> getAllTypeMissionsForTypeObjetAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet) {
 		return ligneDevisService.getAllTypeMissionsForTypeObjetAffaire(idAffaire, idTypeObjet);
 	}
 
+	//-------------nouvelle fonction
+	
+	/**
+	 * Méthode de récupération des types mission d' un type objet d'une affaire
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire
+	 * @param idTypeObjet
+	 *            identifiant d'un type objet d'une affaire
+	 * @return liste des types mission d'un type objet d'une affaire
+	 * @author Narjisse Zaki 
+	 */
+	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.GET)
+	public @ResponseBody Set<TypeMission> getAllTypeMissionTypeObjetAffaire(
+			@PathVariable("idAffaire") long idAffaire,
+			@PathVariable("idTypeObjet") long idTypeObjet) {
+		return ligneDevisService.getAllTypeMissionsAffectedToTypeObjet(idAffaire, idTypeObjet);
+	}
 	/**  ???
 	 * Méthode pour connaitre le nombre d'objet d'un type objet concernés par
 	 * une mission pour une affaire
