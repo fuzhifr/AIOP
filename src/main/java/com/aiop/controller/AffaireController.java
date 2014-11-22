@@ -508,54 +508,66 @@ public class AffaireController {
 		{	aff.setDateRemise(dateRemise);	}
 		
 		
-		Long dossier = Long.parseLong(request.getParameter("dossier"));
-		if (dossier != null)
-		{	aff.setNumDossier(dossier);	}
+		String test = request.getParameter("dossier");
+		if (test != null)
+		{	Long dossier = Long.parseLong(test);
+			aff.setNumDossier(dossier);	}
 		
-		Long parquet = Long.parseLong(request.getParameter("parquet"));
-		if (parquet != null)
-		{	aff.setNumParquet(parquet);	}
+		test = request.getParameter("parquet");
+		if (test != null)
+		{	Long parquet = Long.parseLong(test);
+			aff.setNumParquet(parquet);	}
 		
-		Long pageNb = Long.parseLong(request.getParameter("pageNb"));
-		if (pageNb != null)
-		{	aff.setNbPageNb(pageNb);	}
+		test = request.getParameter("pageNb");
+		if (test != null)
+		{	Long pageNb = Long.parseLong(test);
+			aff.setNbPageNb(pageNb);	}
 		
-		Long pageCoul = Long.parseLong(request.getParameter("pageCoul"));
-		if (pageCoul != null)
-		{	aff.setNbPageCouleur(pageCoul);	}
+		test = request.getParameter("pageCoul");
+		if (test != null)
+		{	Long pageCoul = Long.parseLong(test);
+			aff.setNbPageCouleur(pageCoul);	}
 		
-		Long nbHExpertise = Long.parseLong(request.getParameter("nbHExpertise"));
-		if (nbHExpertise != null)
-		{	aff.setNbHExpertise(nbHExpertise);	}
+		test = request.getParameter("nbHExpertise");
+		if (test != null)
+		{	Long nbHExpertise = Long.parseLong(test);
+			aff.setNbHExpertise(nbHExpertise);	}
 		
-		Long nbHDeplacement = Long.parseLong(request.getParameter("nbHDeplacement"));
-		if (nbHDeplacement != null)
-		{	aff.setNbHDeplacement(nbHDeplacement);	}
+		test = request.getParameter("nbHDeplacement");
+		if (test != null)
+		{	Long nbHDeplacement = Long.parseLong(test);
+			aff.setNbHDeplacement(nbHDeplacement);	}
 		
-		Long facture = Long.parseLong(request.getParameter("facture"));
-		if (facture != null)
-		{	aff.setNumFacture(facture);	}
+		test = request.getParameter("facture");
+		if (test != null)
+		{	Long facture = Long.parseLong(test);
+			aff.setNumFacture(facture);	}
 		
-		Long instruction = Long.parseLong(request.getParameter("instruction"));
-		if (instruction != null)
-		{	aff.setNumInstruction(instruction);	}
+		test = request.getParameter("instruction");
+		if (test != null)
+		{	Long instruction = Long.parseLong(test);
+			aff.setNumInstruction(instruction);	}
 		
 		
-		Double pourcentDevis = Double.parseDouble(request.getParameter("pourcentageDevis"));
-		if (pourcentDevis != null)
-		{	aff.setPourcentageDevis(pourcentDevis);	}
+		test = request.getParameter("pourcentageDevis");
+		if (test != null)
+		{	Double pourcentDevis = Double.parseDouble(test);
+			aff.setPourcentageDevis(pourcentDevis);	}
 		
-		Double montantFacture = Double.parseDouble(request.getParameter("montantFacture"));
-		if (montantFacture != null)
-		{	aff.setMontantFacture(montantFacture);	}
+		test = request.getParameter("montantFacture");
+		if (test != null)
+		{	Double montantFacture = Double.parseDouble(test);
+			aff.setMontantFacture(montantFacture);	}
 		
-		Double pourcentRemise = Double.parseDouble(request.getParameter("pourcentRemise"));
-		if (pourcentRemise != null)
-		{	aff.setPourcentageRemise(pourcentRemise);	}
+		test = request.getParameter("pourcentRemise");
+		if (test != null)
+		{	Double pourcentRemise = Double.parseDouble(test);
+			aff.setPourcentageRemise(pourcentRemise);	}
 		
-		Boolean delais10j = Boolean.parseBoolean(request.getParameter("delais10j"));
-		if (delais10j != null)
-		{	aff.setDelais10j(delais10j);	}
+		test = request.getParameter("delais10j");
+		if (test != null)
+		{	Boolean delais10j = Boolean.parseBoolean(test);
+			aff.setDelais10j(delais10j);	}
 		
 		affaireService.updateAffaire(aff);
 		return aff;
