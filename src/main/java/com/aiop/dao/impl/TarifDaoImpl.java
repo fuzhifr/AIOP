@@ -1,7 +1,9 @@
 package com.aiop.dao.impl;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -13,6 +15,7 @@ import com.aiop.dao.ScelleDaoI;
 import com.aiop.dao.TarifDaoI;
 import com.aiop.model.Scelle;
 import com.aiop.model.Tarif;
+import com.aiop.model.TypeMission;
 
 @Repository("tarifDao")
 public class TarifDaoImpl implements TarifDaoI {
@@ -51,6 +54,16 @@ public class TarifDaoImpl implements TarifDaoI {
 	public void delete(Tarif t) {
 		// TODO Auto-generated method stub
 		getSession().delete(t);
+	}
+
+	@Override
+	public Set<TypeMission> loadNotAffected(long idTypeObjet) {
+		Query query=getSession().createQuery("from TypeMission as typMiss where typMiss.idTypeMission in (select t.idTypeMission from Tarif as t where t.idTypeMission=:idTypeObjet)");
+		query.setLong("idTypeObjet", idTypeObjet);
+		Set<TypeMission>tm=null;
+		List<TypeMission> list=query.list();
+		tm=new HashSet<TypeMission>(list);
+		return tm;
 	}
 
 }

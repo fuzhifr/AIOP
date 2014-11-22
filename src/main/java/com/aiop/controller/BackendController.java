@@ -10,6 +10,8 @@ import com.aiop.service.TarifService;
 import com.aiop.service.TypeMissionService;
 import com.aiop.service.TypeObjetService;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -104,6 +106,19 @@ public class BackendController {
 	@RequestMapping(value = "/typeMissionsNotAffected", method = RequestMethod.GET)
 	public @ResponseBody Set<TypeMission> getTypeMissionsNotAssignedWTypeObjet() {
 		return typeMissionService.getTypeMissionNotAssignedWTypeObjet();
+	}
+	
+	/**
+	 * Méthode qui pour 1 type d'objet, renvoie les type de mission non affectés
+	 * @param
+	 * @return liste des type mission, qui pour 1 type d'objet, ne sont pas affectées
+	 * @author narjisse Zaki
+	 */
+	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissionNotAffectedWTypeObjet", method = RequestMethod.GET)
+	public @ResponseBody Set<JSONObject> getTypeMssion(
+			@PathVariable("idTypeObjet") long idTypeObjet) {
+
+		return tarifService.getTypeMissionNotAssignedWTypeObjetID(idTypeObjet);
 	}
 
 	/* ---------------------------------------------------- METHODE PUT ---------------------------------------------------------------*/

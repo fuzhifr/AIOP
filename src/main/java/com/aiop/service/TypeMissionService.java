@@ -42,6 +42,6 @@ public class TypeMissionService
 	public List<TypeMission> getTypeMissions() {
 		return typeMissionDao.getTypeMissions();
 		
-	}  
+	}
   
 }  
