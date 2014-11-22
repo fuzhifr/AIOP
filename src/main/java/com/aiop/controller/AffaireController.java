@@ -488,57 +488,73 @@ public class AffaireController {
 		{	aff.setNomAffaire(nom);	}
 		
 		String dateOrdre = request.getParameter("DateOrdre");
-		if (nom != null)
+		if (dateOrdre != null)
 		{	aff.setDateOrdre(dateOrdre);	}
 		
 		String dateMax = request.getParameter("dateMax");
+		if (dateMax != null)
 		{	aff.setDateMax(dateMax);	}
 		
 		String dateProrogation = request.getParameter("dateProrogation");
+		if (dateProrogation != null)
 		{	aff.setDateProrogation(dateProrogation);	}
 		
 		String dateDevis = request.getParameter("dateDevis");
+		if (dateDevis != null)
 		{	aff.setDateDevis(dateDevis);	}
 		
 		String dateRemise = request.getParameter("dateRemise");
+		if (dateRemise != null)
 		{	aff.setDateRemise(dateRemise);	}
 		
 		
 		Long dossier = Long.parseLong(request.getParameter("dossier"));
+		if (dossier != null)
 		{	aff.setNumDossier(dossier);	}
 		
 		Long parquet = Long.parseLong(request.getParameter("parquet"));
+		if (parquet != null)
 		{	aff.setNumParquet(parquet);	}
 		
 		Long pageNb = Long.parseLong(request.getParameter("pageNb"));
+		if (pageNb != null)
 		{	aff.setNbPageNb(pageNb);	}
 		
 		Long pageCoul = Long.parseLong(request.getParameter("pageCoul"));
+		if (pageCoul != null)
 		{	aff.setNbPageCouleur(pageCoul);	}
 		
 		Long nbHExpertise = Long.parseLong(request.getParameter("nbHExpertise"));
+		if (nbHExpertise != null)
 		{	aff.setNbHExpertise(nbHExpertise);	}
 		
 		Long nbHDeplacement = Long.parseLong(request.getParameter("nbHDeplacement"));
+		if (nbHDeplacement != null)
 		{	aff.setNbHDeplacement(nbHDeplacement);	}
 		
 		Long facture = Long.parseLong(request.getParameter("facture"));
+		if (facture != null)
 		{	aff.setNumFacture(facture);	}
 		
 		Long instruction = Long.parseLong(request.getParameter("instruction"));
+		if (instruction != null)
 		{	aff.setNumInstruction(instruction);	}
 		
 		
 		Double pourcentDevis = Double.parseDouble(request.getParameter("pourcentageDevis"));
+		if (pourcentDevis != null)
 		{	aff.setPourcentageDevis(pourcentDevis);	}
 		
 		Double montantFacture = Double.parseDouble(request.getParameter("montantFacture"));
+		if (montantFacture != null)
 		{	aff.setMontantFacture(montantFacture);	}
 		
 		Double pourcentRemise = Double.parseDouble(request.getParameter("pourcentRemise"));
+		if (pourcentRemise != null)
 		{	aff.setPourcentageRemise(pourcentRemise);	}
 		
 		Boolean delais10j = Boolean.parseBoolean(request.getParameter("delais10j"));
+		if (delais10j != null)
 		{	aff.setDelais10j(delais10j);	}
 		
 		affaireService.updateAffaire(aff);
