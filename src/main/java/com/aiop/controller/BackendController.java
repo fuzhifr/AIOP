@@ -65,7 +65,7 @@ public class BackendController {
 	 * @return liste des type mission
 	 * @author narjissezaki
 	 */
-	@RequestMapping(value = "/typeObjets", method = RequestMethod.GET)
+	@RequestMapping(value = "/typeMissions", method = RequestMethod.GET)
 	public @ResponseBody List<TypeMission> getTypeMissions() {
 		return typeMissionService.getTypeMissions();
 	}
