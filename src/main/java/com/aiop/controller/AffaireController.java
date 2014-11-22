@@ -118,7 +118,7 @@ public class AffaireController {
 			@PathVariable("idAffaire") long idAffaire,HttpServletRequest request) {
 		
 		Scelle newScelle = new Scelle();
-		String nom = request.getParameter("commentaire");
+		String nom = request.getParameter("nom");
 		Long numeroPV = Long.parseLong(request.getParameter("numeroPV"));
 		Long numeroScelle = Long.parseLong(request.getParameter("numeroScelle"));
 		
