@@ -101,7 +101,7 @@ public class BackendController {
 	 * @return liste des type d'objets
 	 * @author narjisse Zaki
 	 */
-	@RequestMapping(value = "/typeMissions", method = RequestMethod.GET)
+	@RequestMapping(value = "/typeMissionsNotAffected", method = RequestMethod.GET)
 	public @ResponseBody Set<TypeMission> getTypeMissionsNotAssignedWTypeObjet() {
 		return typeMissionService.getTypeMissionNotAssignedWTypeObjet();
 	}
