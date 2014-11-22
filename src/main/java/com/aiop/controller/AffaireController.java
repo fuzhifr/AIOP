@@ -662,24 +662,17 @@ public class AffaireController {
 	 *            nouveau libellé
 	 * @param prixMission
 	 *            nouveau prix
-	 *            pb
+	 *            zhi
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/scelles/{idScelle}/typeObjet/{idTypeObjet}/typeMissions/{idTypeMission}", method = RequestMethod.PUT)
-	public void putTypeMissionForTypeObjetInScelle(
+	public TypeMission putTypeMissionForTypeObjetInScelle(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idScelle") long idScelle,
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission, HttpServletRequest request) {
-		
-		//Long libTypeMission = Long.parseLong(request.getParameter("libTypeMission"));
-		//String prixMission = request.getParameter("prixMission");
-
-		// Je ne sais pas comment ça va marcher avec l'ORM Scelle x = new
-		// Scelle(idScelle);
-		// x.load();
-		// x.updateTypeMissionForTypeObjetInScelle(idTypeObjet,
-		// idTypeMission,libTypeMission, prixMission);
+		String libTypeMission=request.getParameter("libTypeMission");
+		return affaireService.putTypeMissionForTypeObjetInScelle(idAffaire, idScelle, idTypeObjet, idTypeMission, libTypeMission);
 	}
 
 	/*

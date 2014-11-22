@@ -13,12 +13,14 @@ import com.aiop.dao.AffaireDaoI;
 import com.aiop.dao.LigneDevisDaoI;
 import com.aiop.dao.ObjetDaoI;
 import com.aiop.dao.ScelleDaoI;
+import com.aiop.dao.TypeMissionDaoI;
 import com.aiop.model.Affaire;
 import com.aiop.model.EtatObjet;
 import com.aiop.model.Frais;
 import com.aiop.model.LigneDevis;
 import com.aiop.model.Objet;
 import com.aiop.model.Scelle;
+import com.aiop.model.TypeMission;
 
 
 
@@ -39,6 +41,9 @@ public class AffaireService
     
     @Autowired  
     private LigneDevisDaoI ligneDevisDao;
+    
+    @Autowired  
+    private TypeMissionDaoI typeMissionDao;
     
     @Autowired  
     private FraisService fraisService;
@@ -433,6 +438,19 @@ public class AffaireService
 		}
 		// TODO Auto-generated method stub
 		return nbObjet;
+	}
+
+	public TypeMission putTypeMissionForTypeObjetInScelle(long idAffaire,
+			long idScelle, long idTypeObjet, long idTypeMission, String libTypeMission) {
+		// TODO Auto-generated method stub
+		LigneDevis ld=ligneDevisDao.load(idAffaire, idTypeObjet, idTypeMission);
+		if(ld!=null){
+			TypeMission tm=typeMissionDao.load(idTypeMission);
+			tm.setLibTypeMission(libTypeMission);
+			typeMissionDao.update(tm);
+			return tm;
+		}
+		return null;
 	}
 
 }  
