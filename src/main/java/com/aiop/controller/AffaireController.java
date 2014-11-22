@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -427,7 +429,7 @@ public class AffaireController {
 	 * @author Narjisse Zaki terminé
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissionsNotAffected", method = RequestMethod.GET)
-	public @ResponseBody Set<TypeMission> getAllTypeMissionsForTypeObjetAffaire(
+	public @ResponseBody Set<JSONObject> getAllTypeMissionsForTypeObjetAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet) {
 		return ligneDevisService.getAllTypeMissionsForTypeObjetAffaire(idAffaire, idTypeObjet);
