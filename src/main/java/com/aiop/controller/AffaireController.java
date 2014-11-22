@@ -14,7 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aiop.model.*;
+import com.aiop.model.Affaire;
+import com.aiop.model.EtatObjet;
+import com.aiop.model.Frais;
+import com.aiop.model.LigneDevis;
+import com.aiop.model.Objet;
+import com.aiop.model.Scelle;
+import com.aiop.model.Tarif;
+import com.aiop.model.TypeMission;
+import com.aiop.model.TypeObjet;
 import com.aiop.service.AffaireService;
 import com.aiop.service.EtatObjetService;
 import com.aiop.service.FraisService;
@@ -22,6 +30,7 @@ import com.aiop.service.LigneDevisService;
 import com.aiop.service.ScelleService;
 import com.aiop.service.TarifService;
 import com.aiop.service.TypeObjetService;
+
 
 @RestController
 public class AffaireController {
