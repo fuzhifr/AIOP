@@ -181,7 +181,7 @@ public class AffaireController {
 	 *         
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
-	public @ResponseBody LigneDevis createTypeMissionForTypeObjeteInAffaire(
+	public @ResponseBody String createTypeMissionForTypeObjeteInAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet, HttpServletRequest request) {
 
@@ -197,7 +197,7 @@ public class AffaireController {
 		long montant=prix*nbObjet;
 		newLigne.setMontantDevis(montant);
 		affaireService.addLigneDevis(idAffaire,newLigne);
-		return newLigne;
+		return "Success";
 	}
 
 	/*
