@@ -65,6 +65,8 @@ public class LigneDevisDaoImpl implements LigneDevisDaoI {
 	@Override
 	public Set<TypeMission> load(long idAffaire, long idTypeObjet) {
 		Query query=getSession().createQuery("from TypeMission as typMiss where typMiss.idTypeMission not in (select ld.idTypeMission from LigneDevis as ld where ld.idAffaire=:idAffaire and ld.idTypeObjet=:idTypeObjet)");
+		query.setLong("idTypeObjet", idTypeObjet);
+		query.setLong("idAffaire", idAffaire);
 		Set<TypeMission>tm=null;
 		List<TypeMission> list=query.list();
 		tm=new HashSet<TypeMission>(list);

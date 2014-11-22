@@ -79,7 +79,7 @@ public class Scelle implements java.io.Serializable {
 
 	
 
-	@OneToMany(targetEntity = Objet.class,fetch = FetchType.EAGER, mappedBy = "numeroScelle")
+	@OneToMany(targetEntity = Objet.class,fetch = FetchType.EAGER, mappedBy = "idScelle")
 	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.DELETE })
 	@JsonIgnore
