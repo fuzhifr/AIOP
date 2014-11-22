@@ -484,46 +484,63 @@ public class AffaireController {
 		Affaire aff = affaireService.loadAffaire(idAffaire);
 		
 		String nom = request.getParameter("nom");
+		if (nom != null)
+		{	aff.setNomAffaire(nom);	}
+		
 		String dateOrdre = request.getParameter("DateOrdre");
+		if (nom != null)
+		{	aff.setDateOrdre(dateOrdre);	}
+		
 		String dateMax = request.getParameter("dateMax");
+		{	aff.setDateMax(dateMax);	}
+		
 		String dateProrogation = request.getParameter("dateProrogation");
+		{	aff.setDateProrogation(dateProrogation);	}
+		
 		String dateDevis = request.getParameter("dateDevis");
+		{	aff.setDateDevis(dateDevis);	}
+		
 		String dateRemise = request.getParameter("dateRemise");
+		{	aff.setDateRemise(dateRemise);	}
+		
 		
 		Long dossier = Long.parseLong(request.getParameter("dossier"));
+		{	aff.setNumDossier(dossier);	}
+		
 		Long parquet = Long.parseLong(request.getParameter("parquet"));
+		{	aff.setNumParquet(parquet);	}
+		
 		Long pageNb = Long.parseLong(request.getParameter("pageNb"));
+		{	aff.setNbPageNb(pageNb);	}
+		
 		Long pageCoul = Long.parseLong(request.getParameter("pageCoul"));
+		{	aff.setNbPageCouleur(pageCoul);	}
+		
 		Long nbHExpertise = Long.parseLong(request.getParameter("nbHExpertise"));
+		{	aff.setNbHExpertise(nbHExpertise);	}
+		
 		Long nbHDeplacement = Long.parseLong(request.getParameter("nbHDeplacement"));
+		{	aff.setNbHDeplacement(nbHDeplacement);	}
+		
 		Long facture = Long.parseLong(request.getParameter("facture"));
+		{	aff.setNumFacture(facture);	}
+		
 		Long instruction = Long.parseLong(request.getParameter("instruction"));
+		{	aff.setNumInstruction(instruction);	}
+		
 		
 		Double pourcentDevis = Double.parseDouble(request.getParameter("pourcentageDevis"));
+		{	aff.setPourcentageDevis(pourcentDevis);	}
+		
 		Double montantFacture = Double.parseDouble(request.getParameter("montantFacture"));
+		{	aff.setMontantFacture(montantFacture);	}
+		
 		Double pourcentRemise = Double.parseDouble(request.getParameter("pourcentRemise"));
+		{	aff.setPourcentageRemise(pourcentRemise);	}
 		
 		Boolean delais10j = Boolean.parseBoolean(request.getParameter("delais10j"));
-
-		aff.setIdAffaire(idAffaire);
-		aff.setNomAffaire(nom);
-		aff.setNumDossier(dossier);
-		aff.setNumParquet(parquet);
-		aff.setDateOrdre(dateOrdre);
-		aff.setDateMax(dateMax);
-		aff.setDateProrogation(dateProrogation);
-		aff.setNbPageNb(pageNb);
-		aff.setNbPageCouleur(pageCoul);
-		aff.setNbHExpertise(nbHExpertise);
-		aff.setNbHDeplacement(nbHDeplacement);
-		aff.setDateDevis(dateDevis);
-		aff.setPourcentageDevis(pourcentDevis);
-		aff.setNumFacture(facture);
-		aff.setMontantFacture(montantFacture);
-		aff.setPourcentageRemise(pourcentRemise);
-		aff.setDelais10j(delais10j);
-		aff.setDateRemise(dateRemise);
-		aff.setNumInstruction(instruction);
+		{	aff.setDelais10j(delais10j);	}
+		
 		affaireService.updateAffaire(aff);
 		return aff;
 	}
