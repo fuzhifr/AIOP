@@ -475,7 +475,7 @@ public class AffaireController {
 	 * @param dateRemise
 	 * @param instruction
 	 * 
-	 * zhi 
+	 * hugo
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}", method = RequestMethod.PUT)
 	public @ResponseBody Affaire PutAffaire(@PathVariable("idAffaire") long idAffaire,
