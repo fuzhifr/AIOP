@@ -18,8 +18,8 @@ public class LigneDevis {
 	
 	private long montantDevis;
 	private long quantiteDevis;
-	private long montantFacture;
-	private long quantiteFacture;
+	private long tarifUnitaire;
+	private long nbObjets;
 	
 	public LigneDevis() {
 		
@@ -72,24 +72,24 @@ public class LigneDevis {
 	public long getQuantiteDevis() {
 		return quantiteDevis;
 	}
+	
 	public void setQuantiteDevis(long quantiteDevis) {
 		this.quantiteDevis = quantiteDevis;
 	}
 	
-	@Column(name="montantFacture",length=20)
-	public long getMontantFacture() {
-		return montantFacture;
+	public long getTarifUnitaire() {
+		return tarifUnitaire;
 	}
-	public void setMontantFacture(long montantFacture) {
-		this.montantFacture = montantFacture;
+	public void setTarifUnitaire(long tarifUnitaire) {
+		this.tarifUnitaire = tarifUnitaire;
 	}
 	
-	@Column(name="quantiteFacture",length=20)
-	public long getQuantiteFacture() {
-		return quantiteFacture;
+	@Column(name="nbObjets",length=20)
+	public long getQNbObjets() {
+		return nbObjets;
 	}
-	public void setQuantiteFacture(long quantiteFacture) {
-		this.quantiteFacture = quantiteFacture;
+	public void setNbObjets(long nbObjets) {
+		this.nbObjets = nbObjets;
 	}
 	
 	

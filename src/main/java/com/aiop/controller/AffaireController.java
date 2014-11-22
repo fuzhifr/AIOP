@@ -219,10 +219,12 @@ public class AffaireController {
 			prix = Integer.parseInt(sprixD);
 		}
 		
+		newLigne.setTarifUnitaire(prix);
 		newLigne.setIdAffaire(idAffaire);
 		newLigne.setIdTypeMission(idTypeMission);
 		newLigne.setIdTypeObjet(idTypeObjet);
 		int nbObjet=affaireService.getNbObjetTypeObjet(idAffaire,idTypeObjet);
+		newLigne.setNbObjets(nbObjet);
 		newLigne.setQuantiteDevis(nbObjet);
 		
 		long montant=prix*nbObjet;
