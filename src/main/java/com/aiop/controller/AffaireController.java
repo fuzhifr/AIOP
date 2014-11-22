@@ -450,7 +450,7 @@ public class AffaireController {
 	 * @author Narjisse Zaki 
 	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.GET)
-	public @ResponseBody Set<TypeMission> getAllTypeMissionTypeObjetAffaire(
+	public @ResponseBody Set<JSONObject> getAllTypeMissionTypeObjetAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet) {
 		return ligneDevisService.getAllTypeMissionsAffectedToTypeObjet(idAffaire, idTypeObjet);

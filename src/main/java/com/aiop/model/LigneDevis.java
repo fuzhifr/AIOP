@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="lignedevis")
@@ -77,6 +78,7 @@ public class LigneDevis {
 		this.quantiteDevis = quantiteDevis;
 	}
 	
+	@Transient
 	public long getTarifUnitaire() {
 		return tarifUnitaire;
 	}
@@ -85,7 +87,7 @@ public class LigneDevis {
 	}
 	
 	@Column(name="nbObjets",length=20)
-	public long getQNbObjets() {
+	public long getNbObjets() {
 		return nbObjets;
 	}
 	public void setNbObjets(long nbObjets) {

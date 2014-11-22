@@ -42,11 +42,28 @@ public class LigneDevisService {
 	}
 	
 //Les types mission affectées à un typeObjet
-	public Set<TypeMission> getAllTypeMissionsAffectedToTypeObjet(
+	@SuppressWarnings("rawtypes")
+	public Set<JSONObject> getAllTypeMissionsAffectedToTypeObjet(
 			long idAffaire, long idTypeObjet) {
+		Set<JSONObject> sJson=new HashSet<JSONObject>();
 		Set<TypeMission> typesMission=ligneDevisDao.loadAffected(idAffaire,idTypeObjet);
-		return typesMission;
+		Iterator<TypeMission> itm=typesMission.iterator();
+		while(itm.hasNext()){
+			TypeMission tm=itm.next();
+			int forfait=tarifDao.load(tm.getIdTypeMission(), idTypeObjet).getForfait();
+			long idLigneDevis=ligneDevisDao.load(idAffaire, idTypeObjet, tm.getIdTypeMission()).getIdLigneDevis();
+			Map<String, Comparable> mapTM=new HashMap<String, Comparable>();
+			mapTM.put("idTypeMission", tm.getIdTypeMission());
+			mapTM.put("idLigneDevis", idLigneDevis);
+			mapTM.put("libTypeMission", tm.getLibTypeMission());
+			mapTM.put("forfait", forfait);
+			sJson.add(JSONObject.fromObject(mapTM));
+		}
+		return sJson;
 	} 
+	
+	
+	
 	
 	
 
