@@ -180,24 +180,55 @@ public class AffaireController {
 	 * 
 	 *         
 	 */
+	/**
+	 * Méthode de liaison d'une type mission à un type d'objet pour un scellé
+	 * d'une affaire
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire concernée
+	 * @param idScelle
+	 *            identifiant du scellé concerné
+	 * @param idTypeObjet
+	 *            identifiant du type d'objet à lier
+	 * @param idTypeMission
+	 *            identifiant du type de mission à lier
+	 * @author Hugo et Zhi terminé testé
+	 * 
+	 *         
+	 */
 	@RequestMapping(value = "/affaire/{idAffaire}/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
-	public @ResponseBody String createTypeMissionForTypeObjeteInAffaire(
+	public @ResponseBody LigneDevis createTypeMissionForTypeObjeteInAffaire(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet, HttpServletRequest request) {
 
 		LigneDevis newLigne = new LigneDevis();
-		Long idTypeMission = Long.parseLong(request.getParameter("idTypeMission"));
+		
+		String sIdTypeMission = request.getParameter("idTypeMission");
+		if ( sIdTypeMission == null) 
+		{	return null;	}
+		
+		Long idTypeMission = Long.parseLong(sIdTypeMission);
+		
+		String sprixD = request.getParameter("prix");
+		Integer prix = null;
+		if (sprixD == null)
+		{	 prix=tarifService.getTarif(idTypeObjet, idTypeMission).getForfait(); }
+		else {
+			prix = Integer.parseInt(sprixD);
+		}
 		
 		newLigne.setIdAffaire(idAffaire);
 		newLigne.setIdTypeMission(idTypeMission);
 		newLigne.setIdTypeObjet(idTypeObjet);
 		int nbObjet=affaireService.getNbObjetTypeObjet(idAffaire,idTypeObjet);
 		newLigne.setQuantiteDevis(nbObjet);
-		int prix=tarifService.getTarif(idTypeObjet, idTypeMission).getForfait();
+		
 		long montant=prix*nbObjet;
 		newLigne.setMontantDevis(montant);
 		affaireService.addLigneDevis(idAffaire,newLigne);
-		return "Success";
+		
+		return newLigne;
+		
 	}
 
 	/*
