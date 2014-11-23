@@ -19,15 +19,14 @@ public class TokenDaoImpl implements TokenDaoI {
 		return sessionFactory.getCurrentSession();
 	}
 	@Override
-	public int save(Token t) {
-		 getSession().save(t);
-		 return t.getIdToken();
-
+	public Serializable  save(Token t) {
+		 return getSession().save(t);
+		 
 	}
 	@Override
 	public int lastInsert() {
 		int id=0;
-		String SQL = "SELECT LAST_INSERT_ID() FROM Token ";
+		String SQL = "SELECT MAX(t.idToken)FROM Token t";
 		id=(Integer) getSession().createQuery(SQL.toString()).uniqueResult();
 		return id;
 	}

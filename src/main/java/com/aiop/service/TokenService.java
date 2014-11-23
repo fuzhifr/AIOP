@@ -21,13 +21,13 @@ public class TokenService {
 		Token tockenLast=null;
 		int idTokenLast=0;
 		if(mdp.equals(this.motDePasse)){
-			 idTokenLast=tokenDao.save(t);
-			//récuperer l'id du dernier token ajouuté
-			//int idTokenLast=tokenDao.lastInsert();
+			tokenDao.save(t);
+			//récuperer l'id du dernier token ajouté
+			 idTokenLast=tokenDao.lastInsert();
 			//charger le dernier token ajouté
 			tockenLast=tokenDao.load(idTokenLast);
 			if(tockenLast!=null){
-			return tockenLast.getIdToken();
+				return tockenLast.getIdToken();
 			}
 			else{
 				return 0;
