@@ -559,19 +559,19 @@ public class AffaireController {
 		
 		String dateRecupScelle = request.getParameter("dateRecupScelle");
 		if (dateRemise != null)
-		{	aff.setDateRemise(dateRecupScelle);	}
+		{	aff.setDateRecupScelle(dateRecupScelle);	}
 		
 		String dateRetourScelle = request.getParameter("dateRetourScelle");
 		if (dateRemise != null)
-		{	aff.setDateRemise(dateRetourScelle);	}
+		{	aff.setDateRetourScelle(dateRetourScelle);	}
 		
 		String lieuRecupScelle = request.getParameter("lieuRecupScelle");
 		if (dateRemise != null)
-		{	aff.setDateRemise(lieuRecupScelle);	}
+		{	aff.setLieuRecupScelle(lieuRecupScelle);	}
 		
 		String lieuRetourScelle = request.getParameter("lieuRetourScelle");
 		if (dateRemise != null)
-		{	aff.setDateRemise(lieuRetourScelle);	}
+		{	aff.setLieuRetourScelle(lieuRetourScelle);	}
 		
 		
 		String test = request.getParameter("dossier");
