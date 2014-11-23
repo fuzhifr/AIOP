@@ -740,7 +740,7 @@ public class AffaireController {
 		return "Success";
 	}
 
-	/**  ???
+	/**  
 	 * Méthode de modification d'une type mission pour un type d'objet d'un
 	 * scellé d'une affaire
 	 * 
@@ -767,6 +767,39 @@ public class AffaireController {
 			@PathVariable("idTypeMission") long idTypeMission, HttpServletRequest request) {
 		String libTypeMission=request.getParameter("libTypeMission");
 		return affaireService.putTypeMissionForTypeObjetInScelle(idAffaire, idScelle, idTypeObjet, idTypeMission, libTypeMission);
+	}
+
+	/**
+	 * Méthode de modification d'une Ligne Devis
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire
+	 * @param idTypeMission
+	 *            identifiant du typemission à modifier
+	 * @param idTypeObjet
+	 *            identifant typeOBjet
+	 *            nouveau prix zhi
+	 */
+
+	@RequestMapping(value = "/affaire/{idAffaire}/idTypeObjet/{idTypeObjet}/idTypeMission/{idTypeMission}", method = RequestMethod.PUT)
+	public @ResponseBody String putLigneDevis(
+			@PathVariable("idAffaire") long idAffaire,
+			@PathVariable("idTypeObjet") long idTypeObjet,
+			@PathVariable("idTypeMission") long idTypeMission,
+			HttpServletRequest request) {
+
+		Long montantDevis = Long
+				.parseLong(request.getParameter("montantDevis"));
+		Long quantiteDevis = Long.parseLong(request
+				.getParameter("quantiteDevis"));
+		Long nbObjets = Long.parseLong(request.getParameter("nbObjets"));
+		LigneDevis ld = new LigneDevis();
+		ld.setMontantDevis(montantDevis);
+		ld.setQuantiteDevis(quantiteDevis);
+		ld.setNbObjets(nbObjets);
+		ligneDevisService.putLigneDevis(idAffaire, idTypeObjet, idTypeMission,
+				ld);
+		return "Success";
 	}
 
 	/*
