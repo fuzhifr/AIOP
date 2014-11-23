@@ -26,21 +26,19 @@ public class TarifService
     @Autowired  
     private TarifDaoI tarifDao;
 
-	public String addTypeMission(long idTypeObjet, long idTypeMission, int forfait) {
+	public Tarif addTypeMission(long idTypeObjet, long idTypeMission, int forfait) {
 		// TODO Auto-generated method stub
-		String msg = "fail";
 		Tarif t=tarifDao.load(idTypeMission, idTypeObjet);
 		if(t!=null){
-			msg="le Tarif existe";
+			return t;
 		}else{
 			t=new Tarif();
 			t.setIdTypeMission(idTypeMission);
 			t.setIdTypeObjet(idTypeObjet);
 			t.setForfait(forfait);
 			tarifDao.save(t);
-			msg="Success";
 		}
-		return msg;
+		return t;
 	}
 
 	public void deleteTypeMission(long idTypeObjet, long idTypeMission) {

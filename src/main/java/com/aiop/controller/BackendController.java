@@ -42,12 +42,12 @@ public class BackendController {
 	 * @param libTypeMission libellé du type de Mission
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissions", method = RequestMethod.POST)
-	public @ResponseBody String createFraisAffaire(
+	public @ResponseBody Tarif createFraisAffaire(
 			@PathVariable("idTypeObjet") long idTypeObjet, HttpServletRequest request) {
 		Long idTypeMission = Long.parseLong(request.getParameter("idTypeMission"));
 		int forfait = Integer.parseInt(request.getParameter("forfait"));
-		String msg=tarifService.addTypeMission(idTypeObjet,idTypeMission,forfait);
-		return msg;
+		
+		return tarifService.addTypeMission(idTypeObjet,idTypeMission,forfait);
 	}
 
 	/* ---------------------------------------------------- METHODE GET ---------------------------------------------------------------*/
