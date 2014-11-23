@@ -11,8 +11,10 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.aiop.dao.LigneDevisDaoI;
 import com.aiop.dao.TarifDaoI;
+import com.aiop.model.LigneDevis;
 import com.aiop.model.TypeMission;
 
 @Service("ligneDevisService")  
@@ -60,6 +62,16 @@ public class LigneDevisService {
 			sJson.add(JSONObject.fromObject(mapTM));
 		}
 		return sJson;
+	}
+
+	public void putLigneDevis(long idAffaire, long idTypeObjet,
+			long idTypeMission, LigneDevis ld) {
+		// TODO Auto-generated method stub
+		LigneDevis ligneDevis=ligneDevisDao.load(idAffaire, idTypeObjet, idTypeMission);
+		ligneDevis.setMontantDevis(ld.getMontantDevis());
+		ligneDevis.setQuantiteDevis(ld.getQuantiteDevis());
+		ligneDevis.setNbObjets(ld.getNbObjets());
+		ligneDevisDao.update(ligneDevis);
 	} 
 	
 	
