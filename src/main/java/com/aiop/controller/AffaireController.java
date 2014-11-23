@@ -782,24 +782,36 @@ public class AffaireController {
 	 */
 
 	@RequestMapping(value = "/affaire/{idAffaire}/idTypeObjet/{idTypeObjet}/idTypeMission/{idTypeMission}", method = RequestMethod.PUT)
-	public @ResponseBody String putLigneDevis(
+	public @ResponseBody LigneDevis putLigneDevis(
 			@PathVariable("idAffaire") long idAffaire,
 			@PathVariable("idTypeObjet") long idTypeObjet,
 			@PathVariable("idTypeMission") long idTypeMission,
 			HttpServletRequest request) {
 
-		Long montantDevis = Long
-				.parseLong(request.getParameter("montantDevis"));
-		Long quantiteDevis = Long.parseLong(request
-				.getParameter("quantiteDevis"));
-		Long nbObjets = Long.parseLong(request.getParameter("nbObjets"));
-		LigneDevis ld = new LigneDevis();
-		ld.setMontantDevis(montantDevis);
-		ld.setQuantiteDevis(quantiteDevis);
-		ld.setNbObjets(nbObjets);
-		ligneDevisService.putLigneDevis(idAffaire, idTypeObjet, idTypeMission,
-				ld);
-		return "Success";
+		
+		LigneDevis newLigne = new LigneDevis();
+		
+		String sprixD = request.getParameter("prix");
+		Integer prix = null;
+		if (sprixD == null)
+		{	 prix=tarifService.getTarif(idTypeObjet, idTypeMission).getForfait(); }
+		else {
+			prix = Integer.parseInt(sprixD);
+		}
+		
+		newLigne.setTarifUnitaire(prix);
+		newLigne.setIdAffaire(idAffaire);
+		newLigne.setIdTypeMission(idTypeMission);
+		newLigne.setIdTypeObjet(idTypeObjet);
+		int nbObjet=affaireService.getNbObjetTypeObjet(idAffaire,idTypeObjet);
+		newLigne.setNbObjets(nbObjet);
+		newLigne.setQuantiteDevis(nbObjet);
+		
+		long montant=prix*nbObjet;
+		newLigne.setMontantDevis(montant);
+		affaireService.addLigneDevis(idAffaire,newLigne);
+		
+		return newLigne;
 	}
 
 	/*
