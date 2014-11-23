@@ -28,7 +28,7 @@ public class AuthentificationController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody int connexion(HttpServletRequest request) {
 		Token t= new Token();
-		String mdp =request.getParameter("motDepasse");
+		String mdp =request.getParameter("motDePasse");
 		int tk=tockenService.connexion(t,mdp);
 		return tk;
 	}
