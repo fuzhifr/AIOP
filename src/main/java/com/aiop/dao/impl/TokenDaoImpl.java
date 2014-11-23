@@ -19,8 +19,10 @@ public class TokenDaoImpl implements TokenDaoI {
 		return sessionFactory.getCurrentSession();
 	}
 	@Override
-	public Serializable save(Token t) {
-		return getSession().save(t);
+	public int save(Token t) {
+		 getSession().save(t);
+		 return t.getIdToken();
+
 	}
 	@Override
 	public int lastInsert() {

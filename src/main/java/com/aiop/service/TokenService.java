@@ -19,10 +19,11 @@ public class TokenService {
 
 	public int connexion(Token t, String mdp) {
 		Token tockenLast=null;
+		int idTokenLast=0;
 		if(mdp.equals(this.motDePasse)){
-			tokenDao.save(t);
+			 idTokenLast=tokenDao.save(t);
 			//récuperer l'id du dernier token ajouuté
-			int idTokenLast=tokenDao.lastInsert();
+			//int idTokenLast=tokenDao.lastInsert();
 			//charger le dernier token ajouté
 			tockenLast=tokenDao.load(idTokenLast);
 			if(tockenLast!=null){
