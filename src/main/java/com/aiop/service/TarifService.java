@@ -53,22 +53,10 @@ public class TarifService
 		return t;
 	}
 	@SuppressWarnings("rawtypes")
-	public Set<JSONObject> getTypeMissionNotAssignedWTypeObjetID(
+	public Set<TypeMission> getTypeMissionNotAssignedWTypeObjetID(
 			long idTypeObjet) {
-		//récuprer la liste des id de types missions
-				Set<JSONObject> sJson=new HashSet<JSONObject>();
 				Set<TypeMission> typesMission=tarifDao.loadNotAffected(idTypeObjet);
-				Iterator<TypeMission> itm=typesMission.iterator();
-				while(itm.hasNext()){
-					TypeMission tm=itm.next();
-					int forfait=tarifDao.load(tm.getIdTypeMission(), idTypeObjet).getForfait();
-					Map<String, Comparable> mapTM=new HashMap<String, Comparable>();
-					mapTM.put("idTypeMission", tm.getIdTypeMission());
-					mapTM.put("libTypeMission", tm.getLibTypeMission());
-					mapTM.put("forfait", forfait);
-					sJson.add(JSONObject.fromObject(mapTM));
-				}
-				return sJson;
+				return typesMission;
 	}  
 
 }  

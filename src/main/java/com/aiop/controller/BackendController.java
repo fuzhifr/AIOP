@@ -115,7 +115,7 @@ public class BackendController {
 	 * @author narjisse Zaki
 	 */
 	@RequestMapping(value = "/typeObjet/{idTypeObjet}/typeMissionNotAffectedWTypeObjet", method = RequestMethod.GET)
-	public @ResponseBody Set<JSONObject> getTypeMssion(
+	public @ResponseBody Set<TypeMission> getTypeMssion(
 			@PathVariable("idTypeObjet") long idTypeObjet) {
 
 		return tarifService.getTypeMissionNotAssignedWTypeObjetID(idTypeObjet);
