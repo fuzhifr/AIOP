@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aiop.dao.LigneDevisDaoI;
 import com.aiop.dao.TarifDaoI;
 import com.aiop.model.LigneDevis;
+import com.aiop.model.Tarif;
 import com.aiop.model.TypeMission;
 
 @Service("ligneDevisService")  
@@ -33,7 +34,13 @@ public class LigneDevisService {
 		Iterator<TypeMission> itm=typesMission.iterator();
 		while(itm.hasNext()){
 			TypeMission tm=itm.next();
-			int forfait=tarifDao.load(tm.getIdTypeMission(), idTypeObjet).getForfait();
+			Tarif tarif=tarifDao.load(tm.getIdTypeMission(), idTypeObjet);
+			int forfait;
+			if(tarif==null){
+				 forfait=0;
+			}else{
+				forfait=tarif.getForfait();
+			}
 			Map<String, Comparable> mapTM=new HashMap<String, Comparable>();
 			mapTM.put("idTypeMission", tm.getIdTypeMission());
 			mapTM.put("libTypeMission", tm.getLibTypeMission());
