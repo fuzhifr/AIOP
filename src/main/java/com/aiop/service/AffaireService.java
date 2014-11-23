@@ -104,7 +104,10 @@ public class AffaireService
 		Affaire a=affaireDao.load(idAffaire);
 		return a.getFrais();
 	}
-    
+    public Set<LigneDevis> getLignesDevis(long idAffaire) {
+		Affaire a=affaireDao.load(idAffaire);
+		return a.getLignesDevis();
+	}
 	public Set<Objet> getObjetScelle(long idAffaire, long idScelle) {
 		Scelle sc = getScelle(idAffaire,idScelle);
 		return sc.getObjets();
