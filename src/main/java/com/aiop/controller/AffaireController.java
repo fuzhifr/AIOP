@@ -285,7 +285,22 @@ public class AffaireController {
 
 		return affaireService.getFrais(idAffaire);
 	}
+	/**
+	 * Méthode de récupération des lignes devis d'une affaire
+	 * 
+	 * @param idAffaire
+	 *            identifiant de l'affaire
+	 * @return liste des lignes devis de l'affaire
+	 * @author Narjisse Zaki
+	 * 
+	 *         Terminé 
+	 */
+	@RequestMapping(value = "/affaire/{idAffaire}/lignesDevis", method = RequestMethod.GET)
+	public @ResponseBody Set<LigneDevis> getLignesDevisAffaire(
+			@PathVariable("idAffaire") long idAffaire) {
 
+		return affaireService.getLignesDevis(idAffaire);
+	}
 	/**
 	 * Méthode de récupération de l'état d'une affaire
 	 * 
