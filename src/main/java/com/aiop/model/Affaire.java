@@ -39,6 +39,7 @@ public class Affaire implements java.io.Serializable {
 
 	private String LieuRecupScelle;
 	private String LieuRetourScelle;
+	
 	private long nbPageNb;
 	private long nbPageCouleur;
 	private long nbHExpertise;
@@ -48,7 +49,7 @@ public class Affaire implements java.io.Serializable {
 	private double pourcentageRemise;
 	private boolean delais10j;
 	// Etat
-		private String Etat;
+	private String Etat;
 		
 	// Liste de Frais
 	private Set<Frais> frais;
