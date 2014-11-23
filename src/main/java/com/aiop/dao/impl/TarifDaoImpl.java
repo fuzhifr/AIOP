@@ -58,7 +58,7 @@ public class TarifDaoImpl implements TarifDaoI {
 
 	@Override
 	public Set<TypeMission> loadNotAffected(long idTypeObjet) {
-		Query query=getSession().createQuery("from TypeMission as typMiss where typMiss.idTypeMission in (select t.idTypeMission from Tarif as t where t.idTypeMission=:idTypeObjet)");
+		Query query=getSession().createQuery("from TypeMission as typMiss where typMiss.idTypeMission not in (select t.idTypeMission from Tarif as t where t.idTypeObjet=:idTypeObjet)");
 		query.setLong("idTypeObjet", idTypeObjet);
 		Set<TypeMission>tm=null;
 		List<TypeMission> list=query.list();
